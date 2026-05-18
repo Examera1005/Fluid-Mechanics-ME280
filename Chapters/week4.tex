@@ -1,0 +1,111 @@
+% ==========================================
+% CHAPTER 4: FLUID KINEMATICS
+% ==========================================
+\section{Fluid Kinematics}
+
+\subsection{Visualizing Flow Patterns}
+
+Fluid kinematics describes motion without yet invoking conservation laws. The three main geometric ways to represent a flow are streamlines, pathlines, and streaklines.
+
+\begin{enumerate}
+    \item \textbf{Streamlines:} Curves tangent to the instantaneous velocity field at a given time.
+    \begin{equation}
+        \frac{dy}{dx} = \frac{v}{u}, \qquad 
+        \frac{dz}{dx} = \frac{w}{u}, \qquad 
+        \frac{dz}{dy} = \frac{w}{v}
+        \quad \Longrightarrow \quad
+        \frac{d\vec{r}_{SL}}{ds} \times \vec{V} = \vec{0}
+    \end{equation}
+
+    \item \textbf{Pathlines:} The actual trajectory followed by one specific fluid particle through time.
+    \begin{equation}
+        \frac{d\vec{r}_p}{dt} = \vec{V}(\vec{r}_p(t), t)
+        \qquad \Longrightarrow \qquad
+        \frac{dx}{dt} = u, \ \frac{dy}{dt} = v, \ \frac{dz}{dt} = w
+    \end{equation}
+
+    \item \textbf{Streaklines:} The locus of all particles that have passed through a given point $\vec{r}_0$ at previous times $\tau < t$.
+\end{enumerate}
+
+\textit{Key Result:} In steady flow, where $\partial \vec{V}/\partial t = 0$, streamlines, pathlines, and streaklines coincide.
+
+\subsubsection{Example: The Sprinkler (Unsteady Case)}
+
+Consider the unsteady velocity field
+\begin{equation}
+    \vec{V} = U_0 \sin\!\left[\omega\!\left(t - \frac{y}{v_0}\right)\right]\hat{i} + v_0 \hat{j}
+\end{equation}
+
+\begin{itemize}
+    \item \textbf{Streamlines at $t=0$:}  
+    \begin{equation}
+        x(y) = \frac{U_0}{\omega}\left(\cos\!\left(\frac{\omega y}{v_0}\right) - 1\right)
+    \end{equation}
+    so the streamline shape is sinusoidal.
+
+    \item \textbf{Pathline for a particle starting at the origin at $t=0$:}  
+    \begin{equation}
+        x(t)=0, \qquad y(t)=v_0 t
+    \end{equation}
+    which is a straight vertical line.
+\end{itemize}
+
+This example shows that in unsteady flow, streamlines and pathlines are generally different objects.
+
+\subsection{Acceleration Field}
+
+The acceleration of a fluid particle is the total derivative of the velocity field:
+\begin{equation}
+    \vec{a} = \frac{D\vec{V}}{Dt}
+    = \underbrace{\frac{\partial \vec{V}}{\partial t}}_{\text{Local acceleration}}
+    + \underbrace{(\vec{V}\cdot\vec{\nabla})\vec{V}}_{\text{Convective acceleration}}
+\end{equation}
+
+\begin{mainbox}{Technical Analysis: The Material Derivative}
+The operator $\frac{D}{Dt}$ is fundamental in fluid mechanics because it gives the rate of change experienced by a moving fluid particle. The convective term $(\vec{V}\cdot\vec{\nabla})\vec{V}$ is non-linear and is a major source of complex flow behavior, including mechanisms that contribute to turbulence. It measures the change in velocity caused by a particle moving into a region where the flow field is different, even when the flow is steady in time.
+\end{mainbox}
+
+\subsubsection{Example: The Diffuser}
+
+For a steady one-dimensional flow
+\begin{equation}
+    u(x)=v_0\left(1-\frac{x}{L}\right)
+\end{equation}
+the local acceleration term vanishes because the flow is steady, so only the convective contribution remains:
+\begin{equation}
+    a_x = u\frac{\partial u}{\partial x}
+    = v_0\left(1-\frac{x}{L}\right)\left(-\frac{v_0}{L}\right)
+    = -\frac{v_0^2}{L}\left(1-\frac{x}{L}\right)
+\end{equation}
+
+The negative sign indicates deceleration, which is consistent with the widening geometry of a diffuser.
+
+\subsection{Velocity Fields: Eulerian vs. Lagrangian Descriptions}
+
+Once the motion has been visualized geometrically, it is useful to introduce the two standard ways of describing it mathematically.
+
+\textbf{Eulerian Description:} Focuses on fixed points in space and describes the velocity as a field:
+\begin{equation}
+    \vec{V}(\vec{r}, t) = u\hat{i} + v\hat{j} + w\hat{k}
+\end{equation}
+
+\textbf{Lagrangian Description:} Follows individual fluid particles and describes their motion from an initial position:
+\begin{equation}
+    \vec{V}(\vec{r}_0, t)
+    \qquad \text{where } \vec{r}_0 \text{ is the particle's initial position}
+\end{equation}
+
+\begin{mainbox}{Structural Foundation: Eulerian vs. Lagrangian Comparison}
+Eulerian formulations (Leonhard Euler, 1757) are the standard framework for most continuum fluid mechanics and Computational Fluid Dynamics (CFD), because they describe the flow as fields defined everywhere in space. Lagrangian formulations (Joseph-Louis Lagrange, 1788) are indispensable when one must follow individual particles, droplets, interfaces, or solid bodies.
+\vspace{0.2cm}
+
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Feature} & \textbf{Eulerian (Field)} & \textbf{Lagrangian (Particle)} \\
+\midrule
+\textbf{Independent Variables} & Position $\vec{r}$, Time $t$ & Initial Position $\vec{r}_0$, Time $t$ \\
+\textbf{Mass Tracking} & Flux through a fixed volume & Constant identity of mass \\
+\textbf{Differentiation} & Requires the Material Derivative & Standard time derivative \\
+\bottomrule
+\end{tabular}
+\end{mainbox}

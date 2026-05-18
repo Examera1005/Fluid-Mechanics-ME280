@@ -1,0 +1,309 @@
+% ==========================================
+% CHAPTER 2: FLUID STATICS & PRESSURE
+% ==========================================
+\section{Fluid Statics and Pressure Fields}
+
+\subsection{Review: Viscosity and Boundary Conditions}
+
+The shear stress ($\tau$) in a Newtonian fluid is proportional to the velocity gradient. 
+
+\begin{eqbox}{Newton's Law of Viscosity}
+\begin{equation}
+    \tau = \mu \frac{du}{dy} = \mu \dot{\gamma}
+\end{equation}
+Where $\mu$ is the dynamic viscosity and $\dot{\gamma}$ is the shear rate.
+\end{eqbox}
+
+\subsubsection*{Wall Boundary Conditions}
+
+At the wall, two vector conditions are imposed:
+\begin{itemize}
+    \item \textbf{Normal component (No-penetration):} $\vec{v} \cdot \vec{e}_y = v = 0$
+    \item \textbf{Tangential component (No-slip):} $\vec{u} \cdot \vec{e}_x = u = 0$
+\end{itemize}
+
+If there is a slip velocity $v_s$ over a thickness $\delta$:
+\begin{equation*}
+    \tau = \mu \frac{v_s}{\delta}
+\end{equation*}
+\textbf{Limit:} If $\delta \rightarrow 0 \implies \tau \rightarrow \infty \iff v_s = 0$. (To avoid infinite stress, the slip velocity must be zero exactly at the wall).
+
+\begin{notebox}[Scientific Verification: No-Slip Condition]
+Although often perceived as modern "common sense," the strict no-slip condition ($u=0$ at the wall) was widely debated in the 19th century (Navier believed a slip existed). It was \textbf{George Gabriel Stokes (1851)} in his study \textit{"On the effect of the internal friction of fluids..."} who mathematically formalized and empirically validated this hypothesis for normal macroscopic fluids. 
+\end{notebox}
+
+\subsection{Fluid Statics}
+
+\subsubsection{Pressure at a Point}
+
+Pressure $P$ is defined as a force per unit area:
+\begin{equation*}
+    P = \frac{F}{A}
+\end{equation*}
+\textbf{Fundamental hypothesis:} We neglect shearing forces (erroneously written as \textit{steering forces} in the notes). A fluid element in equilibrium or in motion without shear satisfies the force balance $\Sigma \vec{F} = m\vec{a}$. 
+
+The analysis of an infinitesimal prism (letting $dx, dy, dz \to 0$) demonstrates that pressure is the same in all directions.
+\begin{equation*}
+    P_x = P_y = P_z = P
+\end{equation*}
+Pressure $P$ is therefore a \textbf{scalar}.
+
+\begin{notebox}[Scientific Verification: Pascal's Principle]
+The demonstration that the pressure at a point is independent of the direction of observation was formally theorized by \textbf{Blaise Pascal in 1647} (\textit{Expériences nouvelles touchant le vide}). 
+\end{notebox}
+
+\subsubsection{Pressure Field Equation}
+
+We isolate a cubic control volume of dimensions $dx, dy, dz$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Stealth]
+    % Cube vertices
+    \coordinate (O) at (0,0,0); \coordinate (A) at (0,1.5,0);
+    \coordinate (B) at (1.5,1.5,0); \coordinate (C) at (1.5,0,0);
+    \coordinate (D) at (0,0,1.5); \coordinate (E) at (0,1.5,1.5);
+    \coordinate (F) at (1.5,1.5,1.5); \coordinate (G) at (1.5,0,1.5);
+
+    % Draw hidden lines
+    \draw[dashed, opacity=0.6] (O) -- (A);
+    \draw[dashed, opacity=0.6] (O) -- (C);
+    \draw[dashed, opacity=0.6] (O) -- (D);
+
+    % Draw visible faces
+    \draw[thick, primary] (C) -- (B) -- (A) -- (E) -- (F) -- (G) -- cycle;
+    \draw[thick, primary] (B) -- (F);
+    \draw[thick, primary] (E) -- (D) -- (G);
+
+    % Dimensions
+    \node[below] at (0.75, 0, 1.5) {$dx$};
+    \node[right] at (1.5, 0.75, 1.5) {$dz$};
+    \node[left] at (0, 0.75, 0) {$dy$};
+
+    % Forces
+    \draw[->, thick, accent] (-1, 0.75, 0.75) -- (0, 0.75, 0.75) node[midway, above] {$F_L$};
+    \draw[<-, thick, accent] (1.5, 0.75, 0.75) -- (2.5, 0.75, 0.75) node[midway, above] {$F_R$};
+\end{tikzpicture}
+\end{center}
+
+Using the Taylor series expansion for the pressure at the center of the volume:
+\begin{align*}
+    P_R &= P + \frac{dy}{2} \left. \frac{\partial P}{\partial y} \right|_0 + \dots \\
+    P_L &= P - \frac{dy}{2} \left. \frac{\partial P}{\partial y} \right|_0 + \dots
+\end{align*}
+
+The associated forces on the faces of area $dA = dx \cdot dz$ are:
+\begin{align*}
+    F_R &= P_R \, dx \, dz = \left( P + \frac{dy}{2} \frac{\partial P}{\partial y} \right) dx \, dz \\
+    F_L &= P_L \, dx \, dz = \left( P - \frac{dy}{2} \frac{\partial P}{\partial y} \right) dx \, dz
+\end{align*}
+
+Applying Newton's second law ($\Sigma F_y = m a_y$) and neglecting shear:
+\begin{align*}
+    -F_R + F_L &= (\rho \, dx \, dy \, dz) \, a_y \\
+    -dy \frac{\partial P}{\partial y} dx \, dz &= \rho \, dV \, a_y \\
+    -\frac{\partial P}{\partial y} &= \rho a_y
+\end{align*}
+
+By symmetry in the $x$ and $z$ axes, and including the weight $\vec{W} = -\rho g dV \hat{k}$ per unit volume, we obtain the general pressure field equation (Euler's Equation):
+
+\begin{eqbox}{Newton's Second Law per Unit Volume}
+\begin{equation}
+    -\nabla P - \rho g \hat{k} = \rho \vec{a}
+\end{equation}
+With the pressure force field: $-\nabla P = -\frac{\partial P}{\partial x}\hat{i} - \frac{\partial P}{\partial y}\hat{j} - \frac{\partial P}{\partial z}\hat{k}$
+\end{eqbox}
+
+\begin{notebox}[Scientific Verification: Euler's Equation]
+Published by \textbf{Leonhard Euler in 1757} (\textit{Principes généraux de l'état de l'équilibre des fluides}), this equation $-\nabla p + \rho \vec{g} = \rho \vec{a}$ forms the irrefutable basis of fluid mechanics for an inviscid continuous medium (or one with zero shear). 
+\end{notebox}
+
+\subsubsection{Fluid at Rest (Hydrostatics)}
+
+For a fluid at rest, the acceleration is zero ($\vec{a} = \vec{0}$). The equation becomes:
+\begin{equation}
+    -\nabla P - \rho g \hat{k} = \vec{0} \iff
+    \begin{cases}
+        -\frac{\partial P}{\partial x} = 0 \\[1ex]
+        -\frac{\partial P}{\partial y} = 0 \\[1ex]
+        -\frac{\partial P}{\partial z} - \rho g = 0
+    \end{cases}
+\end{equation}
+
+The first two equations show that $P$ only depends on the altitude $z$, meaning $P = P(z)$. The fundamental differential equation of hydrostatics is therefore:
+\begin{equation}
+    \frac{dP}{dz} = -\rho g
+\end{equation}
+
+Integrating this equation between two points at elevations $z_1$ and $z_2$:
+\begin{align*}
+    \int_{P_1}^{P_2} dP &= \int_{z_1}^{z_2} -\rho g \, dz \\
+    \Delta P &= -\rho g \Delta z
+\end{align*}
+Which yields the famous relation:
+\begin{equation*}
+    P - P_0 = -\rho g h
+\end{equation*}
+\textit{Note:} The pressure depends only on the depth $h$ and \textbf{not} on the geometry of the container (a phenomenon formally described by \textbf{Simon Stevin in 1586} as the "Hydrostatic Paradox").
+
+\subsubsection{Absolute Pressure vs. Relative Pressure (Gage Pressure)}
+
+It is crucial to differentiate the reference level chosen to measure pressure:
+\begin{itemize}
+    \item \textbf{Absolute Pressure:} Pressure measured relative to an absolute vacuum ($0$ atm). It is always positive.
+    \item \textbf{Relative Pressure (Gage pressure):} Pressure measured relative to the local atmospheric pressure. 
+    \begin{equation*}
+        P_{\text{absolute}} = P_{\text{relative}} + P_{\text{atmospheric}}
+    \end{equation*}
+\end{itemize}
+
+\subsection{Hydrostatics: Variable Density \& Manometry}
+
+Recall the fundamental equation of fluid statics: $\frac{dP}{dz} = -\rho g$. For liquids, $\rho$ is constant. For gases, it varies.
+
+\subsubsection{Ideal Gas Law \& Isothermal Atmosphere}
+
+Using the Ideal Gas equation $P = \rho R T \implies \rho = \frac{P}{RT}$.
+
+\begin{notebox}[Scientific Verification: Ideal Gas Law]
+The formulation $P = \rho R T$ used in engineering was consolidated by \textbf{Émile Clapeyron in 1834}, combining Boyle's, Charles's, and Avogadro's empirical laws into a single rigorous equation of state.
+\end{notebox}
+
+Substituting this into the hydrostatic equation for an \textbf{isothermal} condition ($T = \text{cst}$):
+\begin{align*}
+    \int_{P_0}^{P} \frac{dP}{P} &= \int_{0}^{z} -\frac{g}{RT} dz \\
+    \ln\left(\frac{P}{P_0}\right) &= -\frac{g}{RT} z \implies P(z) = P_0 \exp\left(-\frac{gz}{RT}\right)
+\end{align*}
+
+\subsubsection{Manometry (Measuring Pressure)}
+
+A manometer uses liquid columns to measure pressure differences.
+\vspace{0.3cm}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % U-tube
+    \draw[thick] (0,3) -- (0,0) arc(180:360:1.5) -- (3,3);
+    \draw[thick] (1,3) -- (1,0) arc(180:360:0.5) -- (2,3);
+    
+    % Fluid filling
+    \fill[secondary, opacity=0.3] (0,1.5) -- (0,0) arc(180:360:1.5) -- (3,0) -- (3,2.5) -- (2,2.5) -- (2,0) arc(360:180:0.5) -- (1,0) -- (1,1.5) -- cycle;
+    
+    % Interfaces
+    \draw[thick, secondary] (0,1.5) -- (1,1.5);
+    \draw[thick, secondary] (2,2.5) -- (3,2.5);
+    
+    % Labels
+    \node[above] at (0.5, 3) {$P_1$};
+    \node[above] at (2.5, 3) {$P_{\text{atm}}$};
+    \draw[dashed] (-0.5, 1.5) -- (3.5, 1.5) node[right] {Reference Level};
+    \draw[<->] (2.5, 1.5) -- (2.5, 2.5) node[midway, right] {$h$};
+    
+    \node at (1.5, -0.7) {Gage Fluid ($\rho_m$)};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+By stepping down and up the tube (pressure increases going down, decreases going up):
+$P_1 + \rho_{\text{fluid}} g z_1 - \rho_m g h = P_{\text{atm}}$.
+
+\begin{notebox}[Scientific Verification: The Manometer]
+The concept of using fluid columns to measure differential pressure was invented by \textbf{Christiaan Huygens around 1661}. It directly relies on Stevin's and Pascal's principles that pressure in a continuous fluid only depends on depth.
+\end{notebox}
+
+
+\subsection{Forces on Submerged Surfaces}
+
+\subsubsection{Flat Surfaces \& Center of Pressure}
+
+Consider a flat surface of area $A$ inclined at an angle $\theta$. The pressure increases linearly with depth, creating a \textbf{pressure prism}.
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Free surface
+    \draw[thick, blue] (-1.5,3) -- (5,3) node[right] {Free Surface};
+    \draw[blue] (0,3) -- (0,3.2) -- (-0.2,3.2) -- (0,2.8) -- cycle; 
+    \draw[blue] (-0.5,3) -- (-0.5,3.2) -- (-0.7,3.2) -- (-0.5,2.8) -- cycle;
+    
+    % Inclined plane
+    \draw[thick] (-0.5,4) -- (4,-0.5) node[below right] {$y$-axis};
+    \draw[->] (4,-0.5) -- (4.5,-1);
+    
+    % Angle
+    \draw[->] (0.5,3) arc (180:135:0.7) node[midway, left] {$\theta$};
+    
+    % Surface Area (Ellipse)
+    \draw[thick, fill=gray!30, rotate around={-45:(2,1.5)}] (2,1.5) ellipse (1.6cm and 0.5cm);
+    \node at (2.5, 0.9) {Area $A$};
+    
+    % Centroid and CP
+    \filldraw[black] (1.7, 1.8) circle (1.5pt) node[above right] {Centroid ($y_c$)};
+    \filldraw[red] (2.3, 1.2) circle (1.5pt) node[right, text=red] {CP ($y_{cp}$)};
+    
+    % Pressure distribution (blue arrows normal to the surface)
+    \foreach \x/\y in {0.5/3, 1/2.5, 1.5/2, 2/1.5, 2.5/1, 3/0.5, 3.5/0} {
+        \pgfmathsetmacro{\d}{0.4*(3-\y)}
+        \draw[->, blue, thick] (\x + \d, \y + \d) -- (\x,\y);
+    }
+    
+    % Resultant Force
+    \draw[->, red, very thick] (2.3, 1.2) -- (1.5, 0.4) node[below] {$\vec{F}_R$};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+
+\begin{eqbox}{Resultant Force and Location}
+\textbf{Magnitude:} $F_R = P_c \cdot A = (\rho g h_c) A$ \\
+\textbf{Location (Center of Pressure):} $y_{cp} = y_c + \frac{I_{xc}}{y_c A}$
+\end{eqbox}
+Where $I_{xc}$ is the area moment of inertia. The \textbf{Parallel Axis Theorem} (Huygens, 1673) proves that $y_{cp} > y_c$, meaning the force always acts \textit{below} the centroid due to the increasing pressure with depth.
+
+\subsubsection{Curved Submerged Surfaces: Tank Sidewall Example}
+
+For a curved surface, it is easier to calculate the horizontal and vertical components separately. Consider a tank with a curved quarter-circle sidewall of radius $R$ and width $w$.
+
+\vspace{0.3cm}
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Light blue fluid volume
+    \fill[blue!10] (0,4) -- (2,4) -- (2,-1) arc(270:180:2) -- cycle;
+    
+    % Free surface
+    \draw[thick, blue] (0,4) -- (3,4);
+    \draw[blue] (0.8,4) -- (0.8,4.2) -- (0.6,4.2) -- (0.8,3.8) -- cycle; 
+    
+    % Vertical solid line
+    \draw[thick] (0,4) -- (0,1);
+    % Curved solid line
+    \draw[thick, red!70!black] (0,1) arc(180:270:2); 
+    
+    % Dashed lines
+    \draw[dashed] (0,1) -- (2,1);
+    \draw[dashed] (2,4) -- (2,1);
+    
+    % Hatching for solid wall bounds
+    \fill[pattern=north west lines, pattern color=gray!40] (-0.8,4) rectangle (0,1);
+    \fill[pattern=north west lines, pattern color=gray!40] (0,1) arc(180:270:2) -- (2,-1.8) -- (-0.8,-1.8) -- cycle;
+    
+    % Labels and Arrows
+    \draw[<->] (-0.4, 4) -- (-0.4, 1) node[midway, left] {$h$};
+    \draw[<->] (2, 1) -- (0.6, -0.4) node[midway, below] {$R$}; 
+    
+    \draw[->, red, very thick] (1, 2.5) -- (1, 1.5) node[right] {$\vec{F}_V$};
+    \draw[->, red, very thick] (0, -0.2) -- (1, -0.2) node[right] {$\vec{F}_H$};
+\end{tikzpicture}
+\end{center}
+\vspace{0.3cm}
+
+\begin{itemize}
+    \item \textbf{Vertical Component ($F_V$):} Equals the \textbf{weight} of the fluid volume directly above the curved surface.
+    \begin{equation*}
+        F_V = \int_V \rho g dV = \rho g \left( \underbrace{h \cdot R \cdot w}_{\text{Rectangle}} + \underbrace{\frac{\pi R^2}{4} w}_{\text{Quarter Circle}} \right)
+    \end{equation*}
+    \item \textbf{Horizontal Component ($F_H$):} Equals the force acting on the \textbf{vertical projection} of the curved surface (a rectangle of height $R$ and width $w$).
+    \begin{equation*}
+        F_H = \int_{A_v} P dA = \rho g h_{\text{centroid}} A_v = \rho g \left(h + \frac{R}{2}\right) (R \cdot w)
+    \end{equation*}
+\end{itemize}
+
+\begin{notebox}[Scientific Verification: Archimedes' Principle]
+The fundamental logic that the vertical force $F_V$ exerted by a fluid on a surface is equal to the weight of the fluid volume above it is rooted in the principles laid out by \textbf{Archimedes of Syracuse (c. 250 BC)} in his treatise \textit{On Floating Bodies}.
+\end{notebox}

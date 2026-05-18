@@ -1,0 +1,303 @@
+% ==========================================
+% CHAPTER 5: DIFFUSION PDEs
+% ==========================================
+\section{Diffusion and Partial Differential Equations}
+
+\subsection{Non-Homogeneous Boundary Conditions (BC)}
+
+\textbf{Concept:} The idea is to decompose the full solution into a steady-state part that satisfies the non-homogeneous boundary conditions and a transient part that satisfies homogeneous boundary conditions. As $t \to \infty$, the transient contribution decays and the solution converges to the steady-state profile.
+
+The governing one-dimensional diffusion (or heat) equation is:
+\begin{equation}
+    \frac{\partial C}{\partial t} = D \frac{\partial^2 C}{\partial x^2}
+\end{equation}
+
+\textbf{Boundary Conditions (BC):}
+\begin{itemize}
+    \item $C(0,t)=C_1$
+    \item $C(L,t)=C_2$
+\end{itemize}
+
+\textbf{Initial Condition (IC):}
+\begin{itemize}
+    \item $C(x,0)=C_0(x)$
+\end{itemize}
+
+\subsubsection{Step A: Solve for the Steady State}
+
+Define the steady-state solution by
+\begin{equation}
+    C_f(x)=\lim_{t\to\infty} C(x,t)
+\end{equation}
+
+At steady state, the time derivative vanishes:
+\begin{equation}
+    \frac{\partial C_f}{\partial t}=0
+    \qquad \Longrightarrow \qquad
+    0 = D\frac{\partial^2 C_f}{\partial x^2}
+\end{equation}
+Hence,
+\begin{equation}
+    C_f(x)=C_1+\frac{C_2-C_1}{L}x
+\end{equation}
+
+\begin{mainbox}{Critical Analysis: Limits of the Steady-State Approximation}
+\textbf{Mathematical rigor vs. physical reality:} The formal definition $C_f(x)=\lim_{t\to\infty}C(x,t)$ refers to an infinite-time limit. In practice, a system is considered close to steady state when the Fourier number $Fo=\frac{Dt}{L^2}$ becomes sufficiently large, typically $Fo>0.2$ as a rough engineering estimate. In addition, the linear profile above assumes that the diffusivity $D$ is constant. If $D$ depends on concentration, temperature, or composition, then the PDE becomes non-linear and the steady-state profile is no longer necessarily linear.
+\end{mainbox}
+
+\subsubsection{Step B: Define the Transient Component}
+
+Introduce the deviation from steady state:
+\begin{equation}
+    \tilde{C}(x,t):=C(x,t)-C_f(x)
+\end{equation}
+
+Then $\tilde{C}$ satisfies the homogeneous PDE
+\begin{equation}
+    \frac{\partial \tilde{C}}{\partial t}=D\frac{\partial^2 \tilde{C}}{\partial x^2}
+\end{equation}
+
+The transformed homogeneous boundary conditions are:
+\begin{itemize}
+    \item $\tilde{C}(0,t)=C(0,t)-C_f(0)=C_1-C_1=0$
+    \item $\tilde{C}(L,t)=C(L,t)-C_f(L)=C_2-C_2=0$
+\end{itemize}
+
+The transformed initial condition is:
+\begin{itemize}
+    \item $\tilde{C}(x,0)=C_0(x)-C_f(x)$
+\end{itemize}
+
+\subsubsection{Step C: Superposition}
+
+The full solution is reconstructed as
+\begin{equation}
+    C(x,t)=C_f(x)+\tilde{C}(x,t)
+\end{equation}
+
+\subsection{Time-Dependent Diffusion (1D Series Expansion)}
+
+The governing PDE for one-dimensional time-dependent diffusion is:
+
+\begin{defbox}{The Diffusion Equation}
+\begin{equation}
+    \frac{\partial C}{\partial t}=D\frac{\partial^2 C}{\partial x^2}
+\end{equation}
+\end{defbox}
+
+\noindent \textbf{Boundary Conditions (BC): Fixed concentration} \\
+Assume zero concentration at both boundaries:
+\begin{equation}
+    C(0,t)=C(L,t)=0
+\end{equation}
+
+\begin{notebox}[Superposition Principle]
+The PDE is linear and homogeneous, and the boundary conditions are also homogeneous. Therefore, if $C_1(x,t)$ and $C_2(x,t)$ are solutions, then
+\begin{equation*}
+    C_1(x,t)+C_2(x,t)
+    \qquad \text{and} \qquad
+    \beta C_1(x,t), \quad \beta\in\mathbb{R}
+\end{equation*}
+are also solutions.
+\end{notebox}
+
+\noindent \textbf{Why is this true? (Superposition Principle)}
+\begin{align*}
+    \text{PDE: } \quad
+    \frac{\partial}{\partial t}(C_1+C_2)-D\frac{\partial^2}{\partial x^2}(C_1+C_2)
+    &=
+    \left(\frac{\partial C_1}{\partial t}-D\frac{\partial^2 C_1}{\partial x^2}\right)
+    +
+    \left(\frac{\partial C_2}{\partial t}-D\frac{\partial^2 C_2}{\partial x^2}\right) \\
+    &=0+0=0
+\end{align*}
+and the boundary conditions are preserved because
+\begin{align*}
+    (C_1+C_2)(0,t) &= C_1(0,t)+C_2(0,t)=0+0=0 \\
+    (C_1+C_2)(L,t) &= C_1(L,t)+C_2(L,t)=0+0=0
+\end{align*}
+
+\subsubsection{Solution Approach (Linearity)}
+
+\textbf{Step 1: General solution representation} \\
+Because of linearity, the solution can be written as a superposition of basis functions:
+\begin{equation}
+    C(x,t)=\sum_{n=1}^{\infty} A_n \varphi_n(x,t)
+\end{equation}
+where the coefficients $A_n$ are determined by the initial condition.
+
+\vspace{0.5cm}
+\textbf{Step 2: Separation of variables} \\
+Assume
+\begin{equation}
+    C(x,t)=X(x)T(t)
+\end{equation}
+Substituting into the PDE gives
+\begin{equation*}
+    X(x)\frac{dT(t)}{dt}=D\,T(t)\frac{d^2X(x)}{dx^2}
+\end{equation*}
+Dividing by $D\,X(x)T(t)$ yields
+\begin{equation}
+    \underbrace{\frac{1}{D}\frac{T'(t)}{T(t)}}_{\text{depends only on } t}
+    =
+    \underbrace{\frac{X''(x)}{X(x)}}_{\text{depends only on } x}
+    =-\lambda
+\end{equation}
+Since the left-hand side depends only on $t$ and the right-hand side only on $x$, both must be equal to a constant $-\lambda$.
+
+This leads to two coupled ODEs:
+\begin{align}
+    T'(t)+D\lambda T(t) &= 0 \\
+    X''(x)+\lambda X(x) &= 0
+\end{align}
+
+\subsubsection{Solving the Spatial Problem}
+
+We now solve
+\begin{equation}
+    X''(x)+\lambda X(x)=0
+\end{equation}
+subject to
+\begin{equation}
+    X(0)=X(L)=0
+\end{equation}
+
+\begin{defbox}{Evaluating the different cases for $\lambda$}
+\textbf{Case I: $\lambda<0$} \\
+The solution has the form
+\begin{equation*}
+    X(x)=\alpha_1 e^{\sqrt{-\lambda}\,x}+\alpha_2 e^{-\sqrt{-\lambda}\,x}
+\end{equation*}
+Applying the boundary conditions forces $\alpha_1=\alpha_2=0$, giving only the trivial solution.
+
+\vspace{0.2cm}
+\textbf{Case II: $\lambda=0$} \\
+The solution becomes
+\begin{equation*}
+    X(x)=\alpha_1 x+\alpha_2
+\end{equation*}
+Applying the boundary conditions again yields only the trivial solution.
+
+\vspace{0.2cm}
+\textbf{Case III: $\lambda>0$} \\
+The solution is
+\begin{equation*}
+    X(x)=\alpha_1 \cos(\sqrt{\lambda}\,x)+\alpha_2 \sin(\sqrt{\lambda}\,x)
+\end{equation*}
+Applying the boundary conditions gives
+\begin{align*}
+    X(0) &= \alpha_1 = 0 \\
+    X(L) &= \alpha_2 \sin(\sqrt{\lambda}\,L)=0
+\end{align*}
+To avoid the trivial solution, we require
+\begin{equation*}
+    \sin(\sqrt{\lambda}\,L)=0
+\end{equation*}
+which implies
+\begin{equation*}
+    \sqrt{\lambda}\,L = k\pi,
+    \qquad k\in\mathbb{Z}^{+}
+\end{equation*}
+\end{defbox}
+
+Therefore, the eigenvalues are
+\begin{equation}
+    \lambda_k=\left(\frac{k\pi}{L}\right)^2,
+    \qquad k\in\{1,2,3,\dots\}
+\end{equation}
+and the corresponding eigenfunctions are
+\begin{equation}
+    X_k(x)=\sin\left(\frac{k\pi}{L}x\right)
+\end{equation}
+
+\textit{Note:} The amplitude factor can be absorbed into the global coefficient $A_k$.
+
+\subsubsection{Solving the Temporal Problem}
+
+For a fixed eigenvalue
+\begin{equation}
+    \lambda_n=\left(\frac{n\pi}{L}\right)^2
+\end{equation}
+the time equation becomes
+\begin{equation*}
+    T_n'(t) = -D\lambda_n T_n(t)
+\end{equation*}
+whose solution is
+\begin{equation}
+    T_n(t)=\beta_n e^{-D\left(\frac{n\pi}{L}\right)^2 t}
+\end{equation}
+
+\subsubsection{Combining the Spatial and Temporal Solutions}
+
+The basis solutions are therefore
+\begin{equation}
+    \varphi_n(x,t)=e^{-D\left(\frac{n\pi}{L}\right)^2 t}\sin\left(\frac{n\pi}{L}x\right)
+\end{equation}
+and the general solution satisfying the homogeneous boundary conditions is
+\begin{equation}
+    C(x,t)=\sum_{n=1}^{\infty} A_n e^{-D\left(\frac{n\pi}{L}\right)^2 t}\sin\left(\frac{n\pi}{L}x\right)
+\end{equation}
+
+\subsubsection{Step 3: Determine the coefficients $\{A_n\}$ from the initial condition}
+
+At $t=0$,
+\begin{equation}
+    C(x,0)=C_0(x)=\sum_{n=1}^{\infty} A_n \sin\left(\frac{n\pi}{L}x\right)
+\end{equation}
+
+To determine the coefficients, multiply both sides by $\sin\left(\frac{m\pi}{L}x\right)$ and integrate from $0$ to $L$:
+\begin{equation*}
+    \int_0^L C_0(x)\sin\left(\frac{m\pi}{L}x\right)\,dx
+    =
+    \sum_{n=1}^{\infty}
+    A_n
+    \int_0^L
+    \sin\left(\frac{n\pi}{L}x\right)
+    \sin\left(\frac{m\pi}{L}x\right)\,dx
+\end{equation*}
+
+\begin{notebox}[Orthogonality Property]
+\begin{equation*}
+    \int_0^L
+    \sin\left(\frac{n\pi}{L}x\right)
+    \sin\left(\frac{m\pi}{L}x\right)\,dx
+    =
+    \begin{cases}
+        0 & \text{if } n\neq m \\
+        \dfrac{L}{2} & \text{if } n=m
+    \end{cases}
+\end{equation*}
+
+\textit{Trigonometric identity used:}
+\begin{equation*}
+    \sin(a)\sin(b)=\frac{1}{2}\big[\cos(a-b)-\cos(a+b)\big]
+\end{equation*}
+\end{notebox}
+
+By orthogonality, only the term $n=m$ remains:
+\begin{equation*}
+    \int_0^L C_0(x)\sin\left(\frac{n\pi}{L}x\right)\,dx
+    =
+    A_n \frac{L}{2}
+\end{equation*}
+Hence,
+\begin{equation}
+    A_n=\frac{2}{L}\int_0^L C_0(x)\sin\left(\frac{n\pi}{L}x\right)\,dx
+\end{equation}
+
+\vspace{0.5cm}
+\begin{resultboxnamed}{Final Full Solution}
+For any initial condition $C_0(x)$ that admits a Fourier sine expansion, the complete solution is
+\begin{equation}
+    C(x,t)=
+    \sum_{n=1}^{\infty}
+    \left[
+        \frac{2}{L}
+        \int_0^L
+        C_0(\tilde{x})
+        \sin\left(\frac{n\pi}{L}\tilde{x}\right)\,d\tilde{x}
+    \right]
+    e^{-D\left(\frac{n\pi}{L}\right)^2 t}
+    \sin\left(\frac{n\pi}{L}x\right)
+\end{equation}
+\end{resultboxnamed}

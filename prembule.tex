@@ -1,0 +1,87 @@
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\documentclass[11pt, a4paper]{article}
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+
+% Multi-language support (English main)
+\usepackage[english, bidi=basic, provide=*]{babel}
+\babelprovide[import, onchar=ids fonts]{english}
+
+% Set default/Latin font to Sans Serif in the main (rm) slot
+\babelfont{rm}{Noto Sans}
+
+% Packages for math and graphics
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{enumitem}
+\setlist[itemize]{label=-}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+% TikZ for all the diagrams
+\usepackage{tikz}
+\usetikzlibrary{calc, arrows.meta, patterns, decorations.pathmorphing, positioning, shapes.geometric}
+
+% ==========================================
+% UNIFIED COLOR PALETTE
+% ==========================================
+\usepackage{xcolor}
+\definecolor{primary}{RGB}{30, 80, 150}      % Deep Blue (Concepts, Defs, Eqs)
+\definecolor{secondary}{RGB}{39, 174, 96}    % Emerald Green (Results, Examples)
+\definecolor{accent}{RGB}{192, 57, 43}       % Crimson Red (Expert, Warnings)
+\definecolor{themebg}{RGB}{248, 249, 250}    % Light Gray Background
+
+% ==========================================
+% UNIFIED BOX THEMES
+% ==========================================
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{skins, theorems}
+
+\tcbset{
+  highlight math style={colback=primary!5!white,colframe=primary!75!black,arc=2pt,boxrule=1pt},
+  unifiedbox/.style={
+    enhanced,
+    fonttitle=\bfseries,
+    boxrule=1pt, arc=3mm,
+    left=1em, right=1em, top=1em, bottom=1em,
+    colback=themebg
+  },
+  bluebox/.style={unifiedbox, colframe=primary, colbacktitle=primary!90!black, coltitle=white},
+  greenbox/.style={unifiedbox, colframe=secondary, colbacktitle=secondary!90!black, coltitle=white},
+  redbox/.style={unifiedbox, colframe=accent, colbacktitle=accent!90!black, coltitle=white}
+}
+
+% --- Blue Theme: Theory & Core Concepts ---
+\newtcolorbox{conceptbox}[1][]{bluebox, title={#1}}
+\newtcolorbox{defbox}[1]{bluebox, title={Definition: #1}}
+\newtcolorbox{eqbox}[2][]{bluebox, title={#2}, #1}
+\newtcolorbox{mainbox}[1]{bluebox, title={#1}}
+
+% --- Green Theme: Application & Results ---
+\newtcolorbox{exbox}[1][Example]{greenbox, title={#1}}
+\newtcolorbox{resultboxnamed}[1]{greenbox, title={Result: #1}}
+\newtcolorbox{resultbox}{greenbox, title={Key Result}}
+
+% --- Red Theme: Rigor, Alerts & Expert Analysis ---
+\newtcolorbox{expertbox}[1][]{redbox, title={Expert Analysis: #1}}
+\newtcolorbox{notebox}[1][Note]{redbox, title={#1}}
+\newtcolorbox{thmbox}[1]{redbox, title={Theorem: #1}}
+
+% ==========================================
+% DOCUMENT CONFIGURATION
+% ==========================================
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, 
+    linkcolor=primary, 
+    urlcolor=primary,
+    citecolor=primary,
+    pdftitle={Fluid Mechanics Comprehensive Notes}
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+% --- TITLE INFORMATION ---
+\title{\textbf{Fluid Mechanics ME-280}\\ \large Based on Tobias Schneider's Lectures}
+\author{Thélio Geiser}
+\date{Spring 2026}

@@ -1,0 +1,290 @@
+\section{Week 12:}
+
+\subsection{6.5 Irrotational / Potential Flow}
+
+\begin{conceptbox}[Assumptions for Potential Flow]
+We assume the flow is:
+\begin{enumerate}
+    \item \textbf{Incompressible} ($\rho = \text{const}$)
+    \item \textbf{Inviscid} ($\mu = 0$)
+    \item \textbf{Irrotational} ($\nabla \times \vec{v} = \vec{0}$)
+\end{enumerate}
+\end{conceptbox}
+
+Since the flow is irrotational ($\nabla \times \vec{v} = \vec{0}$), vector calculus dictates that the velocity field must be the gradient of a scalar field. Therefore, there exists a scalar function $\Phi$ such that:
+\begin{equation}
+    \nabla \Phi = \vec{v}
+\end{equation}
+where $\Phi$ is defined as the \textbf{Velocity Potential}.
+
+Using the continuity equation for an incompressible fluid:
+\begin{equation}
+    \nabla \cdot \vec{v} = 0 \quad (\text{since } \rho = \text{const})
+\end{equation}
+
+Substituting $\vec{v} = \nabla \Phi$ into the continuity equation yields the \textbf{Laplace equation} for the velocity potential:
+\begin{eqbox}{Laplace Equation}
+    \begin{equation}
+        \nabla^2 \Phi = 0
+    \end{equation}
+\end{eqbox}
+
+\subsubsection{Momentum Balance (Navier-Stokes for Inviscid, Incompressible Flow)}
+
+Starting with the Euler equation (Navier-Stokes assuming inviscid $\mu=0$ and incompressible $\rho = \text{const}$):
+\begin{equation}
+    \rho \left[ \frac{\partial \vec{v}}{\partial t} + \vec{v} \cdot \nabla \vec{v} \right] = \rho \vec{g} - \nabla p
+\end{equation}
+
+We utilize the following vector identity for the convective acceleration term:
+\begin{equation}
+    \vec{v} \cdot \nabla \vec{v} = \frac{1}{2} \nabla (\vec{v} \cdot \vec{v}) - \vec{v} \times (\nabla \times \vec{v})
+\end{equation}
+
+Since the flow is \textit{irrotational}, the vorticity is zero ($\nabla \times \vec{v} = \vec{0}$). The convective acceleration simplifies to:
+\begin{equation}
+    \vec{v} \cdot \nabla \vec{v} = \frac{1}{2} \nabla \lVert \vec{v} \rVert^2 = \frac{1}{2} \nabla v^2
+\end{equation}
+
+Assuming a conservative body force field where $\vec{g} = -g\hat{k}$ (gravity acts downwards), we can write $\rho \vec{g} = -\nabla (\rho g z)$. Substituting this into the momentum balance:
+\begin{equation}
+    \rho \left[ \frac{\partial \vec{v}}{\partial t} + \frac{1}{2} \nabla v^2 \right] + \nabla p + \nabla (\rho g z) = \vec{0}
+\end{equation}
+
+Now, substituting $\vec{v} = \nabla \Phi$, we can rewrite the unsteady term:
+\begin{align*}
+    \rho \frac{\partial}{\partial t}(\nabla \Phi) + \frac{\rho}{2} \nabla v^2 + \nabla p + \nabla(\rho g z) &= \vec{0} \\
+    \nabla \left[ \rho \frac{\partial \Phi}{\partial t} + \frac{\rho}{2} v^2 + p + \rho g z \right] &= \vec{0}
+\end{align*}
+
+Integrating over the spatial domain gives the \textbf{Unsteady Bernoulli Equation}:
+\begin{eqbox}{Unsteady Bernoulli Equation}
+    \begin{equation}
+        \rho \frac{\partial \Phi}{\partial t} + \frac{\rho}{2} v^2 + p + \rho g z = \text{constant}
+    \end{equation}
+\end{eqbox}
+
+If the flow is \textbf{steady}, then $\frac{\partial \Phi}{\partial t} = 0$, recovering the classic Bernoulli equation:
+\begin{equation}
+    \frac{\rho}{2} v^2 + p + \rho g z = \text{constant}
+\end{equation}
+
+\begin{mainbox}{Solution Strategy for Incompressible, Inviscid, Irrotational Flow}
+\begin{itemize}
+    \item \textbf{Step 1:} Solve the Laplace equation $\nabla^2 \Phi = 0$ with appropriate Boundary Conditions (BCs).
+    \item \textbf{Step 2:} Compute the velocity field using $\vec{v} = \nabla \Phi$.
+    \item \textbf{Step 3:} Use the Bernoulli equation to compute the pressure field $p$.
+    \item \textbf{Step 4:} Integrate the pressure over boundaries to get the net force on a body.
+\end{itemize}
+\end{mainbox}
+
+\newpage
+\subsection{6.6 2D Flow - Stream Function}
+
+From the conservation of mass ($\rho = \text{const}$), we have $\nabla \cdot \vec{v} = 0$.
+In 2D Cartesian coordinates, this expands to:
+\begin{equation}
+    \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
+\end{equation}
+
+If a stream function $\Psi(x, y)$ exists with the properties:
+\begin{equation}
+    u = \frac{\partial \Psi}{\partial y}, \quad v = -\frac{\partial \Psi}{\partial x}
+\end{equation}
+
+Let's check continuity:
+\begin{equation}
+    \nabla \cdot \vec{v} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = \frac{\partial}{\partial x}\left(\frac{\partial \Psi}{\partial y}\right) + \frac{\partial}{\partial y}\left(-\frac{\partial \Psi}{\partial x}\right) = \frac{\partial^2 \Psi}{\partial x \partial y} - \frac{\partial^2 \Psi}{\partial y \partial x} = 0
+\end{equation}
+$\implies$ A 2D velocity field derived from a stream function $\Psi$ will, by construction, automatically satisfy the continuity equation.
+
+\subsubsection*{Physical Meaning of the Stream Function}
+Consider the exact differential of $\Psi$:
+\begin{equation}
+    d\Psi = \frac{\partial \Psi}{\partial x}dx + \frac{\partial \Psi}{\partial y}dy = -v\,dx + u\,dy
+\end{equation}
+
+For a constant value of $\Psi$ (i.e., along a line where $\Psi = \text{const}$), we have $d\Psi = 0$:
+\begin{equation}
+    -v\,dx + u\,dy = 0 \implies v\,dx = u\,dy \implies \frac{v}{u} = \frac{dy}{dx}
+\end{equation}
+
+This is exactly the equation of a \textbf{streamline} (where the velocity vector is tangent to the path). Thus, $\Psi$ is constant along a streamline.
+
+\begin{notebox}[Polar Coordinates Extension]
+For a 2D flow in polar coordinates $(r, \theta)$:
+\begin{equation*}
+    \vec{v} = v_r \hat{e}_r + v_\theta \hat{e}_\theta
+\end{equation*}
+The continuity equation is $\nabla \cdot \vec{v} = \frac{1}{r}\frac{\partial}{\partial r}(r v_r) + \frac{1}{r}\frac{\partial v_\theta}{\partial \theta} = 0$.
+The stream function $\Psi(r, \theta)$ is defined as:
+\begin{equation}
+    v_r = \frac{1}{r}\frac{\partial \Psi}{\partial \theta}, \quad v_\theta = -\frac{\partial \Psi}{\partial r}
+\end{equation}
+\end{notebox}
+
+\subsection{6.7 2D Potential Flow}
+
+Assuming a 2D fluid flow that is \textbf{incompressible} and \textbf{inviscid}:
+\begin{itemize}
+    \item 2D flow $\implies$ There is a stream function $\Psi$.
+    \item Irrotational $\implies$ There is a velocity potential $\Phi$.
+\end{itemize}
+
+\textbf{Q: What is the relation between the stream function $\Psi$ and velocity potential $\Phi$?}
+
+For $\Phi$, mass conservation requires:
+\begin{equation}
+    0 = \nabla \cdot \vec{v} = \nabla \cdot (\nabla \Phi) = \nabla^2 \Phi \implies \boxed{\frac{\partial^2 \Phi}{\partial x^2} + \frac{\partial^2 \Phi}{\partial y^2} = 0}
+\end{equation}
+
+For $\Psi$, the irrotationality condition requires:
+\begin{align}
+    \vec{0} = \nabla \times \vec{v} &\implies 0 = \frac{\partial v}{\partial x} - \frac{\partial u}{\partial y} \\
+    0 &= \frac{\partial}{\partial x}\left(-\frac{\partial \Psi}{\partial x}\right) - \frac{\partial}{\partial y}\left(\frac{\partial \Psi}{\partial y}\right) \\
+    0 &= -\frac{\partial^2 \Psi}{\partial x^2} - \frac{\partial^2 \Psi}{\partial y^2} \implies \boxed{\frac{\partial^2 \Psi}{\partial x^2} + \frac{\partial^2 \Psi}{\partial y^2} = 0}
+\end{align}
+
+\begin{resultbox}
+Both the Velocity Potential $\Phi$ and the Stream Function $\Psi$ satisfy the 2D Laplace equation.
+\end{resultbox}
+\newpage
+\subsubsection{Orthogonality of $\Phi$ and $\Psi$}
+
+Consider the differential of $\Phi$:
+\begin{equation}
+    d\Phi = \frac{\partial \Phi}{\partial x}dx + \frac{\partial \Phi}{\partial y}dy = u\,dx + v\,dy
+\end{equation}
+
+Along an \textbf{equipotential line} ($\Phi = \text{const}$), $d\Phi = 0$:
+\begin{equation}
+    u\,dx + v\,dy = 0 \implies \left.\frac{dy}{dx}\right|_{\Phi = \text{const}} = -\frac{u}{v}
+\end{equation}
+
+Recall that for a \textbf{streamline} ($\Psi = \text{const}$):
+\begin{equation}
+    \left.\frac{dy}{dx}\right|_{\Psi = \text{const}} = \frac{v}{u}
+\end{equation}
+
+Since the product of their slopes is $\left(-\frac{u}{v}\right) \times \left(\frac{v}{u}\right) = -1$, the equipotential lines ($\Phi = \text{const}$) are \textbf{perpendicular} to the streamlines ($\Psi = \text{const}$).
+
+Furthermore, the closer the equipotential lines are, the higher the gradient $\nabla \Phi$, which implies the faster the fluid element is moving.
+\vspace{16pt}
+
+\begin{center}
+
+\begin{tikzpicture}[scale=1.5]
+    % Streamlines (Red)
+    \foreach \y in {-1.5, -0.5, 0.5, 1.5} {
+        \draw[accent, thick] (-3, \y) to[out=0, in=170] (1, \y-0.2) to[out=-10, in=160] (4, \y-0.8);
+    }
+    
+    % Equipotential lines (Blue)
+    \foreach \x in {-2, -0.5, 1, 2.5} {
+        \draw[primary, thick] (\x, 2) to[out=-80, in=100] (\x+0.5, -2.5);
+    }
+    
+    % Airfoil profile
+    \filldraw[fill=white, draw=black, ultra thick] 
+        (0.5,0.4) .. controls (0.5,1.0) and (2.5,0.8) .. (3.5,-0.6) 
+        .. controls (2.0,-0.1) and (0.5,-0.1) .. (0.5,0.4);
+
+    % Labels
+    \node[accent, right] at (4, 0.7) {Streamlines ($\Psi = c$)};
+    \node[primary, below] at (3, -2.5) {Equipotentials ($\Phi = c$)};
+\end{tikzpicture}
+\end{center}
+
+\begin{exbox}[Example: Stagnation Point Flow]
+Given the velocity potential:
+\begin{equation*}
+    \Phi = \frac{a}{2}(x^2 - y^2)
+\end{equation*}
+Compute the stream function $\Psi$ (if it exists).
+
+\textbf{1. Check if incompressible ($\implies \nabla^2 \Phi = 0$):}
+\begin{equation*}
+    \frac{\partial^2 \Phi}{\partial x^2} + \frac{\partial^2 \Phi}{\partial y^2} = a + (-a) = 0
+\end{equation*}
+Since the Laplacian is zero, the flow is incompressible, and a stream function exists.
+
+\textbf{2. Define $\Psi$ using the Cauchy-Riemann relations:}
+First, derive the velocity field from $\Phi$:
+\begin{equation*}
+    u = \frac{\partial \Phi}{\partial x} = ax, \quad v = \frac{\partial \Phi}{\partial y} = -ay
+\end{equation*}
+Now, equate these to the stream function derivatives:
+\begin{equation*}
+    \begin{cases}
+        u = \frac{\partial \Psi}{\partial y} = ax \\
+        v = -\frac{\partial \Psi}{\partial x} = -ay
+    \end{cases}
+\end{equation*}
+
+Integrate the first equation with respect to $y$:
+\begin{equation*}
+    \Psi = axy + f(x)
+\end{equation*}
+Differentiate this with respect to $x$ and plug into the second equation:
+\begin{equation*}
+    \frac{\partial \Psi}{\partial x} = ay + f'(x) = ay \implies f'(x) = 0 \implies f(x) = C
+\end{equation*}
+Thus, $\Psi = axy + C$. We can set $C = 0$ (free gauge choice).
+\begin{equation*}
+    \Psi = axy
+\end{equation*}
+
+
+\textbf{3. Plot the streamlines and equipotential lines:}
+\begin{itemize}
+    \item Streamlines: $\Psi = \text{const} \implies axy = c \implies y = \frac{c}{ax}$ (Hyperbolas in quadrants $1, 3$ or $2, 4$)
+    \item Equipotentials: $\Phi = \text{const} \implies x^2 - y^2 = c'$ (Hyperbolas opening on axes)
+\end{itemize}
+\end{exbox}
+
+\begin{center}
+\begin{tikzpicture}[scale=2.5]
+    % Axes
+    \draw[->] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[->] (0,-3) -- (0,3) node[above] {$y$};
+    
+    % Asymptotes for equipotentials
+    \draw[dashed, gray!60] (-2.5,-2.5) -- (2.5,2.5);
+    \draw[dashed, gray!60] (-2.5,2.5) -- (2.5,-2.5);
+    
+    \begin{scope}
+    \clip (-3,-3) rectangle (3,3);
+    
+    % Streamlines xy = c (White/cyan in notes, here we use secondary color)
+    \foreach \c in {0.5, 1.2, 2.0} {
+        \draw[secondary, thick] plot[domain=0.1:3, samples=50] (\x, {\c/\x});
+        \draw[secondary, thick] plot[domain=-3:-0.1, samples=50] (\x, {\c/\x});
+        \draw[secondary, thick] plot[domain=0.1:3, samples=50] (\x, {-\c/\x});
+        \draw[secondary, thick] plot[domain=-3:-0.1, samples=50] (\x, {-\c/\x});
+    }
+    
+    % Equipotential lines x^2 - y^2 = c (Blue in notes, here we use primary color)
+    \foreach \c in {0.5, 1.5, 2.5} {
+        % x^2 - y^2 = c => x = sqrt(y^2+c)
+        \draw[primary, thick] plot[domain=-2.8:2.8, samples=50] ({sqrt(\x*\x+\c)}, \x);
+        \draw[primary, thick] plot[domain=-2.8:2.8, samples=50] ({-sqrt(\x*\x+\c)}, \x);
+        
+        % y^2 - x^2 = c => y = sqrt(x^2+c) (represented as x^2 - y^2 = -c)
+        \draw[primary, thick] plot[domain=-2.8:2.8, samples=50] (\x, {sqrt(\x*\x+\c)});
+        \draw[primary, thick] plot[domain=-2.8:2.8, samples=50] (\x, {-sqrt(\x*\x+\c)});
+    }
+    \end{scope}
+
+    \node[secondary, fill=white, inner sep=1pt] at (2, 1.5) {$\Psi = \text{const}$};
+    \node[primary, fill=white, inner sep=1pt] at (2, 0.4) {$\Phi = \text{const}$};
+\end{tikzpicture}
+\end{center}
+
+
+\begin{expertbox}[General Concept for Solving 2D Potential Flow]
+The foundational principle of 2D potential flow dictates that both the velocity potential and the stream function obey Laplace's equation:
+\begin{equation}
+    \nabla^2 \Phi = 0 \quad \text{and} \quad \nabla^2 \Psi = 0
+\end{equation}
+Because the Laplace equation is \textbf{linear} and \textbf{homogeneous}, solutions can be superposed. Complex flow fields around arbitrary bodies can be systematically constructed by linearly combining elementary potential flows (such as uniform flows, sources, sinks, doublets, and point vortices).
+\end{expertbox}

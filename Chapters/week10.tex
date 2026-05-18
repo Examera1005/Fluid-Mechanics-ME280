@@ -1,0 +1,128 @@
+% ==========================================
+% Week 10- Differential aspect of physics law in fluid mechanics
+% ==========================================
+\section{Week-10Chapter 6: Differential Analysis}
+
+\subsection{6.1 Conservation of Mass}
+
+\subsubsection{6.1.1 From Integral to Differential Form}
+To establish the differential form of mass conservation, we analyze an arbitrary Control Volume (CV). The total system mass $M_{sys}$ is conserved.
+
+\begin{eqbox}{Reynolds Transport Theorem (RTT) for Mass}
+Applying the RTT to a control volume bounded by a control surface (CS), the rate of change of mass is zero:
+\begin{equation*}
+    \frac{DM_{sys}}{Dt} = 0 = \frac{\partial}{\partial t} \int_{CV} \rho \, dV + \int_{CS} \rho \vec{v} \cdot \hat{n} \, dA
+\end{equation*}
+\end{eqbox}
+
+\begin{conceptbox}[Application of Gauss's Theorem (Divergence Theorem)]
+We apply the Divergence Theorem to convert the surface integral of the mass flux into a volume integral:
+\begin{equation*}
+    \int_{CS} \rho \vec{v} \cdot \hat{n} \, dA = \int_{CV} \nabla \cdot (\rho \vec{v}) \, dV
+\end{equation*}
+For a stationary, fixed control volume, the time derivative can be brought inside the integral:
+\begin{equation*}
+    \int_{CV} \left[ \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{v}) \right] dV = 0
+\end{equation*}
+\end{conceptbox}
+
+\begin{notebox}[Arbitrary Volume Argument]
+Because the integral holds true for \textit{any} arbitrary control volume $CV$, the integrand itself must be identically zero everywhere in the continuum field.
+\end{notebox}
+
+\subsubsection{6.1.2 The Continuity Equation}
+\begin{resultboxnamed}{General Forms of Continuity}
+The fundamental equation for the conservation of mass is given by:
+\begin{equation*}
+    \frac{\partial \rho}{\partial t} + \nabla \cdot (\rho \vec{v}) = 0
+\end{equation*}
+Applying the product rule ($\nabla \cdot (\rho \vec{v}) = \rho (\nabla \cdot \vec{v}) + \vec{v} \cdot \nabla \rho$), we obtain the Eulerian and Lagrangian forms:
+\begin{itemize}
+    \item \textbf{Eulerian form:} $\displaystyle \frac{\partial \rho}{\partial t} + \rho (\nabla \cdot \vec{v}) + \vec{v} \cdot (\nabla \rho) = 0$
+    \item \textbf{Lagrangian form:} $\displaystyle \frac{D\rho}{Dt} + \rho \nabla \cdot \vec{v} = 0$
+\end{itemize}
+\end{resultboxnamed}
+
+\begin{expertbox}[Incompressible Limit]
+If the fluid is incompressible, the material derivative of the density is zero ($\frac{D\rho}{Dt} = 0$). The continuity equation rigorously simplifies to a geometric constraint on the velocity field:
+\begin{equation*}
+    \nabla \cdot \vec{v} = 0 \quad \text{(Divergence-free field)}
+\end{equation*}
+\end{expertbox}
+
+\subsection{6.2 Newton's 2nd Law (Conservation of Momentum)}
+
+\subsubsection{6.2.1 Force Analysis and the Stress Tensor}
+\begin{eqbox}{Reynolds Transport Theorem for Momentum}
+Applying Newton's Second Law ($\frac{D}{Dt}(m\vec{v}) = \sum \vec{F}_{ext}$) using the RTT yields:
+\begin{equation*}
+    \frac{\partial}{\partial t} \int_{CV} \rho \vec{v} \, dV + \int_{CS} \rho \vec{v} (\vec{v} \cdot \hat{n}) \, dA = \sum \vec{F}_{ext}
+\end{equation*}
+\end{eqbox}
+
+\textbf{Forces acting on a fluid element:}
+\begin{itemize}
+    \item \textbf{Body Forces:} Act on the entire volume (e.g., gravity, $\int_{CV} \rho \vec{g} \, dV$).
+    \item \textbf{Surface Forces:} Normal pressure forces and viscous stresses acting on boundaries.
+\end{itemize}
+
+\begin{defbox}{The Stress Tensor}
+The viscous stress tensor $\overline{\overline{\tau}}$ is defined with components $\tau_{ij}$, where $i$ is the normal to the face and $j$ is the direction of the stress.
+\begin{equation*}
+    \overline{\overline{\tau}} = \begin{pmatrix}
+    \tau_{xx} & \tau_{xy} & \tau_{xz} \\
+    \tau_{yx} & \tau_{yy} & \tau_{yz} \\
+    \tau_{zx} & \tau_{zy} & \tau_{zz}
+    \end{pmatrix}
+\end{equation*}
+Conservation of angular momentum dictates symmetry: $\tau_{ij} = \tau_{ji}$.
+\end{defbox}
+
+\begin{conceptbox}[Cauchy Stress Tensor Formulation]
+The combined total surface stress tensor $\overline{\overline{\sigma}}$ incorporates both thermodynamic pressure $p$ and the deviatoric viscous stress $\overline{\overline{\tau}}$:
+\begin{equation*}
+    \overline{\overline{\sigma}} = -p\overline{\overline{I}} + \overline{\overline{\tau}}
+\end{equation*}
+Thus, surface forces are: $\displaystyle \int_{CS} \overline{\overline{\sigma}} \cdot \hat{n} \, dA = \int_{CV} (-\nabla p + \nabla \cdot \overline{\overline{\tau}}) \, dV$.
+\end{conceptbox}
+
+\subsubsection{6.2.2 Cauchy's Equation of Motion}
+\begin{thmbox}{Differential Momentum Balance}
+For an \textit{incompressible} flow ($\rho = \text{cte}$), we analyze the convective flux using the dyadic product:
+\begin{equation*}
+    \nabla \cdot (\rho \vec{v} \otimes \vec{v}) = \rho (\vec{v} \cdot \nabla) \vec{v}
+\end{equation*}
+Substituting this and the force integrals into the RTT formulation leads to Cauchy's Equation.
+\end{thmbox}
+
+\begin{mainbox}{Cauchy's Equation of Motion}
+\begin{equation*}
+    \rho \left( \frac{\partial \vec{v}}{\partial t} + \vec{v} \cdot \nabla \vec{v} \right) = -\nabla p + \rho \vec{g} + \nabla \cdot \overline{\overline{\tau}}
+\end{equation*}
+This explicitly states that $\rho \vec{a}$ equals the sum of pressure gradients, body forces, and viscous divergence.
+\end{mainbox}
+
+\subsection{6.3 The Navier-Stokes Equations}
+
+\subsubsection{6.3.1 Newtonian Constitutive Relation}
+\begin{defbox}{Linear Stress-Strain Relationship}
+For a Newtonian fluid, viscous stresses are linearly proportional to the local strain rate. In 3D tensor notation:
+\begin{equation*}
+    \tau_{ij} = \mu \left( \frac{\partial v_i}{\partial x_j} + \frac{\partial v_j}{\partial x_i} \right)
+\end{equation*}
+where $\mu$ is the dynamic viscosity.
+\end{defbox}
+
+\subsubsection{6.3.2 Final Derivation for Incompressible Flow}
+Taking the divergence of the Newtonian viscous stress tensor ($\nabla \cdot \overline{\overline{\tau}}$), we find for the $j$-th component:
+\begin{equation*}
+    \partial_i \tau_{ij} = \mu (\partial_i \partial_i v_j + \partial_i \partial_j v_i) = \mu (\nabla^2 v_j + \partial_j(\nabla \cdot \vec{v}))
+\end{equation*}
+Since $\nabla \cdot \vec{v} = 0$ for incompressible flow, $\nabla \cdot \overline{\overline{\tau}} = \mu \nabla^2 \vec{v}$.
+
+\begin{resultboxnamed}{The Navier-Stokes Equation}
+Substituting the viscous term into Cauchy's equation yields the governing equation for incompressible flow:
+\begin{equation*}
+    \rho \left( \frac{\partial \vec{v}}{\partial t} + \vec{v} \cdot \nabla \vec{v} \right) = -\nabla p + \rho \vec{g} + \mu \nabla^2 \vec{v}
+\end{equation*}
+\end{resultboxnamed}

@@ -1,0 +1,125 @@
+% ==========================================
+% CHAPTER 1: VISCOSITY & PROBLEM SOLVING
+% ==========================================
+\section{Viscosity and Shear Stress: Problem Solving}
+
+\subsection{Problem 1: Plate moving between two fluids}
+
+\subsubsection{Problem Statement}
+A thin flat plate is moving horizontally at a constant, unknown velocity $V$ between two other parallel plates. The bottom plate is stationary, while the top plate moves at a constant velocity $U$. 
+The space is filled with two different Newtonian fluids:
+\begin{itemize}
+    \item \textbf{Fluid 1 (Bottom):} Dynamic viscosity $\mu_1$, filling a gap of height $c \cdot t$.
+    \item \textbf{Fluid 2 (Top):} Dynamic viscosity $\mu_2 = 2\mu_1$, filling a gap of height $(1-c) \cdot t$.
+\end{itemize}
+\textbf{Goal:} Determine the steady-state velocity vector $\vec{V}$ of the middle plate.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2, >=Stealth]
+    % Total height t = 4 for visual purposes. Let's say c = 0.35. h = 1.4
+    \def\totH{4}
+    \def\midH{1.4}
+    
+    % Bottom Plate (Stationary)
+    \fill[pattern=north east lines, pattern color=gray] (0,-0.3) rectangle (7,0);
+    \draw[thick] (0,0) -- (7,0) node[right, font=\bfseries] {$v = 0$};
+    
+    % Top Plate (Moving at U)
+    \draw[thick, primary, ->] (2,\totH) -- (6,\totH) node[right, font=\bfseries] {$U$};
+    \draw[thick] (0,\totH) -- (7,\totH);
+    
+    % Middle Plate (Moving at V)
+    \draw[thick, accent, ->] (2,\midH) -- (5,\midH) node[right, font=\bfseries] {$V$};
+    \draw[thick, accent] (0,\midH) -- (7,\midH);
+    
+    % Fluids
+    \node at (3.5, 0.7) {Fluid 1: $\mu_1$};
+    \node at (3.5, 2.7) {Fluid 2: $\mu_2 = 2\mu_1$};
+    
+    % Dimensions
+    \draw[<->] (-0.5, 0) -- (-0.5, \midH) node[midway, left] {$c \cdot t$};
+    \draw[<->] (-0.5, \midH) -- (-0.5, \totH) node[midway, left] {$(1-c) \cdot t$};
+    \draw[<->] (-1.5, 0) -- (-1.5, \totH) node[midway, left] {$t$};
+    
+    % Velocity Profiles (Linear)
+    \draw[dashed, gray] (0,0) -- (2,\midH); % Bottom profile
+    \draw[dashed, gray] (2,\midH) -- (4,\totH); % Top profile
+    
+    \foreach \y in {0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4} {
+        \draw[->, gray, very thin] (0,\y) -- ({\y*1.428},\y);
+    }
+    \foreach \y in {1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0} {
+        \draw[->, gray, very thin] (0,\y) -- ({2 + (\y-1.4)*0.769},\y);
+    }
+\end{tikzpicture}
+\end{center}
+
+\begin{notebox}[Scientific Verification: Linear Velocity Profile]
+The assumption that the velocity profile $u(y)$ is strictly linear between the plates is not arbitrary. It is mathematically derived from the \textbf{Navier-Stokes equations} (formulated by Navier in 1822 and Stokes in 1845). For a steady, fully developed, one-dimensional laminar flow with zero pressure gradient ($\frac{\partial p}{\partial x} = 0$), the equation simplifies to $\frac{d^2u}{dy^2} = 0$, whose integration strictly yields a linear profile $u(y) = Ay + B$. This specific setup is historically known as \textbf{Couette Flow}, experimentally validated by \textbf{Maurice Couette in 1890}.
+\end{notebox}
+
+\subsubsection{Governing Equations \& Force Balance}
+
+Consider a small piece of the middle plate of area $A$. The plate experiences a shear stress from Fluid 1 on its bottom surface ($\tau_1$) and a shear stress from Fluid 2 on its top surface ($\tau_2$). 
+
+Since the plate moves at a \textit{constant velocity} $V$, its acceleration is zero. According to Newton's First Law of Motion (1687):
+\begin{align*}
+    \Sigma F_x &= m \cdot a_x = 0 \\
+    F_{\text{shear, top}} - F_{\text{shear, bottom}} &= 0 \\
+    \tau_2 \cdot A - \tau_1 \cdot A &= 0 \implies \tau_1 = \tau_2
+\end{align*}
+\textit{(Note: Original handwritten notes contained a transcription error stating $\frac{\tau_2}{t} - \frac{\tau_1}{A} = 6$. This is mathematically and dimensionally incorrect. The derivation above represents the correct physical principle.)}
+
+Using Newton's Law of Viscosity ($\tau = \mu \frac{du}{dy}$), we determine the shear stresses. Because the velocity profiles are linear, the velocity gradients $\frac{du}{dy}$ are constant in each layer:
+
+\begin{align}
+    \tau_1 &= \mu_1 \frac{\Delta u_1}{\Delta y_1} = \mu_1 \frac{V - 0}{c \cdot t} = \mu_1 \frac{V}{ct} \\
+    \tau_2 &= \mu_2 \frac{\Delta u_2}{\Delta y_2} = \mu_2 \frac{U - V}{(1-c) \cdot t} 
+\end{align}
+
+\subsubsection{Algebraic Resolution}
+
+Substitute $\mu_2 = 2\mu_1$ and equate the two shear stresses ($\tau_1 = \tau_2$):
+\begin{equation*}
+    \mu_1 \frac{V}{ct} = 2\mu_1 \frac{U - V}{(1-c)t}
+\end{equation*}
+
+We can cancel out $\mu_1$ and $t$ from both sides:
+\begin{equation*}
+    \frac{V}{c} = \frac{2(U - V)}{1-c}
+\end{equation*}
+
+Cross-multiply to solve for $V$:
+\begin{align*}
+    V(1 - c) &= 2c(U - V) \\
+    V - Vc &= 2Uc - 2Vc \\
+    V - Vc + 2Vc &= 2Uc \\
+    V(1 + c) &= 2Uc
+\end{align*}
+
+\begin{eqbox}{Final Analytical Solution}
+\begin{equation}
+    V = \frac{2Uc}{1+c}
+\end{equation}
+\end{eqbox}
+
+\subsubsection{Verification of Physical Limits}
+
+To ensure our formula is robust, we must evaluate its behavior at the geometric boundaries ($c \to 0$ and $c \to 1$). 
+\textit{(Note: The original notes contained calculation errors regarding these limits, stating $V=3$ and $V=0$. The scientifically verified limits are detailed below).}
+
+\begin{itemize}
+    \item \textbf{Limit 1: $c \to 0$} \\
+    If $c$ approaches $0$, the middle plate is effectively pressed against the bottom stationary wall. 
+    \begin{equation*}
+        \lim_{c \to 0} V = \frac{2U(0)}{1+0} = 0
+    \end{equation*}
+    This strictly satisfies the \textbf{No-Slip boundary condition} (Stokes, 1851): the velocity of the plate must match the velocity of the bottom wall ($0$).
+
+    \item \textbf{Limit 2: $c \to 1$} \\
+    If $c$ approaches $1$, the middle plate is effectively pressed against the top wall which is moving at velocity $U$.
+    \begin{equation*}
+        \lim_{c \to 1} V = \frac{2U(1)}{1+1} = \frac{2U}{2} = U
+    \end{equation*}
+    Again, this perfectly satisfies the No-Slip boundary condition relative to the top moving wall.
+\end{itemize}
