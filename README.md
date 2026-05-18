@@ -1,6 +1,6 @@
 # Fluid Mechanics ME-280
 
-This repository contains a LaTeX transcription of **ME-280 Fluid Mechanics** lecture notes.
+This repository contains a LaTeX transcription of **ME-280 Fluid Mechanics** Spring 2026 lecture notes.
 
 ## Source and authorship context
 
