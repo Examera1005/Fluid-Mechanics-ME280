@@ -1,0 +1,545 @@
+\section{Week 13 - Potential Flows and Superposition}
+
+Due to the linearity of the Laplace equation, complex flow patterns can be constructed by superimposing simple, elementary potential flow solutions.
+
+\subsection{6.7.1 Basic Potential Flow Solutions}
+\subsubsection{a) Uniform Flow}
+
+\begin{defbox}{Uniform Flow}
+A uniform flow is a constant velocity field oriented along a specific direction. For a horizontal flow of magnitude $U_0$ along the $+x$ axis, the velocity components in Cartesian coordinates are:
+$$u = U_0 = \frac{\partial \Phi}{\partial x} = \frac{\partial \Psi}{\partial y}$$
+$$v = 0 = \frac{\partial \Phi}{\partial y} = -\frac{\partial \Psi}{\partial x}$$
+\end{defbox}
+
+Integrating these relations yields the potentials for a uniform flow:
+\begin{eqbox}{Uniform Flow Potentials}
+\begin{align*}
+\text{Velocity Potential:} \quad & \Phi(x, y) = U_0 x \\
+\text{Stream Function:} \quad & \Psi(x, y) = U_0 y
+\end{align*}
+\end{eqbox}
+
+In polar coordinates ($x = r\cos\theta,\ y = r\sin\theta$), these potentials are expressed as:
+$$\Phi(r, \theta) = U_0 r \cos\theta \qquad \Psi(r, \theta) = U_0 r \sin\theta$$
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    \draw[-Stealth, gray] (-1,0) -- (4,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-1) -- (0,3) node[above] {$y$};
+
+    \foreach \y in {0.5, 1.0, 1.5, 2.0, 2.5} {
+        \draw[secondary, thick, -Stealth] (-0.8, \y) -- (3.5, \y);
+    }
+    \node[secondary] at (3.8, 2.0) {$\Psi = \text{const}$};
+
+    \foreach \x in {0.8, 1.6, 2.4, 3.2} {
+        \draw[dashed, primary, thick] (\x, -0.5) -- (\x, 2.8);
+    }
+    \node[primary] at (3.2, -0.8) {$\Phi = \text{const}$};
+
+    \node at (1.6, 2.2) [fill=white, draw=gray!30, rounded corners=2pt, font=\small] {Velocity $\vec{v} = U_0 \hat{e}_x$};
+\end{tikzpicture}
+\caption{Equipotential lines ($\Phi$, dashed vertical) and streamlines ($\Psi$, solid horizontal) for a uniform flow parallel to the $x$-axis.}
+\label{fig:uniform_flow}
+\end{figure}
+
+\subsubsection{b) Source / Sink (Line Source)}
+
+Let $m$ represent the volumetric rate of flow emanating from a line source per unit length perpendicular to the plane of the flow. If $m > 0$, fluid flows radially outwards (source). If $m < 0$, fluid flows radially inwards (sink).
+
+Using polar coordinates with velocity field $\vec{v} = v_r \hat{e}_r + v_\theta \hat{e}_\theta$, we apply the conservation of mass through a control surface of radius $r$:
+$$m \, \Delta t = (2\pi r \cdot 1) v_r \, \Delta t \implies v_r = \frac{m}{2\pi r}, \quad v_\theta = 0$$
+
+\begin{eqbox}{Line Source Potentials}
+\begin{align*}
+\text{Radial Velocity:} \quad & v_r = \frac{m}{2\pi r} = \frac{\partial \Phi}{\partial r} = \frac{1}{r}\frac{\partial \Psi}{\partial \theta} \\
+\text{Azimuthal Velocity:} \quad & v_\theta = 0 = \frac{1}{r}\frac{\partial \Phi}{\partial \theta} = -\frac{\partial \Psi}{\partial r}
+\end{align*}
+\end{eqbox}
+
+Integrating the equations in the box yields:
+$$\Phi(r, \theta) = \frac{m}{2\pi} \ln(r) \qquad \Psi(r, \theta) = \frac{m}{2\pi} \theta$$
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    \draw[-Stealth, gray] (-2.5,0) -- (2.5,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-2.5) -- (0,2.5) node[above] {$y$};
+
+    \foreach \a in {0, 45, 90, 135, 180, 225, 270, 315} {
+        \draw[secondary, thick, -Stealth] (\a:0.15) -- (\a:2.2);
+    }
+
+    \draw[dashed, primary, thick] (0,0) circle (0.8);
+    \draw[dashed, primary, thick] (0,0) circle (1.6);
+
+    \draw[fill=white, draw=primary, thick] (0,0) circle (0.15) node[below left=2pt, font=\small] {$O$};
+
+    \node[secondary] at (1.6, 1.6) {$\Psi = \frac{m}{2\pi}\theta$};
+    \node[primary] at (-1.3, -1.3) {$\Phi = \frac{m}{2\pi}\ln(r)$};
+\end{tikzpicture}
+\caption{Streamlines (radial) and equipotential lines (concentric circles) for a line source at the origin.}
+\label{fig:source_flow}
+\end{figure}
+
+\subsubsection{c) The Line Vortex (Free / Irrotational Vortex)}
+
+A free vortex flow features concentric circular streamlines with a velocity potential that is mathematically conjugate to that of a source flow. By swapping the functional forms of the potential and stream functions, we obtain:
+
+\begin{eqbox}{Free Vortex Potentials}
+\begin{align*}
+\Phi(r, \theta) &= K \theta \\
+\Psi(r, \theta) &= -K \ln(r)
+\end{align*}
+\end{eqbox}
+
+Where $K$ is a constant representing the strength of the vortex. The velocity components are:
+$$v_r = \frac{\partial \Phi}{\partial r} = 0 = \frac{1}{r} \frac{\partial \Psi}{\partial \theta}$$
+$$v_\theta = \frac{1}{r} \frac{\partial \Phi}{\partial \theta} = \frac{K}{r} = -\frac{\partial \Psi}{\partial r}$$
+
+In a free vortex, the velocity is inversely proportional to the radius ($v_\theta \propto 1/r$).
+
+\newpage
+\subsubsection{d) Expert Analysis: Irrotationality and Circulation of a Free Vortex}
+
+\begin{expertbox}[How can a vortex be irrotational?]
+It may seem counter-intuitive that a flow spinning in circles is mathematically classified as ``irrotational'' ($\nabla \times \vec{v} = 0$). To clarify this, we distinguish between a \textbf{forced (rotational) vortex} and a \textbf{free (irrotational) vortex}:
+\begin{itemize}
+    \item \textbf{Forced Vortex (Solid-body rotation):} $v_\theta = \omega r$. Fluid elements rotate about their own axes. Vorticity is non-zero everywhere ($\vec{\omega} = \nabla \times \vec{v} = 2\omega \hat{e}_z \neq 0$).
+    \item \textbf{Free Vortex (Potential flow):} $v_\theta = K/r$. Local fluid elements translate along a circular path but do not rotate about their own centers. Calculating the vorticity in polar coordinates:
+    $$\omega_z = (\nabla \times \vec{v})_z = \frac{1}{r} \left[ \frac{\partial (r v_\theta)}{\partial r} - \frac{\partial v_r}{\partial \theta} \right] = \frac{1}{r} \left[ \frac{\partial (K)}{\partial r} - 0 \right] = 0 \quad (\text{for } r \neq 0)$$
+\end{itemize}
+
+Let us evaluate the circulation $\Gamma$ around a circular contour of radius $R$ centered at the origin:
+$$\Gamma = \oint \vec{v} \cdot d\vec{s} = \int_{0}^{2\pi} \left( v_\theta \hat{e}_\theta \right) \cdot \left( R \, d\theta \, \hat{e}_\theta \right) = \int_{0}^{2\pi} \frac{K}{R} R \, d\theta = 2\pi K$$
+
+Thus, the vortex strength constant $K$ is directly related to the circulation $\Gamma$:
+$$K = \frac{\Gamma}{2\pi}$$
+
+Any contour enclosing the origin yields $\Gamma \neq 0$, indicating a line singularity at $r = 0$. However, for any closed loop that does not contain the origin, Stokes' theorem holds with $\oint \vec{v} \cdot d\vec{s} = \iint (\nabla \times \vec{v}) \cdot d\vec{A} = 0$, confirming the flow field is irrotational everywhere except at the singular origin point.
+\end{expertbox}
+
+The final potential and stream functions for an irrotational vortex of circulation $\Gamma$ are:
+$$\Phi = \frac{\Gamma}{2\pi}\theta \qquad \Psi = -\frac{\Gamma}{2\pi}\ln(r)$$
+
+\subsubsection{e) Doublet}
+
+A doublet is formed by placing a line source of strength $+m$ and a sink of strength $-m$ at a distance $a$ apart, and taking the limit as $a \to 0$ while keeping the product $m \cdot a$ constant.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    \draw[-Stealth, gray] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-0.5) -- (0,3) node[above] {$y$};
+
+    \coordinate (S1) at (-0.8,0);
+    \coordinate (S2) at (0.8,0);
+    \coordinate (P) at (1.8,2.2);
+
+    \draw[fill=secondary!20, draw=secondary, ultra thick] (S1) circle (0.12) node[below=5pt] {$+m$};
+    \draw[fill=accent!20, draw=accent, ultra thick] (S2) circle (0.12) node[below=5pt] {$-m$};
+
+    \draw[thick, dotted, secondary] (S1) -- (P) node[midway, above left, black] {$r_1$};
+    \draw[thick, dotted, accent] (S2) -- (P) node[midway, right, black] {$r_2$};
+
+    \draw[ultra thick, primary, -Stealth] (0,0) -- (P) node[above right] {$P(r,\theta)$};
+
+    \draw (S1) +(0.4,0) arc (0:50:0.4) node[right, pos=0.6, font=\small] {$\theta_1$};
+    \draw (S2) +(0.3,0) arc (0:65:0.3) node[right, pos=0.6, font=\small] {$\theta_2$};
+    \draw (0,0) +(0.5,0) arc (0:51:0.5) node[right, pos=0.5, font=\small] {$\theta$};
+
+    \draw[<->, >=stealth, thick] (-0.8,-0.6) -- (0.8,-0.6) node[midway, fill=white] {$a$};
+\end{tikzpicture}
+\caption{Geometric construction of a doublet from a source ($+m$) and a sink ($-m$).}
+\label{fig:doublet_geometry}
+\end{figure}
+
+The stream function of the combined system is:
+$$\Psi = \frac{m}{2\pi}(\theta_2 - \theta_1) = -\frac{m}{2\pi} \Delta\theta$$
+
+For small separation distance $a$, we observe that $\Delta\theta \approx \frac{a \sin\theta}{r}$. Taking the limit as $a \to 0$ and $m \to \infty$ while holding the doublet strength $H = \frac{m \cdot a}{\pi}$ constant:
+$$\Psi = \lim_{a \to 0} \left( -\frac{m a \sin\theta}{2\pi r} \right) = -\frac{H \sin\theta}{r} \quad \text{where} \quad H = \frac{m a}{2\pi}$$
+
+\begin{eqbox}{Doublet Potentials}
+\begin{align*}
+\Phi(r, \theta) &= \frac{H \cos\theta}{r} \\
+\Psi(r, \theta) &= -\frac{H \sin\theta}{r}
+\end{align*}
+\end{eqbox}
+
+The corresponding polar velocity components are:
+$$v_r = \frac{1}{r}\frac{\partial \Psi}{\partial \theta} = -\frac{H \cos\theta}{r^2}$$
+$$v_\theta = -\frac{\partial \Psi}{\partial r} = -\frac{H \sin\theta}{r^2}$$
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.2]
+    % Define the streamline style with precise arrow markings
+    \tikzset{
+        streamline/.style={
+            secondary,
+            thick,
+            decoration={
+                markings,
+                mark=at position 0.3 with {\arrow{Stealth}},
+                mark=at position 0.7 with {\arrow{Stealth}}
+            },
+            postaction={decorate}
+        }
+    }
+
+    % Axes
+    \draw[-Stealth, gray] (-3,0) -- (3,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-2.8) -- (0,2.8) node[above] {$y$};
+
+    % Arrows explicitly on the x-axis (theta = 0 and theta = pi) flowing right-to-left
+    \draw[secondary, -Stealth, thick] (2.5, 0) -- (1.5, 0);
+    \draw[secondary, -Stealth, thick] (0.8, 0) -- (0.2, 0);
+    \draw[secondary, -Stealth, thick] (-0.2, 0) -- (-0.8, 0);
+    \draw[secondary, -Stealth, thick] (-1.5, 0) -- (-2.5, 0);
+
+    % Streamlines
+    \foreach \r in {0.5, 1.0, 1.7} {
+        % Upper circles: flow leaves towards -x, loops up/right, returns from +x (Clockwise)
+        \draw[streamline] (0,0) arc (270:-90:\r);
+        
+        % Lower circles: flow leaves towards -x, loops down/right, returns from +x (Counter-clockwise)
+        \draw[streamline] (0,0) arc (90:450:\r);
+    }
+
+    % Equation label (Stream function)
+    \node[secondary] at (1.8, 2.2) {$\Psi = -\dfrac{H\sin\theta}{r}$};
+\end{tikzpicture}
+\caption{Doublet streamlines forming circular loops tangent to the $x$-axis at the origin.}
+\label{fig:doublet_streamlines}
+\end{figure}
+
+\newpage
+\subsection{6.7.2 Superpositions of Basic Solutions}
+
+\subsubsection{Source in a Uniform Flow: The Rankine Half-Body}
+
+By combining a uniform flow parallel to the $x$-axis and a line source located at the origin, we construct the flow field around a semi-infinite body known as a Rankine half-body.
+
+\begin{eqbox}{Rankine Half-Body Potentials}
+\begin{align*}
+\Psi &= \Psi_{\text{UF}} + \Psi_{\text{Source}} = U_0 r \sin\theta + \frac{m}{2\pi}\theta \\
+\Phi &= \Phi_{\text{UF}} + \Phi_{\text{Source}} = U_0 r \cos\theta + \frac{m}{2\pi}\ln(r)
+\end{align*}
+\end{eqbox}
+
+The velocity components are:
+$$v_r = \frac{1}{r}\frac{\partial \Psi}{\partial \theta} = U_0 \cos\theta + \frac{m}{2\pi r}$$
+$$v_\theta = -\frac{\partial \Psi}{\partial r} = -U_0 \sin\theta$$
+
+\paragraph{Finding the Stagnation Point}
+To find the stagnation point, we set both velocity components to zero:
+$$v_\theta = -U_0 \sin\theta = 0 \implies \theta = \pi \quad \text{(upstream on the negative } x\text{-axis)}$$
+$$v_r\big|_{(r_{sp}, \pi)} = -U_0 + \frac{m}{2\pi r_{sp}} = 0 \implies r_{sp} = \frac{m}{2\pi U_0}$$
+
+Thus, the stagnation point is located at polar coordinates $(r, \theta) = \left( \frac{m}{2\pi U_0}, \pi \right)$, which corresponds to Cartesian coordinates $(x, y) = \left(-\frac{m}{2\pi U_0}, 0 \right)$.
+
+\paragraph{The Stagnation Streamline and Body Shape}
+Evaluating the stream function $\Psi$ at the stagnation point yields:
+$$\Psi_{\text{stagnation}} = \Psi\left(\frac{m}{2\pi U_0}, \pi\right) = U_0 \left(\frac{m}{2\pi U_0}\right) \sin(\pi) + \frac{m}{2\pi}\pi = \frac{m}{2}$$
+
+The equation of the dividing stagnation streamline $\Psi = \frac{m}{2}$ is given by:
+$$U_0 r \sin\theta + \frac{m}{2\pi}\theta = \frac{m}{2} \implies r = \frac{m}{2\pi U_0} \frac{\pi - \theta}{\sin\theta}$$
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.1]
+    % Streamline style with mathematically tangent arrows
+    \tikzset{
+        streamline/.style={
+            secondary,
+            thick,
+            decoration={
+                markings,
+                mark=at position 0.4 with {\arrow{Stealth}},
+                mark=at position 0.85 with {\arrow{Stealth}}
+            },
+            postaction={decorate}
+        }
+    }
+
+    % Clip to keep asymptotes from stretching to infinity
+    \clip (-3.5, -4.2) rectangle (6.5, 4.5);
+
+    % Axes
+    \draw[-Stealth, gray] (-3,0) -- (6,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-4) -- (0,4) node[above] {$y$};
+
+    % Exact half-body boundary (Parametric plotting with a=1) using the internal 'pi' constant
+    \filldraw[themebg!80, draw=primary, ultra thick]
+        (6.5, 3.14159) -- 
+        plot[domain=5:179, samples=100] ({ pi * (1 - \x/180) / tan(\x) }, { pi * (1 - \x/180) }) 
+        -- (-1, 0) -- 
+        plot[domain=179:5, samples=100] ({ pi * (1 - \x/180) / tan(\x) }, { -pi * (1 - \x/180) }) 
+        -- (6.5, -3.14159) -- cycle;
+
+    % Key Points
+    \node at (-1,0) [circle, fill=accent, inner sep=2pt] {};
+    \node at (-1.3, -0.3) [accent, font=\bfseries] {$x_{\text{sp}}$};
+
+    \node at (0,0) [circle, fill=primary, inner sep=2pt] {};
+    \node at (0.3, -0.3) [primary] {$O$};
+
+    % Exact external streamlines (Psi = 1.3 * m/2 and 1.6 * m/2)
+    \draw[streamline] plot[domain=15:175, samples=80] ({ (1.3*pi - pi * \x/180)/tan(\x) }, { 1.3*pi - pi * \x/180 });
+    \draw[streamline] plot[domain=15:175, samples=80] ({ (1.3*pi - pi * \x/180)/tan(\x) }, { -(1.3*pi - pi * \x/180) });
+    
+    \draw[streamline] plot[domain=15:175, samples=80] ({ (1.6*pi - pi * \x/180)/tan(\x) }, { 1.6*pi - pi * \x/180 });
+    \draw[streamline] plot[domain=15:175, samples=80] ({ (1.6*pi - pi * \x/180)/tan(\x) }, { -(1.6*pi - pi * \x/180) });
+
+    % Annotations
+    \node[primary, fill=themebg!80, inner sep=2pt] at (2.5, 1.5) [font=\small] {Half-Body ($\Psi = \frac{m}{2}$)};
+    \node[secondary] at (-2.8, 2.8) {$U_0$};
+    
+    % Exact geometric dimension line from +pi to -pi
+    \draw[<->, >=stealth, thick, gray] (5.5, -3.14159) -- (5.5, 3.14159) node[midway, fill=white, font=\small] {Width $= \frac{m}{U_0}$};
+\end{tikzpicture}
+\caption{Potential flow streamlines around a Rankine half-body.}
+
+\end{figure}
+
+
+Analyzing the key asymptotic dimensions of this body geometry:
+\begin{itemize}
+    \item \textbf{At $\theta = \frac{\pi}{2}$ (directly above the source):}
+    $$r_{\theta=\pi/2} = \frac{m}{2\pi U_0} \frac{\pi - \pi/2}{\sin(\pi/2)} = \frac{m}{4 U_0}$$
+    Thus, the half-width $y$ at this position is $y = r \sin(\pi/2) = \frac{m}{4 U_0}$.
+    \item \textbf{As $\theta \to 0$ (far downstream):}
+    $$y_\infty = \lim_{\theta \to 0^+} (r \sin\theta) = \lim_{\theta \to 0^+} \left( \frac{m(\pi - \theta)}{2\pi U_0} \right) = \frac{m}{2 U_0}$$
+    Thus, the total asymptotic height of the half-body is $2 y_\infty = \frac{m}{U_0}$.
+\end{itemize}
+
+\newpage
+\begin{exbox}[Rankine Half-Body Wind Tunnel Analysis]
+\textbf{Problem Statement:} \\
+A model representing a bridge pier is designed as a Rankine half-body. The wind tunnel air speed is $U_0 = 64 \text{ km/h}$. The total asymptotic width of the half-body downstream is $2 y_\infty = 60 \text{ m}$.
+\begin{enumerate}
+    \item Compute the source strength $m$ required to model this flow.
+    \item Calculate the wind velocity magnitude at the top vertex point of the body where $\theta = \pi/2$.
+    \item Find the static pressure change between the free-stream flow and this vertex point.
+\end{enumerate}
+
+\textbf{Solution:}
+\begin{enumerate}
+    \item First, we convert the wind velocity to SI units:
+    $$U_0 = 64 \text{ km/h} = \frac{64 \times 1000}{3600} \text{ m/s} \approx 17.78 \text{ m/s}$$
+    Given the total asymptotic width is $2y_\infty = 60 \text{ m}$, the half-width is $y_\infty = 30 \text{ m}$. Using the asymptotic width relation:
+    $$y_\infty = \frac{m}{2 U_0} \implies m = 2 U_0 y_\infty = 2 \times 17.78 \text{ m/s} \times 30 \text{ m} \approx 1066.7 \text{ m}^2/\text{s}$$
+
+    \item At $\theta = \pi/2$, the radial coordinate along the surface of the body is:
+    $$r = \frac{m}{4 U_0} = \frac{1066.7}{4 \times 17.78} = 15 \text{ m}$$
+    We evaluate the velocity components at $(r, \theta) = \left( 15 \text{ m}, \pi/2 \right)$:
+    $$v_r = U_0 \cos(\pi/2) + \frac{m}{2\pi r} = 0 + \frac{1066.7}{2 \pi \times 15} = \frac{2 U_0}{\pi} \approx 11.32 \text{ m/s}$$
+    $$v_\theta = -U_0 \sin(\pi/2) = -U_0 \approx -17.78 \text{ m/s}$$
+    The total velocity magnitude squared is:
+    $$V^2 = v_r^2 + v_\theta^2 = \left( \frac{2 U_0}{\pi} \right)^2 + (-U_0)^2 = U_0^2 \left( 1 + \frac{4}{\pi^2} \right)$$
+    Taking the square root:
+    $$V = U_0 \sqrt{1 + \frac{4}{\pi^2}} \approx 17.78 \times 1.1854 \approx 21.08 \text{ m/s} \approx 76 \text{ km/h}$$
+
+    \item Using Bernoulli's equation, assuming horizontal flow (negligible gravity difference):
+    $$p_\infty + \frac{1}{2}\rho U_0^2 = p_{\text{vertex}} + \frac{1}{2}\rho V^2$$
+    $$p_{\text{vertex}} - p_\infty = \frac{1}{2}\rho \left( U_0^2 - V^2 \right) = \frac{1}{2}\rho U_0^2 \left[ 1 - \left(1 + \frac{4}{\pi^2}\right) \right] = -\frac{2\rho U_0^2}{\pi^2}$$
+    Taking standard air density $\rho \approx 1.2 \text{ kg/m}^3$:
+    $$\Delta p = p_{\text{vertex}} - p_\infty = -\frac{2 \times 1.2 \times (17.78)^2}{\pi^2} \approx -76.8 \text{ Pa}$$
+    There is a drop in static pressure of approximately $76.8 \text{ Pa}$ due to flow acceleration.
+\end{enumerate}
+\end{exbox}
+
+\begin{notebox}[Rankine Ovals]
+By superimposing a uniform flow, a line source ($+m$), and a line sink ($-m$) of equal strength separated by a distance $2a$ along the $x$-axis, we generate closed oval-shaped bodies known as \textbf{Rankine Ovals}.
+\end{notebox}
+
+\subsubsection{Flow Around a Circular Cylinder (Uniform Flow + Doublet)}
+
+Superimposing a uniform flow and a doublet at the origin creates the flow pattern around a solid circular cylinder.
+
+\begin{eqbox}{Cylinder Flow Potentials}
+\begin{align*}
+\Psi &= U_0 \left( 1 - \frac{H}{U_0 r^2} \right) r \sin\theta \\
+\Phi &= U_0 \left( 1 + \frac{H}{U_0 r^2} \right) r \cos\theta
+\end{align*}
+\end{eqbox}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    scale=1.2,
+    % Mathematically define the exact streamline radius function (a = 1.2, so 4*a^2 = 5.76)
+    declare function={
+        stream_r(\theta,\c) = 0.5 * ( (\c / sin(\theta)) + sqrt((\c / sin(\theta))^2 + 5.76) );
+    }
+]
+    % Unified decoration style mapping arrows along the direction of construction
+    \tikzset{
+        flowarrow/.style={
+            decoration={
+                markings,
+                mark=at position 0.25 with {\arrow{Stealth}},
+                mark=at position 0.75 with {\arrow{Stealth}}
+            },
+            postaction={decorate}
+        }
+    }
+
+    % Clip window boundary
+    \clip (-4.2, -2.6) rectangle (4.2, 2.6);
+
+    % Axes
+    \draw[-Stealth, gray] (-4,0) -- (4,0) node[right] {$x$};
+    \draw[-Stealth, gray] (0,-2.5) -- (0,2.5) node[above] {$y$};
+
+    % FIXED: Removed spaces from list and isolated only the color token to avoid pgfkeys crashes
+    % Format: \h (stream constant) / \tstart / \tend / \col (color name only)
+    \foreach \h/\tstart/\tend/\col in {
+        0.1/178.7/1.3/blue,
+        0.4/174.9/5.1/blue,
+        0.8/169.9/10.1/blue,
+        1.3/163.8/16.2/blue,
+        1.9/157.1/22.9/blue%
+    } {
+        % Upper Half-Plane Streamlines (Left-to-Right flow)
+        \draw[\col, thick, flowarrow] plot[domain=\tstart:\tend, samples=120] 
+            ({stream_r(\x,\h)*cos(\x)}, {stream_r(\x,\h)*sin(\x)});
+            
+        % Lower Half-Plane Streamlines (Left-to-Right flow)
+        \draw[\col, thick, flowarrow] plot[domain=\tstart:\tend, samples=120] 
+            ({stream_r(\x,\h)*cos(\x)}, {-stream_r(\x,\h)*sin(\x)});
+    }
+
+    % Cylinder body (r = a = 1.2)
+    \fill[themebg!90, draw=black!50, ultra thick] (0,0) circle (1.2);
+    \node at (0,0) [primary, font=\bfseries] {$r = a$};
+
+    % Stagnation Points exactly at (-a, 0) and (+a, 0)
+    \node at (-1.2,0) [circle, fill=accent, inner sep=2pt] {};
+    \node at (1.2,0) [circle, fill=accent, inner sep=2pt] {};
+    \node at (0, 0.4) [accent, font=\small] {Stagnation};
+
+\end{tikzpicture}
+\label{fig:cylinder_flow}
+\end{figure}
+
+The stream function $\Psi = 0$ must represent the boundary of a solid cylinder of radius $r = a$. Setting $\Psi = 0$ at $r = a$:
+$$U_0 \left( 1 - \frac{H}{U_0 a^2} \right) a \sin\theta = 0 \implies H = U_0 a^2$$
+
+Substituting the doublet strength $H = U_0 a^2$ back into the potentials yields:
+\begin{eqbox}{Final Cylinder Potentials}
+\begin{align*}
+\Psi &= U_0 \left( 1 - \frac{a^2}{r^2} \right) r \sin\theta \\
+\Phi &= U_0 \left( 1 + \frac{a^2}{r^2} \right) r \cos\theta
+\end{align*}
+\end{eqbox}
+
+The velocity components are:
+$$v_r = \frac{\partial \Phi}{\partial r} = U_0 \left( 1 - \frac{a^2}{r^2} \right) \cos\theta$$
+$$v_\theta = \frac{1}{r} \frac{\partial \Phi}{\partial \theta} = -U_0 \left( 1 + \frac{a^2}{r^2} \right) \sin\theta$$
+
+\paragraph{On the Surface of the Cylinder ($r = a$)}
+Evaluating the velocities on the cylinder boundary:
+$$v_r\big|_{r=a} = 0$$
+$$v_\theta\big|_{r=a} = -2 U_0 \sin\theta$$
+
+\begin{itemize}
+    \item The radial velocity is zero, satisfying the solid wall boundary condition.
+    \item Stagnation points occur where $v_\theta = 0 \implies \theta = 0$ and $\theta = \pi$.
+    \item The maximum velocity magnitude is $|v_\theta|_{\text{max}} = 2 U_0$, occurring at the top and bottom of the cylinder ($\theta = \pi/2$ and $\theta = 3\pi/2$).
+\end{itemize}
+
+\paragraph{Pressure Distribution and the Pressure Coefficient}
+
+Applying Bernoulli's equation between the upstream free-stream ($p_\infty$, velocity $U_0$) and a point on the surface of the cylinder ($p_s$, velocity $v_\theta = -2 U_0 \sin\theta$):
+$$p_\infty + \frac{1}{2}\rho U_0^2 = p_s + \frac{1}{2}\rho v_\theta^2$$
+$$p_s = p_\infty + \frac{1}{2}\rho U_0^2 \left( 1 - \frac{v_\theta^2}{U_0^2} \right) = p_\infty + \frac{1}{2}\rho U_0^2 \left( 1 - 4 \sin^2\theta \right)$$
+
+We define the dimensionless pressure coefficient, $C_p$:
+\begin{eqbox}{Surface Pressure Coefficient}
+$$C_p = \frac{p_s - p_\infty}{\frac{1}{2}\rho U_0^2} = 1 - 4 \sin^2\theta$$
+\end{eqbox}
+
+Let us analyze the key coordinates of this pressure distribution:
+\begin{itemize}
+    \item At stagnation points ($\theta = 0, \pi$): $C_p = 1$ (maximum pressure).
+    \item At the sides ($\theta = \pi/2, 3\pi/2$): $C_p = -3$ (minimum pressure).
+    \item Zero-crossing points ($C_p = 0 \implies \sin\theta = \pm 1/2$): $\theta = \pm 30^\circ, \pm 150^\circ$.
+\end{itemize}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=1.4]
+    \draw[very thin, gray!30] (0,-3.2) grid (6.5, 1.5);
+
+    \draw[-Stealth, thick] (-0.2,0) -- (6.8,0) node[right] {$\theta$ (rad)};
+    \draw[-Stealth, thick] (0,-3.5) -- (0,1.5) node[above] {$C_p = \dfrac{p_s - p_\infty}{\frac{1}{2}\rho U_0^2}$};
+
+    \draw (0,0.1) -- (0,-0.1) node[below] {$0$};
+    \draw (1.57,0.1) -- (1.57,-0.1) node[below=2pt] {$\pi/2$};
+    \draw (3.14,0.1) -- (3.14,-0.1) node[below] {$\pi$};
+    \draw (4.71,0.1) -- (4.71,-0.1) node[below=2pt] {$3\pi/2$};
+    \draw (6.28,0.1) -- (6.28,-0.1) node[below] {$2\pi$};
+
+    \draw (0.1,1) -- (-0.1,1) node[left] {$1$};
+    \draw (0.1,0) -- (-0.1,0);
+    \draw (0.1,-3) -- (-0.1,-3) node[left] {$-3$};
+
+    \draw[ultra thick, primary, domain=0:6.28, samples=120]
+        plot (\x, {1 - 4*(sin(\x r))^2});
+
+    \node at (0,1) [circle, fill=accent, inner sep=1.5pt] {};
+    \node at (1.57,-3) [circle, fill=accent, inner sep=1.5pt] {};
+    \node at (3.14,1) [circle, fill=accent, inner sep=1.5pt] {};
+    \node at (4.71,-3) [circle, fill=accent, inner sep=1.5pt] {};
+    \node at (6.28,1) [circle, fill=accent, inner sep=1.5pt] {};
+\end{tikzpicture}
+\caption{Dimensionless pressure coefficient distribution $C_p$ along the cylinder boundary.}
+\label{fig:pressure_coefficient}
+\end{figure}
+
+\subsection{6.7.3 Aerodynamic Forces: D'Alembert's Paradox}
+
+The net aerodynamic forces per unit depth acting on the cylinder are calculated by integrating the surface pressure distribution. Let $a$ be the radius of the cylinder.
+
+\subsubsection{Lift Force (Vertical Component)}
+$$F_L = -\int_{0}^{2\pi} p_s \sin\theta \, a \, d\theta$$
+Substituting $p_s(\theta) = p_\infty + \frac{1}{2}\rho U_0^2(1 - 4\sin^2\theta)$:
+$$F_L = -a \int_{0}^{2\pi} \left[ p_\infty + \frac{1}{2}\rho U_0^2(1 - 4\sin^2\theta) \right] \sin\theta \, d\theta$$
+Due to top-bottom symmetry, the integral of any odd power of $\sin\theta$ over $[0, 2\pi]$ is zero:
+$$\int_{0}^{2\pi} \sin\theta \, d\theta = 0, \quad \int_{0}^{2\pi} \sin^3\theta \, d\theta = 0 \implies F_L = 0$$
+
+\subsubsection{Drag Force (Horizontal Component)}
+$$F_D = -\int_{0}^{2\pi} p_s \cos\theta \, a \, d\theta$$
+$$F_D = -a \int_{0}^{2\pi} \left[ p_\infty + \frac{1}{2}\rho U_0^2(1 - 4\sin^2\theta) \right] \cos\theta \, d\theta$$
+Evaluating the terms:
+$$\int_{0}^{2\pi} \cos\theta \, d\theta = 0$$
+$$\int_{0}^{2\pi} \sin^2\theta \cos\theta \, d\theta = \left[ \frac{\sin^3\theta}{3} \right]_{0}^{2\pi} = 0 \implies F_D = 0$$
+
+\begin{notebox}[D'Alembert's Paradox (1752)]
+The prediction of zero drag force for a body moving through an incompressible, inviscid, and irrotational fluid is known as \textbf{D'Alembert's Paradox}.
+
+This prediction directly contradicts physical observation, where all real fluids exert a drag force. This paradox was resolved in 1904 by Ludwig Prandtl with the introduction of the \textbf{Boundary Layer Theory}. For high Reynolds number flows of fluids with small but non-zero viscosity, viscous effects are concentrated within a thin boundary layer near the solid wall. This layer experiences flow separation, leading to a low-pressure wake behind the body, which generates pressure drag.
+\end{notebox}
+
+\newpage
+\subsection{6.7.4 Expert Analysis: Can We Create Lift?}
+
+\begin{expertbox}[Generating Aerodynamic Lift via Circulation]
+Since a symmetric, non-rotating cylinder in a uniform flow yields zero lift and drag, we ask: \textit{How can we modify this system to generate lift?}
+
+We can achieve this by superimposing a \textbf{free vortex} of circulation $\Gamma$ centered at the origin onto the cylinder flow. The combined stream function becomes:
+$$\Psi = U_0 \left( 1 - \frac{a^2}{r^2} \right) r \sin\theta - \frac{\Gamma}{2\pi} \ln\left(\frac{r}{a}\right)$$
+
+On the cylinder surface $r = a$, the radial velocity remains $v_r = 0$, but the azimuthal velocity is:
+$$v_\theta\big|_{r=a} = -2 U_0 \sin\theta - \frac{\Gamma}{2\pi a}$$
+
+This asymmetry in velocity speeds up the flow on the top of the cylinder (where $\sin\theta > 0$, and the vortex velocity adds to the uniform flow) and slows it down on the bottom. According to Bernoulli's equation, this velocity difference results in lower pressure on top and higher pressure on the bottom, generating a net upward lift force.
+
+Integrating the asymmetric surface pressure:
+$$F_L = -\int_{0}^{2\pi} p_s \sin\theta \, a \, d\theta = -\rho U_0 \Gamma$$
+
+This fundamental relation is known as the \textbf{Kutta-Joukowski theorem}. It demonstrates that circulation is the physical mechanism behind the generation of lift. This principle explains the Magnus effect (the lateral force on spinning sports balls) and governs lift generation on complex aerodynamic airfoils.
+\end{expertbox}
