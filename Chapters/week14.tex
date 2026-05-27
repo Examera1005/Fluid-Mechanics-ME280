@@ -1,0 +1,521 @@
+\section{Week 14: Potential and Viscous Flows in Fluid Mechanics}
+
+\subsection{Flow Around a Rotating Cylinder (The Magnus Effect)}
+
+Building upon the ideal potential flow theory, we consider the superposition of a uniform, inviscid, irrotational flow past a cylinder of radius $a$ and a free line vortex centered at the origin. This classical model demonstrates how circulation around a body generates a lifting force.
+
+\begin{conceptbox}[Superposition of Potential Flows]
+The total flow field is modeled by superposing the stream function $\Psi$ and velocity potential $\phi$ of a uniform flow around a cylinder with those of a free vortex:
+\begin{align}
+\Psi(r, \theta) &= \Psi_{\text{cyl}} + \Psi_{\text{vortex}} = U_0 \left( r - \frac{a^2}{r} \right) \sin\theta - \frac{\Gamma}{2\pi} \ln\left(\frac{r}{a}\right) \\[1em]
+\phi(r, \theta) &= \phi_{\text{cyl}} + \phi_{\text{vortex}} = U_0 \left( r + \frac{a^2}{r} \right) \cos\theta + \frac{\Gamma}{2\pi} \theta
+\end{align}
+where:
+\begin{itemize}
+    \item $U_0$ is the uniform free-stream velocity pointing in the $+x$-direction ($\theta = 0$).
+    \item $a$ is the radius of the cylinder.
+    \item $\Gamma$ is the circulation of the free vortex (defined positive in the counter-clockwise direction).
+\end{itemize}
+\end{conceptbox}
+
+To evaluate the kinematics at the cylinder boundary ($r=a$), we calculate the radial and tangential velocity components:
+\begin{equation}
+v_r = \frac{1}{r}\frac{\partial \Psi}{\partial \theta}, \quad v_\theta = -\frac{\partial \Psi}{\partial r}
+\end{equation}
+
+Evaluating these at the cylinder surface $r=a$ yields:
+\begin{align}
+v_r\big|_{r=a} &= \left. U_0 \left( 1 - \frac{a^2}{r^2} \right) \cos\theta \right|_{r=a} = 0 \\[1em]
+v_\theta\big|_{r=a} &= -\left[ U_0 \left( 1 + \frac{a^2}{r^2} \right) \sin\theta - \frac{\Gamma}{2\pi r} \right]_{r=a} = -2U_0 \sin\theta + \frac{\Gamma}{2\pi a}
+\end{align}
+
+The stagnation points on the surface of the cylinder are found by setting $v_\theta\big|_{r=a} = 0$:
+\begin{equation}
+-2U_0 \sin\theta_{\text{sp}} + \frac{\Gamma}{2\pi a} = 0 \implies \sin\theta_{\text{sp}} = \frac{\Gamma}{4\pi U_0 a}
+\end{equation}
+
+\begin{expertbox}[Stagnation Point Behavior]
+Depending on the strength of the circulation $\Gamma$, three regimes exist for the stagnation points:
+\begin{enumerate}
+    \item \textbf{Weak Circulation ($|\Gamma| < 4\pi U_0 a$):} Two distinct stagnation points exist on the cylinder surface at angles $\theta_{\text{sp}}$ and $\pi - \theta_{\text{sp}}$. For a clockwise rotation ($\Gamma < 0$), both stagnation points are deflected into the lower half-plane ($\sin\theta_{\text{sp}} < 0$).
+    \item \textbf{Critical Circulation ($|\Gamma| = 4\pi U_0 a$):} The two stagnation points merge into a single stagnation point at the very bottom ($\theta_{\text{sp}} = -\pi/2$) or top ($\theta_{\text{sp}} = \pi/2$) of the cylinder.
+    \item \textbf{Strong Circulation ($|\Gamma| > 4\pi U_0 a$):} The stagnation point leaves the cylinder surface and moves into the fluid domain along the vertical axis of symmetry.
+\end{enumerate}
+\end{expertbox}
+
+\begin{center}
+\begin{tikzpicture}[
+    scale=1.2,
+    % Local style definition: Bypasses the need for any global preamble changes
+    threearrows/.style={
+        postaction={
+            decorate,
+            decoration={
+                markings,
+                mark=at position 0.2 with {\arrow{Stealth[scale=0.8]}},
+                mark=at position 0.5 with {\arrow{Stealth[scale=0.8]}},
+                mark=at position 0.8 with {\arrow{Stealth[scale=0.8]}}
+            }
+        }
+    }
+]
+    % Background grid
+    \draw[gray!15, thin, step=0.5] (-4,-3) grid (4,3);
+    
+    % Draw cylinder (radius a = 1.2)
+    \draw[fill=gray!5, draw=blue!70!black, line width=1.8pt] (0,0) circle (1.2);
+    
+    % Rotation arrow (Clockwise, \Gamma < 0)
+    \draw[red!70!black, line width=1.5pt, ->, >=Stealth] (0, 1.5) arc (90:-240:1.5);
+    \node[red!70!black, above right] at (0.8, 1.2) {\small $\Gamma < 0$ (Clockwise)};
+    
+    % Qualitatively correct potential streamlines with localized arrow decoration
+    \draw[blue!70!black!70, thick, threearrows] (-4, 2.5) .. controls (-1, 2.7) and (1, 2.3) .. (4, 2.1);
+    \draw[blue!70!black!70, thick, threearrows] (-4, 1.5) .. controls (-1, 2.1) and (1, 1.5) .. (4, 1.0);
+    \draw[blue!70!black!70, thick, threearrows] (-4, 0.5) .. controls (-1.5, 1.7) and (1.5, 0.9) .. (4, -0.15);
+    \draw[blue!70!black!70, thick, threearrows] (-4, -0.5) .. controls (-1.5, -0.8) and (0, -1.8) .. (1.5, -1.8) .. controls (2.5, -1.8) and (3.5, -1.5) .. (4, -1.35);
+    \draw[blue!70!black!70, thick, threearrows] (-4, -1.8) .. controls (-1, -2.1) and (1, -2.5) .. (4, -2.4);
+
+    % Lift Force Vector (pointing upwards for clockwise rotation)
+    \draw[red!70!black, line width=2.5pt, ->, >=Stealth] (0,0) -- (0, 2.3) node[above, font=\bfseries] {$\vec{F}_{\text{Lift}}$};
+    
+    % Free Stream Velocity Vector
+    \draw[green!60!black, line width=1.5pt, ->, >=Stealth] (-3.8, 0) -- (-2.5, 0) node[above] {$\vec{U}_0$};
+    
+    % Stagnation Points (SP) located on the lower surface due to clockwise rotation
+    \fill[red!70!black] (-0.6, -1.04) circle (0.08) node[below left] {\small SP$_1$};
+    \fill[red!70!black] (0.6, -1.04) circle (0.08) node[below right] {\small SP$_2$};
+\end{tikzpicture}
+\end{center}
+\small\textit{Figure 1: Streamlines and lift force for flow around a clockwise rotating cylinder (Magnus effect).}
+
+\subsection{Pressure Distribution and Force Derivation}
+
+The surface pressure $p(\theta)$ is obtained from Bernoulli's equation for steady, incompressible, irrotational flow:
+\begin{equation}
+p(\theta) + \frac{1}{2}\rho v^2\big|_{r=a} = p_\infty + \frac{1}{2}\rho U_0^2
+\end{equation}
+
+Substituting $v^2\big|_{r=a} = v_\theta^2\big|_{r=a}$, we expand the pressure field:
+\begin{equation}
+p(\theta) = p_\infty + \frac{1}{2}\rho U_0^2 - \frac{1}{2}\rho \left( -2U_0 \sin\theta + \frac{\Gamma}{2\pi a} \right)^2
+\end{equation}
+
+\begin{eqbox}{Surface Pressure Distribution}
+\label{eq:surface_pressure}
+\begin{equation}
+p(\theta) = p_\infty + \frac{1}{2}\rho U_0^2 \left( 1 - 4\sin^2\theta + \frac{2\Gamma\sin\theta}{\pi a U_0} - \frac{\Gamma^2}{4\pi^2 a^2 U_0^2} \right)
+\end{equation}
+\end{eqbox}
+
+To find the net aerodynamic forces per unit depth acting on the cylinder, we integrate the surface pressure:
+\begin{equation}
+F_x = -\int_0^{2\pi} p(\theta) \cos\theta \, a \, d\theta, \quad F_y = -\int_0^{2\pi} p(\theta) \sin\theta \, a \, d\theta
+\end{equation}
+
+\textbf{1. Drag Force ($F_x$):}
+Due to the symmetry of the pressure profile under the transformation $x \to -x$ (which corresponds to $\theta \to \pi - \theta$):
+\begin{equation}
+p(\theta) = p(\pi - \theta) \quad \text{while} \quad \cos(\pi - \theta) = -\cos\theta
+\end{equation}
+Integrating these terms yields:
+\begin{equation}
+F_x = 0 \quad \text{(D'Alembert's Paradox)}
+\end{equation}
+
+\textbf{2. Lift Force ($F_y$):}
+Evaluating the integral for the vertical force component, we observe that the only non-vanishing contribution comes from the term proportional to $\sin^2\theta$ after multiplying by $\sin\theta$:
+\begin{equation}
+F_y = -\int_0^{2\pi} \left[ \frac{1}{2}\rho U_0^2 \left( \frac{2\Gamma \sin\theta}{\pi a U_0} \right) \right] \sin\theta \, a \, d\theta
+\end{equation}
+Simplifying the constants and evaluating the standard integral $\int_0^{2\pi} \sin^2\theta \, d\theta = \pi$:
+\begin{equation}
+F_y = -\frac{\rho U_0 \Gamma}{\pi} \int_0^{2\pi} \sin^2\theta \, d\theta = -\rho U_0 \Gamma
+\end{equation}
+
+\begin{resultboxnamed}{The Kutta-Joukowski Lift Theorem}
+The lift force per unit span is perpendicular to the free-stream direction and depends uniquely on the fluid density, the free-stream velocity, and the circulation:
+\begin{equation}
+F_{\text{Lift}} = F_y = -\rho U_0 \Gamma
+\end{equation}
+\end{resultboxnamed}
+
+\subsection{Lift on an Aircraft Wing}
+
+For a 2D infinite wing operating at high Reynolds number ($Re \gg 1$), the flow outside the boundary layer is modeled as an inviscid, irrotational potential flow. 
+
+\begin{mainbox}{Potential Flow Modeling of an Airfoil}
+The general aerodynamic results for an airfoil parallel the cylinder case:
+\begin{itemize}
+    \item \textbf{Drag:} $F_{\text{Drag}} = 0$ (D'Alembert's Paradox for 2D inviscid flow).
+    \item \textbf{Lift:} $F_{\text{Lift}} = -\rho U_0 \Gamma$.
+\end{itemize}
+The circulation is calculated along any closed contour $C$ enclosing the airfoil:
+\begin{equation}
+\Gamma = \oint_{C} \vec{v} \cdot d\vec{s}
+\end{equation}
+\end{mainbox}
+
+\begin{notebox}[Generation of Circulation and the Kutta Condition]
+In an ideal inviscid fluid, any value of circulation $\Gamma$ is a valid mathematical solution. In reality, viscous effects at the sharp trailing edge of the airfoil dictate a unique circulation. The flow must leave the trailing edge smoothly without physically impossible infinite velocities. This physical requirement is known as the \textbf{Kutta Condition}, which determines the precise circulation $\Gamma$ needed to generate realistic lift.
+\end{notebox}
+
+\subsection{Viscous Flow and the Navier-Stokes Equations}
+
+When accounting for viscosity, we must transition from the Euler equations to the Navier-Stokes equations. For an incompressible Newtonian fluid, the conservation of momentum and mass are governed by:
+
+\begin{eqbox}{Incompressible Navier-Stokes Equations}
+\label{eq:navier_stokes}
+\begin{align}
+\rho \left( \frac{\partial \vec{v}}{\partial t} + \vec{v} \cdot \nabla \vec{v} \right) &= -\nabla p + \rho \vec{g} + \mu \nabla^2 \vec{v} \\[0.5em]
+\nabla \cdot \vec{v} &= 0
+\end{align}
+where $\mu$ is the dynamic viscosity and $\vec{g}$ represents the gravitational body force.
+\end{eqbox}
+
+\begin{conceptbox}[The No-Slip Boundary Condition]
+Viscosity introduces friction at solid boundaries. As a consequence, the fluid velocity must exactly match the velocity of the solid boundary:
+\begin{equation}
+\vec{v}\big|_{\text{wall}} = \vec{v}_{\text{wall}}
+\end{equation}
+This condition applies to both the normal component (no penetration) and the tangential component (no slip) of the velocity vector.
+\end{conceptbox}
+
+The presence of the non-linear advective term $\vec{v} \cdot \nabla \vec{v}$ makes the Navier-Stokes equations notoriously difficult to solve analytically. However, for specific symmetric geometries, this non-linear term vanishes identically, allowing for exact analytical solutions. 
+
+\begin{notebox}[Hydrodynamic Stability Constraint]
+While the exact mathematical solutions derived under the parallel flow assumption ($\vec{v} \cdot \nabla \vec{v} = 0$) hold true across all parameter spaces algebraically, they are only physically realized at low to moderate Reynolds numbers. High-velocity conditions subject the laminar base flow to infinitesimal 3D structural perturbations (e.g., Tollmien-Schlichting waves), triggering a transition to turbulence that invalidates the 1D simplified kinematic profile.
+\end{notebox}
+
+\subsection{Laminar Shear Flow Between Parallel Plates}
+
+Consider the steady flow of a viscous fluid between two infinite parallel plates separated by a distance of $2h$ (located at $y = -h$ and $y = h$).
+
+\begin{center}
+\begin{tikzpicture}[scale=0.8]
+    % --- 1. PLANE COUETTE FLOW ---
+    \begin{scope}[shift={(-6,0)}]
+        \draw[line width=1.2pt] (-2.5, -2) -- (2.5, -2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, -2.2) rectangle (2.5, -2);
+        \draw[line width=1.2pt] (-2.5, 2) -- (2.5, 2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, 2) rectangle (2.5, 2.2);
+        \draw[secondary, line width=1.5pt, ->, >=Stealth] (0, 2.1) -- (1.2, 2.1) node[right] {$U_0$};
+        \draw[gray!40, dashed] (-2.5, 0) -- (2.5, 0);
+        
+        % Velocity Profile
+        \draw[primary, thick] (-1, -2) -- (1, 2);
+        \foreach \y in {-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5} {
+            \pgfmathsetmacro{\u}{\y/2}
+            \draw[primary!60, ->, >=Stealth] (0, \y) -- (\u, \y);
+        }
+        \node[above, font=\bfseries\small] at (0, 2.5) {Plane Couette Flow (PCF)};
+        \node[font=\small] at (0, -2.7) {$\frac{\partial p}{\partial x} = 0$};
+    \end{scope}
+
+    % --- 2. PLANE POISEUILLE FLOW ---
+    \begin{scope}[shift={(0,0)}]
+        \draw[line width=1.2pt] (-2.5, -2) -- (2.5, -2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, -2.2) rectangle (2.5, -2);
+        \draw[line width=1.2pt] (-2.5, 2) -- (2.5, 2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, 2) rectangle (2.5, 2.2);
+        \draw[gray!40, dashed] (-2.5, 0) -- (2.5, 0);
+        
+        % Velocity Profile: u = 1.6 * (1 - y^2/4)
+        \draw[primary, thick, domain=-2:2, samples=50] plot ({1.6*(1 - \x*\x/4)}, {\x});
+        \foreach \y in {-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5} {
+            \pgfmathsetmacro{\u}{1.6*(1 - \y*\y/4)}
+            \draw[primary!60, ->, >=Stealth] (0, \y) -- (\u, \y);
+        }
+        \node[above, font=\bfseries\small] at (0, 2.5) {Plane Poiseuille Flow (PPF)};
+        \node[font=\small] at (0, -2.7) {$\frac{\partial p}{\partial x} < 0, \ U_0 = 0$};
+    \end{scope}
+
+    % --- 3. MIXED COUETTE-POISEUILLE FLOW ---
+    \begin{scope}[shift={(6,0)}]
+        \draw[line width=1.2pt] (-2.5, -2) -- (2.5, -2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, -2.2) rectangle (2.5, -2);
+        \draw[line width=1.2pt] (-2.5, 2) -- (2.5, 2);
+        \fill[pattern=north east lines, pattern color=gray!50] (-2.5, 2) rectangle (2.5, 2.2);
+        \draw[secondary, line width=1.5pt, ->, >=Stealth] (0, 2.1) -- (1.2, 2.1) node[right] {$U_0$};
+        \draw[gray!40, dashed] (-2.5, 0) -- (2.5, 0);
+        
+        % Velocity Profile: u = (y+2)/4 + 1.2*(1 - y^2/4)
+        \draw[primary, thick, domain=-2:2, samples=50] plot ({(\x+2)/4 + 1.2*(1 - \x*\x/4)}, {\x});
+        \foreach \y in {-1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5} {
+            \pgfmathsetmacro{\u}{(\y+2)/4 + 1.2*(1 - \y*\y/4)}
+            \draw[primary!60, ->, >=Stealth] (0, \y) -- (\u, \y);
+        }
+        \node[above, font=\bfseries\small] at (0, 2.5) {Mixed Flow};
+        \node[font=\small] at (0, -2.7) {$\frac{\partial p}{\partial x} < 0, \ U_0 > 0$};
+    \end{scope}
+\end{tikzpicture}
+\\ \small\textit{Figure 2: Three standard regimes of steady laminar flow between parallel plates.}
+\end{center}
+
+We assume a steady, parallel, laminar flow with the velocity vector oriented entirely in the downstream direction:
+\begin{equation}
+\vec{v}(x, y, z, t) = u(y, t) \hat{i}
+\end{equation}
+
+By applying this velocity profile to the mass conservation equation:
+\begin{equation}
+\nabla \cdot \vec{v} = \frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z} = 0 \implies \frac{\partial u}{\partial x} = 0
+\end{equation}
+which is identically satisfied since $u$ does not depend on $x$.
+
+Next, we evaluate the convective term:
+\begin{equation}
+\vec{v} \cdot \nabla \vec{v} = \left( u \frac{\partial}{\partial x} \right) u(y,t) \hat{i} = \vec{0}
+\end{equation}
+Thus, the non-linear advection term vanishes identically. 
+
+Substituting this into the components of the Navier-Stokes equations:
+\begin{align}
+x\text{-momentum:} &\quad \rho \frac{\partial u}{\partial t} = -\frac{\partial p}{\partial x} + \mu \frac{\partial^2 u}{\partial y^2} \label{eq:x_mom} \\[0.5em]
+y\text{-momentum:} &\quad 0 = -\frac{\partial p}{\partial y} - \rho g \implies p(x, y, t) = -\rho g y + f(x, t) \\[0.5em]
+z\text{-momentum:} &\quad 0 = -\frac{\partial p}{\partial z}
+\end{align}
+
+Since the left-hand side of Eq. \eqref{eq:x_mom} is independent of $x$, and $\mu \frac{\partial^2 u}{\partial y^2}$ is independent of $x$, the pressure gradient $\frac{\partial p}{\partial x}$ must be independent of $x$. Thus, we can write the integrated pressure field as:
+\begin{equation}
+p(x, y, t) = -\rho g y + \left(\frac{\partial p}{\partial x}\right) x + C
+\end{equation}
+
+This leaves the governing momentum equation as a classic one-dimensional diffusion equation:
+\begin{equation}
+\frac{\partial u}{\partial t} = \nu \frac{\partial^2 u}{\partial y^2} - \frac{1}{\rho}\frac{\partial p}{\partial x}
+\end{equation}
+where $\nu = \mu/\rho$ is the kinematic viscosity, representing the momentum diffusion coefficient.
+
+For a steady-state flow ($\frac{\partial u}{\partial t} = 0$), the governing equation simplifies to:
+\begin{equation}
+\mu \frac{d^2 u}{dy^2} = \frac{\partial p}{\partial x}
+\end{equation}
+
+Integrating twice with respect to $y$ yields:
+\begin{equation}
+u(y) = \frac{1}{2\mu} \left(\frac{\partial p}{\partial x}\right) y^2 + C_1 y + C_2
+\end{equation}
+
+Applying the boundary conditions $u(-h) = 0$ (stationary bottom plate) and $u(h) = U_0$ (top plate moving with speed $U_0$):
+\begin{align}
+u(h) &= \frac{1}{2\mu} \left(\frac{\partial p}{\partial x}\right) h^2 + C_1 h + C_2 = U_0 \\
+u(-h) &= \frac{1}{2\mu} \left(\frac{\partial p}{\partial x}\right) h^2 - C_1 h + C_2 = 0
+\end{align}
+
+Solving this linear system for the constants $C_1$ and $C_2$:
+\begin{equation}
+C_1 = \frac{U_0}{2h}, \quad C_2 = \frac{U_0}{2} - \frac{h^2}{2\mu}\left(\frac{\partial p}{\partial x}\right)
+\end{equation}
+
+\begin{eqbox}{General Velocity Profile for Mixed Plate Flow}
+\begin{equation}
+u(y) = \underbrace{\frac{U_0}{2} \left( 1 + \frac{y}{h} \right)}_{\text{Linear (Couette)}} + \underbrace{\frac{1}{2\mu} \left( \frac{\partial p}{\partial x} \right) (y^2 - h^2)}_{\text{Parabolic (Poiseuille)}}
+\end{equation}
+\end{eqbox}
+
+The volumetric flow rate per unit depth $Q$ is computed by integrating the velocity profile across the gap:
+\begin{equation}
+Q = \int_{-h}^{h} u(y) \, dy = \int_{-h}^{h} \left[ \frac{U_0}{2} \left( 1 + \frac{y}{h} \right) + \frac{1}{2\mu} \left( \frac{\partial p}{\partial x} \right) (y^2 - h^2) \right] dy
+\end{equation}
+
+Evaluating the integrals:
+\begin{align}
+\int_{-h}^{h} \frac{U_0}{2} \left( 1 + \frac{y}{h} \right) dy &= U_0 h \\[0.5em]
+\int_{-h}^{h} \frac{1}{2\mu} \left( \frac{\partial p}{\partial x} \right) (y^2 - h^2) \, dy &= \frac{1}{2\mu} \left( \frac{\partial p}{\partial x} \right) \left[ \frac{y^3}{3} - h^2 y \right]_{-h}^{h} = -\frac{2h^3}{3\mu} \left( \frac{\partial p}{\partial x} \right)
+\end{align}
+
+\begin{resultboxnamed}{Volumetric Flow Rate}
+\begin{equation}
+Q = U_0 h - \frac{2h^3}{3\mu} \left( \frac{\partial p}{\partial x} \right)
+\end{equation}
+\end{resultboxnamed}
+
+\subsection{Hagen-Poiseuille Pipe Flow}
+
+Next, we analyze steady, laminar flow through a straight pipe of circular cross-section with radius $R$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.0]
+    % Pipe Bounds
+    \def\R{1.8}
+    \def\L{6.0}
+    
+    % Draw upper wall
+    \draw[line width=1.5pt] (-\L/2, \R) -- (\L/2, \R);
+    \fill[pattern=north east lines, pattern color=gray!50] (-\L/2, \R) rectangle (\L/2, \R+0.25);
+    
+    % Draw lower wall
+    \draw[line width=1.5pt] (-\L/2, -\R) -- (\L/2, -\R);
+    \fill[pattern=north east lines, pattern color=gray!50] (-\L/2, -\R-0.25) rectangle (\L/2, -\R);
+    
+    
+    
+    % Velocity Profile: u(r) = U_max * (1 - r^2/R^2)
+    \draw[primary, thick, domain=-\R:\R, samples=50] plot ({2*(1 - \x*\x/(\R*\R))}, {\x});
+    \foreach \r in {-1.5, -1.2, -0.9, -0.6, -0.3, 0, 0.3, 0.6, 0.9, 1.2, 1.5} {
+        \pgfmathsetmacro{\u}{2*(1 - \r*\r/(\R*\R))}
+        \draw[primary!60, ->, >=Stealth] (0, \r) -- (\u, \r);
+    }
+    
+    % Labels
+    \node[right, primary] at (2.2, 0.3) {$v_z(r) = v_{\text{max}} \left[ 1 - \left(\frac{r}{R}\right)^2 \right]$};
+    \draw[<->, >=Stealth, thick] (-2, 0) -- (-2, \R) node[midway, left] {$R$};
+    \draw[thick, ->, >=Stealth] (-2, 0) -- (-2, 2.2) node[above] {$r$};
+    \draw[thick, ->, >=Stealth] (-2, 0) -- (3, 0) node[below] {$z$};
+\end{tikzpicture}
+\\ \small\textit{Figure 3: Parabolic velocity profile of Hagen-Poiseuille flow in a circular pipe.}
+\end{center}
+
+We employ cylindrical coordinates $(r, \theta, z)$ and assume an incompressible, steady, axisymmetric, parallel flow:
+\begin{equation}
+\vec{v} = v_z(r) \hat{e}_z
+\end{equation}
+
+By applying this velocity field to the cylindrical continuity equation:
+\begin{equation}
+\nabla \cdot \vec{v} = \frac{1}{r}\frac{\partial}{\partial r}(r v_r) + \frac{1}{r}\frac{\partial v_\theta}{\partial \theta} + \frac{\partial v_z}{\partial z} = 0 \implies \frac{\partial v_z}{\partial z} = 0
+\end{equation}
+which is identically satisfied. Under these assumptions, the $z$-momentum equation simplifies to:
+\begin{equation}
+0 = -\frac{\partial p}{\partial z} + \mu \left[ \frac{1}{r}\frac{d}{dr}\left( r \frac{d v_z}{dr} \right) \right]
+\end{equation}
+
+Since the pressure gradient is constant along the pipe length, we integrate the equation directly:
+\begin{equation}
+\frac{d}{dr}\left( r \frac{d v_z}{dr} \right) = \frac{r}{\mu} \left(\frac{\partial p}{\partial z}\right)
+\end{equation}
+
+Integrating once with respect to $r$:
+\begin{equation}
+r \frac{d v_z}{dr} = \frac{r^2}{2\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \implies \frac{d v_z}{dr} = \frac{r}{2\mu} \left(\frac{\partial p}{\partial z}\right) + \frac{C_1}{r}
+\end{equation}
+
+Integrating a second time yields:
+\begin{equation}
+v_z(r) = \frac{r^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \ln r + C_2
+\end{equation}
+
+To determine the integration constants, we apply physical boundary conditions:
+\begin{itemize}
+    \item \textbf{Centerline Regularity:} The velocity must remain finite at the pipe centerline ($r \to 0$). Since $\lim_{r\to0}\ln r = -\infty$, we must set:
+    \begin{equation}
+    C_1 = 0
+    \end{equation}
+    \item \textbf{No-Slip Condition at the Wall ($r=R$):} $v_z(R) = 0$
+    \begin{equation}
+    \frac{R^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_2 = 0 \implies C_2 = -\frac{R^2}{4\mu} \left(\frac{\partial p}{\partial z}\right)
+    \end{equation}
+\end{itemize}
+
+\begin{eqbox}{Hagen-Poiseuille Velocity Profile}
+\label{eq:hagen_poiseuille_profile}
+\begin{equation}
+v_z(r) = -\frac{1}{4\mu} \left(\frac{\partial p}{\partial z}\right) \left( R^2 - r^2 \right)
+\end{equation}
+\end{eqbox}
+
+The volumetric flow rate $Q$ is computed by integrating this profile across the circular cross-section:
+\begin{equation}
+Q = \int_{A} v_z \, dA = \int_0^{2\pi} \int_0^R v_z(r) \, r \, dr \, d\theta = 2\pi \int_0^R v_z(r) \, r \, dr
+\end{equation}
+
+Substituting Eq. \eqref{eq:hagen_poiseuille_profile}:
+\begin{equation}
+Q = -\frac{\pi}{2\mu} \left(\frac{\partial p}{\partial z}\right) \int_0^R (R^2 r - r^3) \, dr = -\frac{\pi}{2\mu} \left(\frac{\partial p}{\partial z}\right) \left[ \frac{R^2 r^2}{2} - \frac{r^4}{4} \right]_0^R
+\end{equation}
+
+\begin{resultboxnamed}{Hagen-Poiseuille Law}
+The volumetric flow rate is proportional to the pressure gradient and scales with the fourth power of the pipe radius:
+\begin{equation}
+Q = -\frac{\pi R^4}{8\mu} \left(\frac{\partial p}{\partial z}\right)
+\end{equation}
+\end{resultboxnamed}
+
+\subsection{Annular Flow}
+
+We extend this analysis to viscous flow through an annular channel bounded by an inner cylinder of radius $R_i$ and a coaxial outer cylinder of radius $R_o$.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Left Cross-section
+    \begin{scope}[shift={(-3,0)}]
+        \draw[fill=gray!30, draw=black, line width=1pt] (0,0) circle (1.5);
+        \draw[fill=white, draw=black, line width=1pt] (0,0) circle (0.6);
+        \fill[pattern=north east lines, pattern color=gray!60] (0,0) circle (0.6);
+        \draw[<->, >=Stealth] (0,0) -- (0.6,0) node[midway, above] {$R_i$};
+        \draw[<->, >=Stealth] (0,0) -- (0, 1.5) node[midway, left] {$R_o$};
+        \node[below] at (0, -1.6) {Cross-Section};
+    \end{scope}
+    
+    % Right Velocity Profile
+    \begin{scope}[shift={(2.5,0)}]
+        \def\Ri{0.6}
+        \def\Ro{1.8}
+        
+        % Outer Wall
+        \draw[line width=1.5pt] (-1, \Ro) -- (2.5, \Ro);
+        \fill[pattern=north east lines, pattern color=gray!50] (-1, \Ro) rectangle (2.5, \Ro+0.2);
+        
+        % Inner Wall
+        \draw[line width=1.5pt] (-1, \Ri) -- (2.5, \Ri);
+        \fill[pattern=north east lines, pattern color=gray!50] (-1, \Ri-0.2) rectangle (2.5, \Ri);
+        
+        % Plotting using exact physical equation derived below
+        \draw[primary, thick, domain=\Ri:\Ro, samples=100] plot ({ 3.5 * (3.24 - \x*\x - 2.6215 * ln(1.8/\x)) }, {\x});
+        
+        \foreach \r in {0.7, 0.9, 1.1, 1.3, 1.5, 1.7} {
+            \pgfmathsetmacro{\u}{3.5 * (3.24 - \r*\r - 2.6215 * ln(1.8/\r))}
+            \draw[primary!60, ->, >=Stealth] (0, \r) -- (\u, \r);
+        }
+        
+        % Axes
+        \draw[thick, ->, >=Stealth] (0, 0) -- (0, 2.2) node[above] {$r$};
+        \draw[thick, ->, >=Stealth] (0, 0) -- (3, 0) node[right] {$z$};
+        
+        \node[right, primary] at (1.2, 1.2) {\small $v_z(r)$};
+        \node[below] at (0.7, -0.25) {Velocity Profile};
+    \end{scope}
+\end{tikzpicture}
+\\ \small\textit{Figure 4: Geometry and velocity profile for laminar flow in a coaxial annulus.}
+\end{center}
+
+The general solution of the $z$-momentum equation remains:
+\begin{equation}
+v_z(r) = \frac{r^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \ln r + C_2
+\end{equation}
+
+However, because the domain does not include the origin $r=0$, the logarithmic term is physically valid and $C_1 \neq 0$. We apply the no-slip condition at both solid boundaries:
+\begin{align}
+v_z(R_i) &= 0 \implies \frac{R_i^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \ln R_i + C_2 = 0 \label{eq:ann_bc1} \\
+v_z(R_o) &= 0 \implies \frac{R_o^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \ln R_o + C_2 = 0 \label{eq:ann_bc2}
+\end{align}
+
+Subtracting Eq. \eqref{eq:ann_bc1} from Eq. \eqref{eq:ann_bc2} to solve for $C_1$:
+\begin{equation}
+\frac{R_o^2 - R_i^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + C_1 \ln\left(\frac{R_o}{R_i}\right) = 0 \implies C_1 = -\frac{1}{4\mu} \left(\frac{\partial p}{\partial z}\right) \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)}
+\end{equation}
+
+Substituting $C_1$ back into Eq. \eqref{eq:ann_bc2} to solve for $C_2$:
+\begin{equation}
+C_2 = -\frac{R_o^2}{4\mu} \left(\frac{\partial p}{\partial z}\right) + \frac{1}{4\mu} \left(\frac{\partial p}{\partial z}\right) \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)} \ln R_o
+\end{equation}
+
+Recombining terms into the general velocity equation:
+\begin{equation}
+v_z(r) = \frac{1}{4\mu} \left(\frac{\partial p}{\partial z}\right) \left[ r^2 - R_o^2 - \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)} \ln r + \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)} \ln R_o \right]
+\end{equation}
+
+\begin{eqbox}{Velocity Profile for Annular Flow}
+\begin{equation}
+v_z(r) = \frac{1}{4\mu} \left(-\frac{\partial p}{\partial z}\right) \left[ R_o^2 - r^2 - \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)} \ln\left(\frac{R_o}{r}\right) \right]
+\end{equation}
+\end{eqbox}
+
+\begin{expertbox}[Asymmetric Profile Analysis]
+Unlike simple pipe flow, the velocity profile in an annulus is asymmetric. The position of maximum velocity $r_{\text{max}}$ is shifted towards the inner wall due to the higher viscous shear area near the core. Setting $\frac{d v_z}{dr} = 0$:
+\begin{equation}
+-2r_{\text{max}} + \frac{R_o^2 - R_i^2}{\ln(R_o/R_i)} \frac{1}{r_{\text{max}}} = 0 \implies r_{\text{max}} = \sqrt{\frac{R_o^2 - R_i^2}{2 \ln(R_o/R_i)}}
+\end{equation}
+This mathematically confirms that the location of peak velocity is closer to the inner boundary than the arithmetic mean radius of the channel.
+\end{expertbox}
