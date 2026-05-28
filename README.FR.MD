@@ -1,13 +1,4 @@
-# EPFL ME-280: Fluid Mechanics — Complete Course Notes
-## Mechanical Engineering BSc (Spring 2026)
-
-This repository contains the complete, mathematically rigorous LaTeX transcription and vector schematics for the **ME-280 Fluid Mechanics** course taught by **Prof. Tobias Schneider** at the École Polytechnique Fédérale de Lausanne (EPFL).
-
-The source document compiles comprehensive handwritten lecture notes into a professional, publication-quality LaTeX document utilizing advanced differential operators, continuum mechanics formulations, and custom vector diagrams.
-
----
-
-## ���� Version Française
+## 🇫🇷 Version Française
 
 ### Description du Projet
 Ce dépôt héberge la transcription complète et rigoureuse en LaTeX ainsi que les schémas associés pour le cours de **Mécanique des Fluides (ME-280)** dispensé par le **Prof. Tobias Schneider** à l'EPFL (Section de Génie Mécanique).
@@ -45,4 +36,3 @@ Le document est structuré de manière linéaire suivant le formalisme rigoureux
 
 6. **Théorie de la Couche Limite (Introduction) :**
    * Approximation de Prandtl, équations de la couche limite sur plaque plane, épaisseur de déplacement $\delta^*$ et de quantité de mouvement $\theta$.
-
