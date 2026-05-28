@@ -43,16 +43,4 @@ The document mirrors the rigorous academic breakdown of the EPFL syllabus:
 
 ## 🛠️ Compilation & Repository Structure / Structure du Dépôt
 
-### Repository Mapping / Cartographie du Dépôt
-```text
-.
-├── Chapters/                  # Modular directory containing partitioned course chapters/weeks
-├── Cover_Fluid_Mecanics.png   # Rendered visual cover for the documentation compiling notes
-├── Fluid_Mechanics_ME280.pdf  # Compiled, print-ready production PDF document
-├── Pressure_VS_Angle.png      # Technical schematic mapping pressure distribution characteristics
-├── README.md                  # Comprehensive bilingual project documentation (this file)
-├── Stagnation_Points:A,B.png  # Analytical visual mapping stagnation fields and flow lines (A, B)
-├── Stagnation_Points:C,D.png  # Analytical visual mapping stagnation fields and flow lines (C, D)
-├── main.tex                   # Master LaTeX configuration file compiling layout definitions
-├── prembule.tex               # TeX preamble containing custom operator macros & packages
-└── warning.tex                # Formal notice/disclaimer document embedded into final build
+This document is an independent student study resource compiled from lectures delivered at EPFL. It is not officially endorsed, certified, or approved by Prof. Tobias Schneider or the École Polytechnique Fédérale de Lausanne.
