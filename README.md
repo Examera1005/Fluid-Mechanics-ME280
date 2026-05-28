@@ -1,6 +1,4 @@
----
-
-## ���� English Version
+## 🇬🇧 English Version
 
 ### Project Overview
 This repository hosts the complete, mathematically comprehensive LaTeX transcription and accompanying schematics for the **Fluid Mechanics (ME-280)** course lectured by **Prof. Tobias Schneider** at EPFL (Mechanical Engineering section).
@@ -43,7 +41,7 @@ The document mirrors the rigorous academic breakdown of the EPFL syllabus:
 
 ---
 
-## ��️ Compilation & Repository Structure / Structure du Dépôt
+## 🛠️ Compilation & Repository Structure / Structure du Dépôt
 
 ### Repository Mapping / Cartographie du Dépôt
 ```text
