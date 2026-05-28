@@ -1,4 +1,5 @@
 ## 🇫🇷 Version Française
+> 💡 **Vous cherchez la version anglaise ?** Consultez l' [🇬🇧 English Version](README.md).
 
 ### Description du Projet
 Ce dépôt héberge la transcription complète et rigoureuse en LaTeX ainsi que les schémas associés pour le cours de **Mécanique des Fluides (ME-280)** dispensé par le **Prof. Tobias Schneider** à l'EPFL (Section de Génie Mécanique).
