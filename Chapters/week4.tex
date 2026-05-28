@@ -1,111 +1,188 @@
-% ==========================================
-% CHAPTER 4: FLUID KINEMATICS
-% ==========================================
-\section{Fluid Kinematics}
+% ======================================================================
+% Week 4: FLUID DYNAMICS APPLICATIONS
+% ======================================================================
+\section{Week 4 - Applications of Bernoulli \& Conservation Laws}
 
-\subsection{Visualizing Flow Patterns}
+\subsection{Rectilinear (or Nearly) Streamlines}
 
-Fluid kinematics describes motion without yet invoking conservation laws. The three main geometric ways to represent a flow are streamlines, pathlines, and streaklines.
-
-\begin{enumerate}
-    \item \textbf{Streamlines:} Curves tangent to the instantaneous velocity field at a given time.
-    \begin{equation}
-        \frac{dy}{dx} = \frac{v}{u}, \qquad 
-        \frac{dz}{dx} = \frac{w}{u}, \qquad 
-        \frac{dz}{dy} = \frac{w}{v}
-        \quad \Longrightarrow \quad
-        \frac{d\vec{r}_{SL}}{ds} \times \vec{V} = \vec{0}
-    \end{equation}
-
-    \item \textbf{Pathlines:} The actual trajectory followed by one specific fluid particle through time.
-    \begin{equation}
-        \frac{d\vec{r}_p}{dt} = \vec{V}(\vec{r}_p(t), t)
-        \qquad \Longrightarrow \qquad
-        \frac{dx}{dt} = u, \ \frac{dy}{dt} = v, \ \frac{dz}{dt} = w
-    \end{equation}
-
-    \item \textbf{Streaklines:} The locus of all particles that have passed through a given point $\vec{r}_0$ at previous times $\tau < t$.
-\end{enumerate}
-
-\textit{Key Result:} In steady flow, where $\partial \vec{V}/\partial t = 0$, streamlines, pathlines, and streaklines coincide.
-
-\subsubsection{Example: The Sprinkler (Unsteady Case)}
-
-Consider the unsteady velocity field
+Consider a fluid element moving along a rectilinear streamline. If we neglect dynamic pressure variations transverse to the flow, we recover the hydrostatic pressure distribution:
+\begin{equation*}
+    p_{1} + \rho g z_{1} = p_{2} + \rho g z_{2}
+\end{equation*}
 \begin{equation}
-    \vec{V} = U_0 \sin\!\left[\omega\!\left(t - \frac{y}{v_0}\right)\right]\hat{i} + v_0 \hat{j}
+    p_{2} - p_{1} = -\rho g (z_{2} - z_{1}) = -\rho g h \implies p_{1} = p_{2} + \rho g h
 \end{equation}
+
+\subsection{Example: Pitot-Tube (Speed Sensor)}
+
+A Pitot tube is used to measure the local velocity of the fluid by comparing static and stagnation pressures.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.2]
+    % Flow field
+    \draw[->, thick, primary] (-2, 1) -- (-0.5, 1);
+    \draw[->, thick, primary] (-2, 0.5) -- (-0.5, 0.5);
+    \draw[->, thick, primary] (-2, 0) -- (-0.5, 0) node[midway, above] {$v$};
+    
+    % Pitot tube structure
+    \draw[thick, fill=gray!20] (0, 0.2) -- (3, 0.2) -- (3, 2) -- (3.4, 2) -- (3.4, -0.2) -- (0, -0.2) arc (-90:90:0.2);
+    \filldraw[black] (0,0) circle (1.5pt) node[left] {$2$};
+    \filldraw[black] (-1.5,0) circle (1.5pt) node[below] {$1$};
+    
+    % Streamline
+    \draw[thick, dashed, accent] (-3, 0) -- (0, 0) node[midway, below] {Streamline};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Task:} Determine the free-stream velocity $v$.
+Along the streamline connecting point 1 (free stream) and point 2 (stagnation point), we apply Bernoulli's equation, neglecting gravity ($z_1 \approx z_2$):
+\[
+p_{1} + \frac{1}{2}\rho v_{1}^{2} = p_{2} + \frac{1}{2}\rho v_{2}^{2}
+\]
+Since point 2 is a stagnation point, $v_2 = 0$. The free stream velocity is $v_1 = v$.
+\[
+p_{1} + \frac{1}{2}\rho v^{2} = p_{2} + 0 \implies p_{2} - p_{1} = \frac{1}{2}\rho v^{2}
+\]
+
+\begin{resultboxnamed}{Velocity from Pitot Tube}
+\[
+v = \sqrt{\frac{2(p_{2} - p_{1})}{\rho}}
+\]
+\end{resultboxnamed}
+
+\subsection{Mass Conservation}
+
+Consider a stream tube with varying cross-sectional area.
+\begin{center}
+\begin{tikzpicture}
+    % Stream tube
+    \draw[thick] (0, 1) .. controls (2, 0.5) and (4, 1.5) .. (6, 2);
+    \draw[thick] (0, -1) .. controls (2, -0.5) and (4, -1.5) .. (6, -2);
+    
+    % Area 1
+    \draw[thick, fill=primary!20] (0,0) ellipse (0.3 and 1);
+    \node at (0, 1.3) {$A_1$};
+    \draw[->, thick, accent] (-1, 0) -- (0, 0) node[above left] {$v_1, \rho_1$};
+    
+    % Area 2
+    \draw[thick, fill=primary!20] (6,0) ellipse (0.5 and 2);
+    \node at (6, 2.3) {$A_2$};
+    \draw[->, thick, accent] (6, 0) -- (7.5, 0) node[above right] {$v_2, \rho_2$};
+\end{tikzpicture}
+\end{center}
 
 \begin{itemize}
-    \item \textbf{Streamlines at $t=0$:}  
-    \begin{equation}
-        x(y) = \frac{U_0}{\omega}\left(\cos\!\left(\frac{\omega y}{v_0}\right) - 1\right)
-    \end{equation}
-    so the streamline shape is sinusoidal.
-
-    \item \textbf{Pathline for a particle starting at the origin at $t=0$:}  
-    \begin{equation}
-        x(t)=0, \qquad y(t)=v_0 t
-    \end{equation}
-    which is a straight vertical line.
+    \item \textbf{Mass flow rate} ($\dot{m}$): $[\text{kg/s}]$. $\dot{m} = \rho v A$
+    \item \textbf{Volume flow rate} ($\dot{V}$): $[\text{m}^3/\text{s}]$. $\dot{V} = v A$
 \end{itemize}
 
-This example shows that in unsteady flow, streamlines and pathlines are generally different objects.
+For steady flow through a stream tube, mass is conserved:
+\[
+\rho_{1}v_{1}A_{1} = \rho_{2}v_{2}A_{2}
+\]
+Assuming steady and \textbf{incompressible} flow ($\rho_1 = \rho_2$):
+\begin{eqbox}{Volume Conservation}
+\[
+v_{1}A_{1} = v_{2}A_{2}
+\]
+\end{eqbox}
 
-\subsection{Acceleration Field}
+\subsection{Example: Venturi Meter}
 
-The acceleration of a fluid particle is the total derivative of the velocity field:
-\begin{equation}
-    \vec{a} = \frac{D\vec{V}}{Dt}
-    = \underbrace{\frac{\partial \vec{V}}{\partial t}}_{\text{Local acceleration}}
-    + \underbrace{(\vec{V}\cdot\vec{\nabla})\vec{V}}_{\text{Convective acceleration}}
-\end{equation}
+A Venturi meter measures the flow rate in a pipe by constricting the flow and measuring the pressure drop.
 
-\begin{mainbox}{Technical Analysis: The Material Derivative}
-The operator $\frac{D}{Dt}$ is fundamental in fluid mechanics because it gives the rate of change experienced by a moving fluid particle. The convective term $(\vec{V}\cdot\vec{\nabla})\vec{V}$ is non-linear and is a major source of complex flow behavior, including mechanisms that contribute to turbulence. It measures the change in velocity caused by a particle moving into a region where the flow field is different, even when the flow is steady in time.
-\end{mainbox}
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Pipe shape
+    \draw[thick] (0, 1.5) -- (2, 1.5) -- (3, 0.6) -- (5, 0.6) -- (6, 1.5) -- (8, 1.5);
+    \draw[thick] (0, -1.5) -- (2, -1.5) -- (3, -0.6) -- (5, -0.6) -- (6, -1.5) -- (8, -1.5);
+    
+    % Diameters
+    \draw[<->] (1, -1.4) -- (1, 1.4) node[midway, fill=white] {$D$};
+    \draw[<->] (4, -0.5) -- (4, 0.5) node[midway, right] {$d$};
+    
+    % Points
+    \filldraw[black] (1, 0) circle (1.5pt) node[below] {$1$};
+    \filldraw[black] (4, 0) circle (1.5pt) node[below] {$2$};
+    
+    % Streamline
+    \draw[dashed, accent, thick, ->] (0,0) -- (1,0) .. controls (2,0) and (3,0) .. (4,0) -- (8,0);
+\end{tikzpicture}
+\end{center}
 
-\subsubsection{Example: The Diffuser}
+\textbf{Question:} What is the flow rate?
+Applying Bernoulli's equation along the central streamline (assuming horizontal flow, $z_1 = z_2$):
+\[
+\frac{1}{2}\rho v_{1}^{2} + p_{1} = \frac{1}{2}\rho v_{2}^{2} + p_{2} \implies v_{2}^{2} - v_{1}^{2} = \frac{2(p_{1} - p_{2})}{\rho}
+\]
+This equation has two unknowns ($v_1$ and $v_2$). We use volume conservation to eliminate $v_2$:
+\[
+v_{1} A_{1} = v_{2} A_{2} \implies v_{1}\left(\frac{\pi D^2}{4}\right) = v_{2}\left(\frac{\pi d^2}{4}\right) \implies v_{2} = v_{1}\left(\frac{D}{d}\right)^{2}
+\]
+Substitute $v_2$ back into the Bernoulli equation:
+\[
+v_{1}^{2}\left(\frac{D}{d}\right)^{4} - v_{1}^{2} = \frac{2(p_{1} - p_{2})}{\rho} \implies v_{1}^{2}\left[ \left(\frac{D}{d}\right)^{4} - 1 \right] = \frac{2(p_{1} - p_{2})}{\rho}
+\]
 
-For a steady one-dimensional flow
-\begin{equation}
-    u(x)=v_0\left(1-\frac{x}{L}\right)
-\end{equation}
-the local acceleration term vanishes because the flow is steady, so only the convective contribution remains:
-\begin{equation}
-    a_x = u\frac{\partial u}{\partial x}
-    = v_0\left(1-\frac{x}{L}\right)\left(-\frac{v_0}{L}\right)
-    = -\frac{v_0^2}{L}\left(1-\frac{x}{L}\right)
-\end{equation}
+\begin{resultboxnamed}{Venturi Inlet Velocity}
+\[
+v_{1} = \sqrt{\frac{2(p_{1} - p_{2})}{\rho \left[ \left(\frac{D}{d}\right)^{4} - 1 \right]}}
+\]
+\end{resultboxnamed}
 
-The negative sign indicates deceleration, which is consistent with the widening geometry of a diffuser.
+\subsection{Example: Free Jet}
 
-\subsection{Velocity Fields: Eulerian vs. Lagrangian Descriptions}
+Consider a large tank filled with fluid up to height $H$, with a small hole of diameter $d$ at the bottom.
 
-Once the motion has been visualized geometrically, it is useful to introduce the two standard ways of describing it mathematically.
+\begin{center}
+\begin{tikzpicture}[scale=1]
+    % Tank
+    \draw[thick] (0, 4) -- (0, 0) -- (4, 0) -- (4, 1);
+    \draw[thick] (4, 1.5) -- (4, 4);
+    
+    % Fluid
+    \fill[primary!20] (0, 0) -- (4, 0) -- (4, 1) -- (4.2, 1) .. controls (5, 1) and (6, 0.5) .. (6, 0) -- (5.5, 0) .. controls (4.8, 0.5) and (4.2, 1.5) .. (4, 1.5) -- (4, 3.5) -- (0, 3.5) -- cycle;
+    
+    % Water level
+    \draw[thick, blue] (0, 3.5) -- (4, 3.5);
+    \node at (2, 3.7) {$\nabla$};
+    
+    % Points
+    \filldraw[black] (2, 3.5) circle (1.5pt) node[below left] {$1$};
+    \filldraw[black] (4.5, 1.25) circle (1.5pt) node[above] {$2$};
+    
+    % Streamline
+    \draw[dashed, accent, thick, ->] (2, 3.5) .. controls (2, 1.25) and (4, 1.25) .. (4.5, 1.25);
+    
+    % Annotations
+    \draw[<->] (-0.5, 0) -- (-0.5, 3.5) node[midway, left] {$H$};
+    \draw[<->] (4, 1) -- (4, 1.5) node[below left] {$d_h$};
+\end{tikzpicture}
+\end{center}
 
-\textbf{Eulerian Description:} Focuses on fixed points in space and describes the velocity as a field:
-\begin{equation}
-    \vec{V}(\vec{r}, t) = u\hat{i} + v\hat{j} + w\hat{k}
-\end{equation}
+Assume steady or quasi-steady flow with no shear forces. Apply Bernoulli along the streamline from the surface (1) to the exiting jet (2):
+\[
+\frac{1}{2}\rho v_{1}^{2} + \rho g z_{1} + p_{1} = \frac{1}{2}\rho v_{2}^{2} + \rho g z_{2} + p_{2}
+\]
+Assumptions:
+\begin{itemize}
+    \item The tank is large: $v_{1} \approx 0$
+    \item Heights: $z_{1} = H$, $z_{2} = 0$
+    \item Both points are exposed to the atmosphere: $p_{1} = p_{2} = p_{atm}$
+\end{itemize}
+\[
+\rho g H = \frac{1}{2}\rho v_{2}^{2} \implies v_{2} = \sqrt{2gH} \quad \text{(Torricelli's Law)}
+\]
+The ideal volume flow rate is:
+\[
+\dot{V}_{ideal} = v_{2} A_{2} = \sqrt{2gH}\left(\frac{\pi}{4}d_{h}^{2}\right)
+\]
 
-\textbf{Lagrangian Description:} Follows individual fluid particles and describes their motion from an initial position:
-\begin{equation}
-    \vec{V}(\vec{r}_0, t)
-    \qquad \text{where } \vec{r}_0 \text{ is the particle's initial position}
-\end{equation}
-
-\begin{mainbox}{Structural Foundation: Eulerian vs. Lagrangian Comparison}
-Eulerian formulations (Leonhard Euler, 1757) are the standard framework for most continuum fluid mechanics and Computational Fluid Dynamics (CFD), because they describe the flow as fields defined everywhere in space. Lagrangian formulations (Joseph-Louis Lagrange, 1788) are indispensable when one must follow individual particles, droplets, interfaces, or solid bodies.
-\vspace{0.2cm}
-
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Feature} & \textbf{Eulerian (Field)} & \textbf{Lagrangian (Particle)} \\
-\midrule
-\textbf{Independent Variables} & Position $\vec{r}$, Time $t$ & Initial Position $\vec{r}_0$, Time $t$ \\
-\textbf{Mass Tracking} & Flux through a fixed volume & Constant identity of mass \\
-\textbf{Differentiation} & Requires the Material Derivative & Standard time derivative \\
-\bottomrule
-\end{tabular}
-\end{mainbox}
+\paragraph{Vena Contracta}
+Because the streamlines must bend to exit the hole, the actual jet diameter ($d_j$) contracts to a size smaller than the physical hole diameter ($d_h$).
+\begin{eqbox}{Contraction Coefficient ($C_c$)}
+\[
+C_{c} = \frac{A_{j}}{A_{h}} = \left(\frac{d_{j}}{d_{h}}\right)^{2}
+\]
+where $d_{j} \le d_{h}$. The true flow rate is scaled by $C_c$.
+\end{eqbox}

@@ -1,0 +1,285 @@
+% ==========================================
+% Week 8: SYSTEM, CONTROL VOLUME, RTT
+% ==========================================
+\section{Week 8 - System, Control Volume, and Reynolds Transport Theorem}
+
+This section closes the chapter sequence by linking the Lagrangian and Eulerian viewpoints and showing how conservation laws are written for control volumes.
+
+\subsection{System vs. Control Volume}
+
+\begin{itemize}
+    \item \textbf{System:} A fixed amount of mass. Its boundary may move and deform with the material. This is the natural \textbf{Lagrangian} viewpoint.
+    \item \textbf{Control Volume (CV):} A region in space through which mass may enter or leave. This is the natural \textbf{Eulerian} viewpoint.
+\end{itemize}
+
+The purpose of the Reynolds Transport Theorem is to connect these two descriptions.
+
+\subsection{Reynolds Transport Theorem (RTT)}
+
+\textbf{Formal derivation:} Munson 4.4.1
+
+Consider a system at time $t=t_0$ such that the control volume and the system coincide:
+\begin{equation}
+    CV \text{ at } t=t_0 = SYS
+\end{equation}
+
+Let
+\begin{itemize}
+    \item $B$ be an extensive quantity
+    \item $b$ be the corresponding intensive quantity defined by
+    \begin{equation}
+        b=\frac{B}{m}
+    \end{equation}
+\end{itemize}
+
+The amount of $B$ inside the control volume and inside the system can be written as
+\begin{equation}
+    B_{CV}=\int_{CV}\rho b\,dV,
+    \qquad
+    B_{SYS}=\int_{SYS}\rho b\,dV
+\end{equation}
+
+The rate of change of $B$ for the system is related to the control-volume description by
+\begin{equation}
+    \frac{D B_{SYS}}{Dt}
+    =
+    \frac{\partial B_{CV}}{\partial t}
+    +
+    \dot{B}_{out}
+    -
+    \dot{B}_{in}
+\end{equation}
+
+The flux terms are
+\begin{itemize}
+    \item Flux of $B$ into the control volume:
+    \begin{equation}
+        \dot{B}_{in}=b_{in}\dot{m}_{in}=b_{in}\rho_{in}A_{in}V_{in}
+    \end{equation}
+
+    \item Flux of $B$ out of the control volume:
+    \begin{equation}
+        \dot{B}_{out}=b_{out}\dot{m}_{out}=b_{out}\rho_{out}A_{out}V_{out}
+    \end{equation}
+\end{itemize}
+
+\begin{mainbox}{Simple Version of RTT}
+\begin{equation*}
+    \left(\frac{DB}{Dt}\right)_{SYS}
+    =
+    \left(\frac{\partial B}{\partial t}\right)_{CV}
+    +
+    (b\rho VA)_{out}
+    -
+    (b\rho VA)_{in}
+\end{equation*}
+\end{mainbox}
+
+\subsubsection{General Form of RTT}
+
+For a general surface, the mass flow rate through an area element is
+\begin{equation}
+    \dot{m}=\int_A \rho \vec{V}\cdot\hat{n}\,dA
+\end{equation}
+
+Therefore, the net rate at which the property $B$ crosses the control surface is
+\begin{equation}
+    \dot{B}
+    =
+    \int_{CS} b\rho V_n\,dA
+    =
+    \dot{B}_{out}-\dot{B}_{in}
+\end{equation}
+where
+\begin{itemize}
+    \item $\hat{n}$ is the outward unit normal vector
+    \item $dA$ is an area element on the control surface
+    \item $dV$ is a volume element in the control volume
+    \item $V_n=\vec{V}\cdot\hat{n}$ is the normal component of velocity
+\end{itemize}
+
+Since $CV=SYS$ at the instant $t=t_0$, the general form of the Reynolds Transport Theorem is
+\begin{mainbox}{Reynolds Transport Theorem (General Form)}
+\begin{equation*}
+    \underbrace{\left(\frac{DB}{Dt}\right)_{SYS}}_{\text{Lagrangian system}}
+    =
+    \underbrace{\frac{\partial}{\partial t}\int_{CV} b\rho\,dV}_{\text{Eulerian volume contribution}}
+    +
+    \underbrace{\int_{CS} b\rho(\vec{V}\cdot\hat{n})\,dA}_{\text{Eulerian surface contribution}}
+\end{equation*}
+\end{mainbox}
+
+\textbf{Notes:}
+\begin{itemize}
+    \item For \textbf{steady flow},
+    \begin{equation}
+        \frac{\partial}{\partial t}\int_{CV} b\rho\,dV = 0
+    \end{equation}
+    so that
+    \begin{equation}
+        \frac{DB_{SYS}}{Dt}
+        =
+        \int_{CS} b\rho(\vec{V}\cdot\hat{n})\,dA
+    \end{equation}
+
+    \item For a \textbf{moving, non-deforming control volume}, one uses the relative velocity
+    \begin{equation}
+        \vec{W}=\vec{V}-\vec{V}_{CV}
+    \end{equation}
+
+    \item In practical calculations, the closed-surface integral is often split into separate inlet and outlet contributions.
+\end{itemize}
+
+\subsection{Control Volume Approach to Conservation Laws}
+
+Using RTT, the main Lagrangian conservation laws can be rewritten in Eulerian control-volume form:
+\begin{enumerate}
+    \item Mass conservation
+    \item Newton's second law
+    \item Energy conservation (First Law of Thermodynamics)
+\end{enumerate}
+
+\subsection{Mass Conservation}
+
+For mass conservation, the extensive quantity is the mass itself:
+\begin{equation}
+    B=M
+\end{equation}
+Hence the associated intensive quantity is
+\begin{equation}
+    b=1
+\end{equation}
+
+Substituting into the general RTT gives
+\begin{equation}
+    \left(\frac{DM}{Dt}\right)_{SYS}
+    =
+    \frac{\partial}{\partial t}\int_{CV}\rho\,dV
+    +
+    \int_{CS}\rho(\vec{V}\cdot\hat{n})\,dA
+\end{equation}
+
+In words:
+\begin{quote}
+Rate of change of the mass of the coincident system
+=
+rate of change of mass inside the control volume
++
+net mass flow rate through the control surface.
+\end{quote}
+
+For a closed system, mass is conserved, so
+\begin{equation}
+    \left(\frac{DM}{Dt}\right)_{SYS}=0
+\end{equation}
+
+This gives the integral continuity equation:
+\begin{eqbox}{Continuity Equation}
+\begin{equation*}
+    0
+    =
+    \frac{\partial}{\partial t}\int_{CV}\rho\,dV
+    +
+    \int_{CS}\rho(\vec{V}\cdot\hat{n})\,dA
+\end{equation*}
+\end{eqbox}
+
+\subsubsection{Example: Nozzle (Stationary Flow)}
+
+Consider a nozzle with:
+\begin{itemize}
+    \item \textbf{Inlet (Area $A_0$):} uniform velocity profile $V_0$, radius $R_0$
+    \item \textbf{Outlet (Area $A_1$):} parabolic velocity profile
+    \begin{equation}
+        V(r)=V_m\left(1-\frac{r^2}{R_1^2}\right)
+    \end{equation}
+    with outlet radius $R_1$
+\end{itemize}
+
+\textbf{Assumptions:}
+\begin{itemize}
+    \item Steady flow
+    \item Constant density, $\rho=\text{const}$
+\end{itemize}
+
+Apply the continuity equation:
+\begin{equation}
+    \frac{\partial}{\partial t}\int_{CV}\rho\,dV
+    +
+    \int_{CS}\rho(\vec{V}\cdot\hat{n})\,dA
+    =
+    0
+\end{equation}
+
+Because the flow is steady, the accumulation term vanishes:
+\begin{equation}
+    \frac{\partial}{\partial t}\int_{CV}\rho\,dV=0
+\end{equation}
+Therefore,
+\begin{equation}
+    \int_{CS}\rho(\vec{V}\cdot\hat{n})\,dA=0
+\end{equation}
+and since $\rho$ is constant,
+\begin{equation}
+    \int_{CS}(\vec{V}\cdot\hat{n})\,dA=0
+\end{equation}
+
+Split the control-surface integral into inlet and outlet contributions:
+\begin{equation}
+    \int_{A_0}(\vec{V}\cdot\hat{n})\,dA
+    +
+    \int_{A_1}(\vec{V}\cdot\hat{n})\,dA
+    =
+    0
+\end{equation}
+
+\textbf{Inlet contribution:} \\
+At the inlet, the outward normal points opposite to the incoming flow, so
+\begin{equation}
+    \vec{V}\cdot\hat{n}=-V_0
+\end{equation}
+Hence,
+\begin{equation}
+    \int_{A_0}(\vec{V}\cdot\hat{n})\,dA
+    =
+    -V_0\int_{A_0}dA
+    =
+    -V_0\pi R_0^2
+\end{equation}
+
+\textbf{Outlet contribution:} \\
+Using polar coordinates, the area element is
+\begin{equation}
+    dA = 2\pi r\,dr
+\end{equation}
+Thus,
+\begin{align*}
+    \int_{A_1}(\vec{V}\cdot\hat{n})\,dA
+    &=
+    \int_0^{R_1}
+    V_m\left(1-\frac{r^2}{R_1^2}\right)(2\pi r)\,dr \\
+    &=
+    2\pi V_m
+    \left[
+        \frac{r^2}{2}-\frac{r^4}{4R_1^2}
+    \right]_0^{R_1} \\
+    &=
+    2\pi V_m
+    \left(
+        \frac{R_1^2}{2}-\frac{R_1^2}{4}
+    \right) \\
+    &=
+    \frac{\pi}{2}V_m R_1^2
+\end{align*}
+
+\textbf{Combine both contributions:}
+\begin{equation}
+    0 = -V_0\pi R_0^2 + \frac{\pi}{2}V_m R_1^2
+\end{equation}
+
+Solving for the maximum outlet velocity gives
+\begin{resultbox}
+\begin{equation*}
+    V_m = 2V_0\left(\frac{R_0}{R_1}\right)^2
+\end{equation*}
+\end{resultbox}

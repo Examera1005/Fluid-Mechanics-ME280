@@ -1,303 +1,215 @@
-% ==========================================
-% CHAPTER 5: DIFFUSION PDEs
-% ==========================================
-\section{Diffusion and Partial Differential Equations}
+\section{Week 5 - Chapter D: Diffusion}
 
-\subsection{Non-Homogeneous Boundary Conditions (BC)}
+\subsection{D.1 Intro + Diffusion Equation}
 
-\textbf{Concept:} The idea is to decompose the full solution into a steady-state part that satisfies the non-homogeneous boundary conditions and a transient part that satisfies homogeneous boundary conditions. As $t \to \infty$, the transient contribution decays and the solution converges to the steady-state profile.
-
-The governing one-dimensional diffusion (or heat) equation is:
-\begin{equation}
-    \frac{\partial C}{\partial t} = D \frac{\partial^2 C}{\partial x^2}
-\end{equation}
-
-\textbf{Boundary Conditions (BC):}
-\begin{itemize}
-    \item $C(0,t)=C_1$
-    \item $C(L,t)=C_2$
-\end{itemize}
-
-\textbf{Initial Condition (IC):}
-\begin{itemize}
-    \item $C(x,0)=C_0(x)$
-\end{itemize}
-
-\subsubsection{Step A: Solve for the Steady State}
-
-Define the steady-state solution by
-\begin{equation}
-    C_f(x)=\lim_{t\to\infty} C(x,t)
-\end{equation}
-
-At steady state, the time derivative vanishes:
-\begin{equation}
-    \frac{\partial C_f}{\partial t}=0
-    \qquad \Longrightarrow \qquad
-    0 = D\frac{\partial^2 C_f}{\partial x^2}
-\end{equation}
-Hence,
-\begin{equation}
-    C_f(x)=C_1+\frac{C_2-C_1}{L}x
-\end{equation}
-
-\begin{mainbox}{Critical Analysis: Limits of the Steady-State Approximation}
-\textbf{Mathematical rigor vs. physical reality:} The formal definition $C_f(x)=\lim_{t\to\infty}C(x,t)$ refers to an infinite-time limit. In practice, a system is considered close to steady state when the Fourier number $Fo=\frac{Dt}{L^2}$ becomes sufficiently large, typically $Fo>0.2$ as a rough engineering estimate. In addition, the linear profile above assumes that the diffusivity $D$ is constant. If $D$ depends on concentration, temperature, or composition, then the PDE becomes non-linear and the steady-state profile is no longer necessarily linear.
-\end{mainbox}
-
-\subsubsection{Step B: Define the Transient Component}
-
-Introduce the deviation from steady state:
-\begin{equation}
-    \tilde{C}(x,t):=C(x,t)-C_f(x)
-\end{equation}
-
-Then $\tilde{C}$ satisfies the homogeneous PDE
-\begin{equation}
-    \frac{\partial \tilde{C}}{\partial t}=D\frac{\partial^2 \tilde{C}}{\partial x^2}
-\end{equation}
-
-The transformed homogeneous boundary conditions are:
-\begin{itemize}
-    \item $\tilde{C}(0,t)=C(0,t)-C_f(0)=C_1-C_1=0$
-    \item $\tilde{C}(L,t)=C(L,t)-C_f(L)=C_2-C_2=0$
-\end{itemize}
-
-The transformed initial condition is:
-\begin{itemize}
-    \item $\tilde{C}(x,0)=C_0(x)-C_f(x)$
-\end{itemize}
-
-\subsubsection{Step C: Superposition}
-
-The full solution is reconstructed as
-\begin{equation}
-    C(x,t)=C_f(x)+\tilde{C}(x,t)
-\end{equation}
-
-\subsection{Time-Dependent Diffusion (1D Series Expansion)}
-
-The governing PDE for one-dimensional time-dependent diffusion is:
-
-\begin{defbox}{The Diffusion Equation}
-\begin{equation}
-    \frac{\partial C}{\partial t}=D\frac{\partial^2 C}{\partial x^2}
-\end{equation}
+\begin{defbox}{Diffusion}
+Transport of mass (small particles, molecules, dye) in a fluid \textit{without} macroscopic flow.
 \end{defbox}
 
-\noindent \textbf{Boundary Conditions (BC): Fixed concentration} \\
-Assume zero concentration at both boundaries:
-\begin{equation}
-    C(0,t)=C(L,t)=0
-\end{equation}
-
-\begin{notebox}[Superposition Principle]
-The PDE is linear and homogeneous, and the boundary conditions are also homogeneous. Therefore, if $C_1(x,t)$ and $C_2(x,t)$ are solutions, then
-\begin{equation*}
-    C_1(x,t)+C_2(x,t)
-    \qquad \text{and} \qquad
-    \beta C_1(x,t), \quad \beta\in\mathbb{R}
-\end{equation*}
-are also solutions.
+\begin{notebox}[Remarks]
+\begin{itemize}
+    \item Diffusion and convective transport often happen simultaneously.
+    \item Chemical diffusion (mass transport) is mathematically analogous to thermal conduction.
+\end{itemize}
 \end{notebox}
 
-\noindent \textbf{Why is this true? (Superposition Principle)}
+\subsubsection{D.1.1 Micro Description of Diffusion}
+
+\paragraph{Model: Random Walk on a 1D Lattice}
+Let $n(x,t)$ be the number density of particles at position $x$ at time $t$. Let $\Delta x$ be the lattice spacing.
+
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    \draw[thick, ->] (0,0) -- (6,0) node[right] {$x$};
+    \foreach \x/\l in {1/{x-\Delta x}, 3/{x}, 5/{x+\Delta x}} {
+        \filldraw (\x,0) circle (2pt) node[below=0.2] {$\l$};
+    }
+    \draw[->, thick, primary] (3, 0.2) to[bend left] node[above] {$p$} (5, 0.2);
+    \draw[->, thick, accent] (3, 0.2) to[bend right] node[above] {$1-p$} (1, 0.2);
+\end{tikzpicture}
+\end{center}
+
+Assume a particle jumps left with probability $1-p$ and right with probability $p$. If $p=1/2$, the walk is unbiased; otherwise, it is biased.
+
+To find the change of number density $\Delta n$ in time $\Delta t$, we compute the net flow into position $x$:
 \begin{align*}
-    \text{PDE: } \quad
-    \frac{\partial}{\partial t}(C_1+C_2)-D\frac{\partial^2}{\partial x^2}(C_1+C_2)
-    &=
-    \left(\frac{\partial C_1}{\partial t}-D\frac{\partial^2 C_1}{\partial x^2}\right)
-    +
-    \left(\frac{\partial C_2}{\partial t}-D\frac{\partial^2 C_2}{\partial x^2}\right) \\
-    &=0+0=0
+\text{Inflow} &= n(x+\Delta x, t)(1-p) + n(x-\Delta x, t)p \\
+\text{Outflow} &= n(x, t)[p + (1-p)] = n(x, t)
 \end{align*}
-and the boundary conditions are preserved because
+
+Thus, the change in density is:
+\[
+\Delta n \approx \frac{\partial n}{\partial t} \Delta t = n(x+\Delta x, t)(1-p) + n(x-\Delta x, t)p - n(x, t)
+\]
+
+Treating $n(x,t)$ as continuous, we perform a Taylor expansion in space up to the second order:
 \begin{align*}
-    (C_1+C_2)(0,t) &= C_1(0,t)+C_2(0,t)=0+0=0 \\
-    (C_1+C_2)(L,t) &= C_1(L,t)+C_2(L,t)=0+0=0
+n(x+\Delta x, t) &\approx n(x) + \Delta x\frac{\partial n}{\partial x} + \frac{\Delta x^{2}}{2}\frac{\partial^{2}n}{\partial x^{2}} \\
+n(x-\Delta x, t) &\approx n(x) - \Delta x\frac{\partial n}{\partial x} + \frac{\Delta x^{2}}{2}\frac{\partial^{2}n}{\partial x^{2}}
 \end{align*}
 
-\subsubsection{Solution Approach (Linearity)}
+Plugging this into the $\Delta n$ equation yields:
+\[
+\frac{\partial n}{\partial t} \Delta t = -\Delta x(1-2p)\frac{\partial n}{\partial x} + \frac{\Delta x^{2}}{2}\frac{\partial^{2}n}{\partial x^{2}}
+\]
 
-\textbf{Step 1: General solution representation} \\
-Because of linearity, the solution can be written as a superposition of basis functions:
-\begin{equation}
-    C(x,t)=\sum_{n=1}^{\infty} A_n \varphi_n(x,t)
-\end{equation}
-where the coefficients $A_n$ are determined by the initial condition.
+\begin{eqbox}{Convection-Diffusion Equation (1D)}
+\[
+\frac{\partial n}{\partial t} + v\frac{\partial n}{\partial x} = D\frac{\partial^{2}n}{\partial x^{2}}
+\]
+where:
+\begin{itemize}
+    \item $D = \frac{\Delta x^{2}}{2\Delta t}$ is the \textbf{diffusion coefficient} $[m^2/s]$.
+    \item $v = (1-2p)\frac{\Delta x}{\Delta t}$ is the \textbf{drift velocity}.
+\end{itemize}
+\end{eqbox}
 
-\vspace{0.5cm}
-\textbf{Step 2: Separation of variables} \\
-Assume
-\begin{equation}
-    C(x,t)=X(x)T(t)
-\end{equation}
-Substituting into the PDE gives
-\begin{equation*}
-    X(x)\frac{dT(t)}{dt}=D\,T(t)\frac{d^2X(x)}{dx^2}
-\end{equation*}
-Dividing by $D\,X(x)T(t)$ yields
-\begin{equation}
-    \underbrace{\frac{1}{D}\frac{T'(t)}{T(t)}}_{\text{depends only on } t}
-    =
-    \underbrace{\frac{X''(x)}{X(x)}}_{\text{depends only on } x}
-    =-\lambda
-\end{equation}
-Since the left-hand side depends only on $t$ and the right-hand side only on $x$, both must be equal to a constant $-\lambda$.
+For an \textbf{unbiased random walk} ($p = 1/2 \implies v=0$), we recover the standard 1D Diffusion equation:
+\[
+\frac{\partial n}{\partial t} = D\frac{\partial^{2}n}{\partial x^{2}}
+\]
 
-This leads to two coupled ODEs:
-\begin{align}
-    T'(t)+D\lambda T(t) &= 0 \\
-    X''(x)+\lambda X(x) &= 0
-\end{align}
+\paragraph{Extension to 3D Lattice}
+For an unbiased walk on a 3D Cartesian lattice, the jump probability in any of the 6 directions is $p=1/6$.
 
-\subsubsection{Solving the Spatial Problem}
+\begin{center}
+\begin{tikzpicture}[scale=1.5]
+    \filldraw (0,0) circle (2pt);
+    \draw[thick] (-1.5,0) -- (1.5,0);
+    \draw[thick] (0,-1.5) -- (0,1.5);
+    \draw[thick] (-1,-1) -- (1,1);
+    \filldraw (1.5,0) circle (1.5pt); \filldraw (-1.5,0) circle (1.5pt);
+    \filldraw (0,1.5) circle (1.5pt); \filldraw (0,-1.5) circle (1.5pt);
+    \filldraw (1,1) circle (1.5pt); \filldraw (-1,-1) circle (1.5pt);
+\end{tikzpicture}
+\end{center}
 
-We now solve
-\begin{equation}
-    X''(x)+\lambda X(x)=0
-\end{equation}
-subject to
-\begin{equation}
-    X(0)=X(L)=0
-\end{equation}
+Applying the same logic, the equation becomes:
+\[
+\frac{\partial n}{\partial t} = \frac{\Delta x^{2}}{6\Delta t} \left(\frac{\partial^{2}n}{\partial x^{2}} + \frac{\partial^{2}n}{\partial y^{2}} + \frac{\partial^{2}n}{\partial z^{2}}\right) \implies \frac{\partial n}{\partial t} = D \nabla^{2}n \quad \text{with } D = \frac{\Delta x^{2}}{6\Delta t}
+\]
 
-\begin{defbox}{Evaluating the different cases for $\lambda$}
-\textbf{Case I: $\lambda<0$} \\
-The solution has the form
-\begin{equation*}
-    X(x)=\alpha_1 e^{\sqrt{-\lambda}\,x}+\alpha_2 e^{-\sqrt{-\lambda}\,x}
-\end{equation*}
-Applying the boundary conditions forces $\alpha_1=\alpha_2=0$, giving only the trivial solution.
+\paragraph{Estimating Diffusion Coefficients}
+\begin{itemize}
+    \item \textbf{Self-diffusion} (Kinetic theory): $D \sim \frac{1}{6}\delta \left(\frac{3k_{B}T}{m}\right)^{1/2}$
+    \item \textbf{Suspended particle} (Stokes-Einstein relation, 1905): $\mathcal{D} = \frac{k_{B}T}{6\pi\mu a}$ for a sphere of radius $a$ in a liquid with dynamic viscosity $\mu$.
+\end{itemize}
 
-\vspace{0.2cm}
-\textbf{Case II: $\lambda=0$} \\
-The solution becomes
-\begin{equation*}
-    X(x)=\alpha_1 x+\alpha_2
-\end{equation*}
-Applying the boundary conditions again yields only the trivial solution.
+---
 
-\vspace{0.2cm}
-\textbf{Case III: $\lambda>0$} \\
-The solution is
-\begin{equation*}
-    X(x)=\alpha_1 \cos(\sqrt{\lambda}\,x)+\alpha_2 \sin(\sqrt{\lambda}\,x)
-\end{equation*}
-Applying the boundary conditions gives
-\begin{align*}
-    X(0) &= \alpha_1 = 0 \\
-    X(L) &= \alpha_2 \sin(\sqrt{\lambda}\,L)=0
-\end{align*}
-To avoid the trivial solution, we require
-\begin{equation*}
-    \sin(\sqrt{\lambda}\,L)=0
-\end{equation*}
-which implies
-\begin{equation*}
-    \sqrt{\lambda}\,L = k\pi,
-    \qquad k\in\mathbb{Z}^{+}
-\end{equation*}
+\subsubsection{D.1.2 Continuum Description}
+Let $C(\vec{x},t)$ be the macroscopic concentration field (units: $\frac{1}{m^3}$ or $\frac{\text{mol}}{m^3}$).
+Observation: Molecules diffuse from high to low concentration.
+
+\begin{defbox}{Fick's First Law}
+The particle flux $\vec{j}$ (number of molecules transported through an area per unit time) is proportional to the negative gradient of the concentration:
+\[
+\vec{j} = -D\nabla C
+\]
 \end{defbox}
 
-Therefore, the eigenvalues are
-\begin{equation}
-    \lambda_k=\left(\frac{k\pi}{L}\right)^2,
-    \qquad k\in\{1,2,3,\dots\}
-\end{equation}
-and the corresponding eigenfunctions are
-\begin{equation}
-    X_k(x)=\sin\left(\frac{k\pi}{L}x\right)
-\end{equation}
+\paragraph{Mass Conservation}
+Consider a fixed control volume $V$ bounded by a surface $S$. The rate of change of mass inside must equal the net flux through the surface:
+\begin{center}
+\begin{tikzpicture}
+    \draw[thick] (0,0) ellipse (2.5cm and 1.8cm);
+    \node at (0,0) {\Large $V$};
+    \node at (1.8,1.4) {$S$};
+    \draw[thick, ->, >=stealth] (2.5,0) -- (3.8, 0.6) node[right] {$\hat{n}$};
+    \draw[thick, accent, ->, >=stealth] (2.5,0) -- (4, -0.2) node[right] {$\vec{j}$};
+\end{tikzpicture}
+\end{center}
 
-\textit{Note:} The amplitude factor can be absorbed into the global coefficient $A_k$.
+\[
+\frac{d}{dt}\int_{V}C \, dV = -\oint_{S} \vec{j} \cdot d\vec{S}
+\]
+Using Gauss's Divergence Theorem on the right-hand side:
+\[
+-\oint_{S} \vec{j} \cdot d\vec{S} = -\int_{V} \nabla \cdot \vec{j} \, dV
+\]
+For an arbitrary volume $V$, this implies the differential form of mass conservation:
+\[
+\frac{\partial C}{\partial t} + \nabla \cdot \vec{j} = 0
+\]
 
-\subsubsection{Solving the Temporal Problem}
+\begin{eqbox}{The Diffusion Equation}
+Substituting Fick's Law ($\vec{j} = -D\nabla C$) into the conservation equation, assuming constant $D$:
+\[
+\frac{\partial C}{\partial t} = D\nabla^{2}C
+\]
+\end{eqbox}
 
-For a fixed eigenvalue
-\begin{equation}
-    \lambda_n=\left(\frac{n\pi}{L}\right)^2
-\end{equation}
-the time equation becomes
-\begin{equation*}
-    T_n'(t) = -D\lambda_n T_n(t)
-\end{equation*}
-whose solution is
-\begin{equation}
-    T_n(t)=\beta_n e^{-D\left(\frac{n\pi}{L}\right)^2 t}
-\end{equation}
-
-\subsubsection{Combining the Spatial and Temporal Solutions}
-
-The basis solutions are therefore
-\begin{equation}
-    \varphi_n(x,t)=e^{-D\left(\frac{n\pi}{L}\right)^2 t}\sin\left(\frac{n\pi}{L}x\right)
-\end{equation}
-and the general solution satisfying the homogeneous boundary conditions is
-\begin{equation}
-    C(x,t)=\sum_{n=1}^{\infty} A_n e^{-D\left(\frac{n\pi}{L}\right)^2 t}\sin\left(\frac{n\pi}{L}x\right)
-\end{equation}
-
-\subsubsection{Step 3: Determine the coefficients $\{A_n\}$ from the initial condition}
-
-At $t=0$,
-\begin{equation}
-    C(x,0)=C_0(x)=\sum_{n=1}^{\infty} A_n \sin\left(\frac{n\pi}{L}x\right)
-\end{equation}
-
-To determine the coefficients, multiply both sides by $\sin\left(\frac{m\pi}{L}x\right)$ and integrate from $0$ to $L$:
-\begin{equation*}
-    \int_0^L C_0(x)\sin\left(\frac{m\pi}{L}x\right)\,dx
-    =
-    \sum_{n=1}^{\infty}
-    A_n
-    \int_0^L
-    \sin\left(\frac{n\pi}{L}x\right)
-    \sin\left(\frac{m\pi}{L}x\right)\,dx
-\end{equation*}
-
-\begin{notebox}[Orthogonality Property]
-\begin{equation*}
-    \int_0^L
-    \sin\left(\frac{n\pi}{L}x\right)
-    \sin\left(\frac{m\pi}{L}x\right)\,dx
-    =
-    \begin{cases}
-        0 & \text{if } n\neq m \\
-        \dfrac{L}{2} & \text{if } n=m
-    \end{cases}
-\end{equation*}
-
-\textit{Trigonometric identity used:}
-\begin{equation*}
-    \sin(a)\sin(b)=\frac{1}{2}\big[\cos(a-b)-\cos(a+b)\big]
-\end{equation*}
+\begin{notebox}[Boundary Conditions]
+To solve this PDE, appropriate initial and boundary conditions are needed:
+\begin{itemize}
+    \item \textbf{Dirichlet (Fixed Concentration):} $C(\text{surface}) = C_0$
+    \item \textbf{Neumann (Fixed Flux):} $-D \hat{n} \cdot \nabla C = j_0$
+    \item \textbf{Robin (Mixed/Convective):} $j = h(C - C_{\infty})$ where $h$ is a mass transfer coefficient.
+\end{itemize}
 \end{notebox}
 
-By orthogonality, only the term $n=m$ remains:
-\begin{equation*}
-    \int_0^L C_0(x)\sin\left(\frac{n\pi}{L}x\right)\,dx
-    =
-    A_n \frac{L}{2}
-\end{equation*}
-Hence,
-\begin{equation}
-    A_n=\frac{2}{L}\int_0^L C_0(x)\sin\left(\frac{n\pi}{L}x\right)\,dx
-\end{equation}
+---
 
-\vspace{0.5cm}
-\begin{resultboxnamed}{Final Full Solution}
-For any initial condition $C_0(x)$ that admits a Fourier sine expansion, the complete solution is
-\begin{equation}
-    C(x,t)=
-    \sum_{n=1}^{\infty}
-    \left[
-        \frac{2}{L}
-        \int_0^L
-        C_0(\tilde{x})
-        \sin\left(\frac{n\pi}{L}\tilde{x}\right)\,d\tilde{x}
-    \right]
-    e^{-D\left(\frac{n\pi}{L}\right)^2 t}
-    \sin\left(\frac{n\pi}{L}x\right)
-\end{equation}
+\subsection{D.2 Solving the Diffusion Equation (Steady State)}
+
+In a steady state, the concentration profile does not change with time, meaning $\frac{\partial C}{\partial t} = 0$. The diffusion equation simplifies to Laplace's equation: $\nabla^{2}C = 0$.
+
+\subsubsection{Example 1: 1D Thin Pipe}
+\begin{center}
+\begin{tikzpicture}
+    \draw[->, thick] (-0.5,0) -- (5,0) node[right] {$x$};
+    \draw[->, thick] (0,-0.5) -- (0,3.5) node[above] {$C(x)$};
+    \draw[thick, primary] (-0.5, 0.8) -- (0,0.8) node[left] {$\alpha$};
+    \draw[thick, accent] (0,0.8) -- (4,2.8);
+    \draw[thick, primary] (4,2.8) -- (5,2.8) node[right] {$\beta$};
+    \draw[dashed] (4,0) node[below] {$L$} -- (4,2.8);
+    \draw (0,0) circle (2pt);
+\end{tikzpicture}
+\end{center}
+Governing ODE: $D\frac{d^{2}C}{dx^{2}} = 0 \implies C(x) = A_{1}x + A_{2}$.
+Applying Boundary Conditions $C(0) = \alpha$ and $C(L) = \beta$:
+\[
+A_2 = \alpha, \quad A_1 = \frac{\beta - \alpha}{L} \implies C(x) = \frac{\beta - \alpha}{L}x + \alpha
+\]
+\textit{Note: The concentration profile is independent of $D$ in 1D steady state, but the steady flux depends on $D$: $j = -D \frac{\beta-\alpha}{L}$.}
+
+\subsubsection{Example 2: 3D Spherical Shell}
+\begin{center}
+\begin{tikzpicture}
+    \draw[thick] (0,0) circle (1.2cm);
+    \draw[thick] (0,0) circle (3cm);
+    \draw[->, thick] (0,0) -- (1.2,0) node[midway, above] {$R_1$};
+    \draw[->, thick] (0,0) -- (0,-3) node[midway, right] {$R_2$};
+    \draw[->, accent, thick, >=stealth] (4.5, 0) -- (3, 0) node[midway, above, text=black] {Inward flux $\vec{j}$};
+\end{tikzpicture}
+\end{center}
+
+In spherical coordinates with purely radial dependence, the steady-state equation is:
+\[
+\frac{1}{r^{2}}\frac{d}{dr}\left(r^{2}\frac{dC}{dr}\right) = 0
+\]
+Integrating twice gives the general solution:
+\[
+r^{2}\frac{dC}{dr} = A_{1} \implies \frac{dC}{dr} = \frac{A_1}{r^2} \implies C(r) = -\frac{A_{1}}{r} + A_{2}
+\]
+
+\textbf{Applying Boundary Conditions:}
+1. Inner boundary (Fixed concentration): $C(R_{1}) = 0 \implies A_{2} = \frac{A_{1}}{R_{1}}$
+2. Outer boundary (Fixed inward flux $\alpha$): $D\frac{dC}{dr}\Big|_{R_{2}} = \alpha \implies D\frac{A_{1}}{R_{2}^{2}} = \alpha \implies A_{1} = \frac{\alpha R_{2}^{2}}{D}$
+
+Substituting $A_1$ and $A_2$ back into the general solution:
+\begin{resultboxnamed}{Radial Concentration Profile}
+\[
+C(r) = \alpha\frac{R_{2}^{2}}{D}\left(\frac{1}{R_{1}} - \frac{1}{r}\right)
+\]
 \end{resultboxnamed}
+
+\begin{center}
+\begin{tikzpicture}
+    \draw[->, thick] (0,0) -- (5,0) node[right] {$r$};
+    \draw[->, thick] (0,0) -- (0,3.5) node[above] {$C(r)$};
+    \draw[dashed] (1.5,0) node[below] {$R_1$} -- (1.5,3);
+    \draw[dashed] (4,0) node[below] {$R_2$} -- (4,3);
+    \draw[thick, primary, domain=1.5:4, samples=50] plot (\x, {3.5 * (1/1.5 - 1/\x)});
+\end{tikzpicture}
+\end{center}

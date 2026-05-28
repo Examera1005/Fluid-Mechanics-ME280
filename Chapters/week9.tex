@@ -1,0 +1,252 @@
+% ==========================================
+% Week 9: MOMENTUM AND ENERGY CONSERVATION (RTT APPLICATIONS)
+% ==========================================
+\section{Week 9 - RTT and Newton's 2nd Law}
+
+We begin by applying the Reynolds Transport Theorem (RTT) to the conservation of linear momentum. Let the extensive property be the linear momentum of the system, $B = m\vec{v}$, and the intensive property be the velocity, $\beta = \vec{v}$.
+
+Newton's second law for a system (a fixed mass) states that the rate of change of linear momentum equals the sum of external forces:
+\begin{equation}
+    \left( \frac{DB}{Dt} \right)_{\text{sys}} = \sum \vec{F}_{\text{sys}}
+\end{equation}
+
+Applying the RTT for a control volume (CV) with a control surface (CS):
+\begin{equation}
+    \underbrace{\frac{\partial}{\partial t}\int_{\text{CV}}\rho\vec{v}\,dV}_{\substack{\text{Rate of change of} \\ \text{linear momentum} \\ \text{in CV}}} + \underbrace{\int_{\text{CS}}\rho\vec{v}(\vec{v}\cdot\hat{n})\,dA}_{\substack{\text{Flux of linear} \\ \text{momentum through CS}}} = \sum \vec{F}_{\text{CV}}
+\end{equation}
+This is the fundamental integral form of the momentum equation.
+
+\subsection{Simplifications for Practical Problems}
+Assuming a fixed, non-deforming Control Volume in an inertial reference frame, we can simplify the flux integral if the control surface consists of $N$ discrete flat areas (inlets/outlets):
+\begin{equation}
+    \int_{\text{CS}} (\dots) dA = \int_{A_1} (\dots) dA + \int_{A_2} (\dots) dA + \dots + \int_{A_N} (\dots) dA, \quad N < \infty
+\end{equation}
+
+If the velocity $\vec{v}$ is \textbf{uniform} over an area $A$ and parallel to the normal $\hat{n}$:
+\begin{equation}
+    \int_{A} \rho\vec{v}(\vec{v}\cdot\hat{n})\,dA = \rho\vec{v}(\vec{v}\cdot\hat{n})A = \rho\vec{v}V_n A = \dot{m}\vec{v}
+\end{equation}
+where $\dot{m}$ is the mass flow rate. 
+
+\begin{conceptbox}[Steady State \& Continuity]
+If the flow is \textbf{steady}, the local derivative term vanishes:
+\begin{equation}
+    \frac{\partial}{\partial t}\int_{\text{CV}}\rho\vec{v}\,dV = 0
+\end{equation}
+For a stream tube with one inlet (1) and one outlet (2), assuming steady uniform flow, the continuity equation requires:
+\begin{equation}
+    \dot{m}_1 = \dot{m}_2 = \dot{m} \quad \implies \quad \int_{\text{CS}}\rho(\vec{v}\cdot\hat{n})\,dA = 0
+\end{equation}
+The momentum equation simplifies to:
+\begin{equation}
+    \sum \vec{F} = \dot{m}_2\vec{v}_2 - \dot{m}_1\vec{v}_1 = \dot{m}(\vec{v}_2 - \vec{v}_1)
+\end{equation}
+\end{conceptbox}
+
+\subsection{Example: Engine Thrust \& Anchoring Force}
+
+Consider a jet engine. We wish to find the anchoring force $F_T$ required to hold the engine stationary.
+
+\vspace{1em}
+\begin{center}
+\begin{tikzpicture}[>=Stealth, scale=0.9]
+    % Draw Control Volume
+    \draw[dashed, fill=blue!5] (-1,-1.5) rectangle (7,1.5);
+    \node[above, text=primary] at (3, 1.5) {Control Volume (CV)};
+    
+    % Draw Engine Geometry
+    \draw[thick, fill=gray!20] (0,-1) -- (2,-1) -- (3,-0.5) -- (5,-0.5) -- (6,-1) -- (6,1) -- (5,0.5) -- (3,0.5) -- (2,1) -- (0,1) -- cycle;
+    \node at (3,0) {ENGINE};
+    
+    % Inlet
+    \draw[->, thick, primary] (-2, 0.5) -- (0, 0.5);
+    \draw[->, thick, primary] (-2, 0) -- (0, 0);
+    \draw[->, thick, primary] (-2, -0.5) -- (0, -0.5);
+    \node[left] at (-2, 0) {$v_1, \rho_1, p_1, A_1$};
+    
+    % Outlet
+    \draw[->, thick, accent] (6, 0.5) -- (8, 0.5);
+    \draw[->, thick, accent] (6, 0) -- (8, 0);
+    \draw[->, thick, accent] (6, -0.5) -- (8, -0.5);
+    \node[right] at (8, 0) {$v_2, \rho_2, p_2, A_2$};
+
+    % Ambient Pressure
+    \node[above] at (3, 2) {$p_0$ (ambient)};
+    
+    % Thrust force
+    \draw[->, ultra thick, secondary] (3,-2) -- (2,-2) node[midway, below] {$F_T$ (Anchoring Force)};
+    \draw[->, thick] (1, -2.5) -- (2, -2.5) node[right] {$x$};
+\end{tikzpicture}
+\end{center}
+\vspace{1em}
+
+\textbf{Assumptions:} Steady flow, uniform velocity profiles. Note that velocities in the x-direction are defined as $u_1$ and $u_2$.
+
+Evaluating the momentum equation in the x-direction:
+\begin{equation}
+    -\rho_1 u_1(u_1)A_1 + \rho_2 u_2(u_2)A_2 = \sum F_x \quad \implies \quad \dot{m}(u_2 - u_1) = \sum F_x
+\end{equation}
+
+The net force $\sum F_x$ includes the pressure acting on the control surface boundaries and the anchoring force $F_T$. Pressure acts inwards on the CV:
+\begin{equation}
+    \sum F_x = p_1 A_1 + F_T - p_2 A_2 - p_0(A_1 - A_2)
+\end{equation}
+Solving for the anchoring force $F_T$:
+\begin{equation}
+    F_T = \dot{m}(u_2 - u_1) - (p_1 - p_0)A_1 + (p_2 - p_0)A_2
+\end{equation}
+
+\begin{expertbox}[Momentum Flux in Non-Uniform and Deforming Systems]
+\textbf{1. Deforming Control Volumes:} If the boundaries of the control volume are moving with velocity $\vec{v}_{cs}$, the RTT must be modified to use the relative velocity $\vec{w} = \vec{v} - \vec{v}_{cs}$ for the flux term:
+\begin{equation}
+    \left( \frac{DB}{Dt} \right)_{\text{sys}} = \frac{\partial}{\partial t}\int_{\text{CV}} \rho \beta \, dV + \int_{\text{CS}} \rho \beta (\vec{w} \cdot \hat{n}) \, dA
+\end{equation}
+Crucially, $\frac{\partial}{\partial t}$ cannot be moved inside the integral unless the limits of integration (the CV shape) are time-invariant. Even if the internal flow field is "steady" in a relative sense, a deforming boundary implies local unsteadiness.
+
+\textbf{2. Boussinesq Momentum Correction Factor:} The assumption that $\int_{A} \rho u^2 dA = \dot{m} \bar{u}$ is strictly true \textit{only} for inviscid, plug flow. Real flows have boundary layers. To maintain rigor while using 1D average velocities, a momentum correction factor $\beta_m$ is introduced:
+\begin{equation}
+    \int_{A} \rho u^2 dA = \beta_m \dot{m} \bar{u} \quad \text{where} \quad \beta_m = \frac{1}{A}\int_{A} \left(\frac{u}{\bar{u}}\right)^2 dA
+\end{equation}
+For fully developed laminar pipe flow, $\beta_m = 1.33$. For high-Reynolds turbulent flow, $\beta_m \approx 1.01$ to $1.05$. Therefore, the uniform flow assumption ($\beta_m=1$) is an acceptable approximation for turbulent flows but introduces significant error in laminar regimes.
+\end{expertbox}
+
+\newpage
+
+\subsection{RTT for the 1st Law of Thermodynamics}
+
+\subsubsection{General Situation}
+Let the extensive property be total energy, $B = E$. The corresponding intensive property (specific energy) is $\beta = e = E/m$.
+\begin{equation}
+    e = \tilde{u} + \frac{1}{2}v^2 + gz
+\end{equation}
+where $\tilde{u}$ is specific internal energy, $\frac{1}{2}v^2$ is specific kinetic energy, and $gz$ is specific potential energy (assuming gravity acts in the $-z$ direction, $\vec{g} = -g\hat{k}$).
+
+The 1st Law of Thermodynamics states:
+\begin{equation}
+    \frac{DE_{\text{sys}}}{Dt} = \dot{Q}_{\text{net, in}} + \dot{W}_{\text{net, in}}
+\end{equation}
+Where $\dot{Q}_{\text{net, in}}$ is the net heat transfer rate \textit{into} the system, and $\dot{W}_{\text{net, in}}$ is the net power (work rate) done \textit{on} the system.
+
+Applying RTT:
+\begin{equation}
+    \frac{\partial}{\partial t}\int_{\text{CV}} e\rho\,dV + \int_{\text{CS}} e\rho(\vec{v}\cdot\hat{n})\,dA = \dot{Q}_{\text{net, in}} + \dot{W}_{\text{net, in}}
+\end{equation}
+
+\subsubsection{Types of Power ($\dot{W}$)}
+Work requires a force acting over a displacement. Power is force times velocity. We typically divide power into two categories for fluids:
+
+\begin{enumerate}
+    \item \textbf{Shaft Power ($\dot{W}_{\text{shaft}}$):} Power transmitted across the control surface by rotating shafts (e.g., pumps adding energy, turbines extracting energy). $\dot{W}_{\text{shaft}} = \tau_{\text{shaft}} \cdot \omega$.
+    \item \textbf{Flow Work / Normal Stress Work ($\dot{W}_{\text{normal}}$):} The work done by pressure forces at the control surfaces to push the fluid into/out of the control volume.
+    \begin{equation}
+        \dot{W}_{\text{normal}} = -\int_{\text{CS}} p(\vec{v}\cdot\hat{n})\,dA
+    \end{equation}
+\end{enumerate}
+
+\begin{center}
+\begin{tikzpicture}[>=Stealth, thick]
+    % Cylinder
+    \draw (0,0) -- (0,3);
+    \draw (3,0) -- (3,3);
+    \draw (0,0) -- (3,0);
+    
+    % Piston
+    \draw[fill=gray!30] (0,2) rectangle (3,2.3);
+    \draw[pattern=north east lines] (0,2) rectangle (3,2.3);
+    
+    % Shaft
+    \draw (1.3,2.3) -- (1.3,4);
+    \draw (1.7,2.3) -- (1.7,4);
+    
+    % Heat transfer arrows
+    \draw[->, red, decorate, decoration={snake, amplitude=1mm, segment length=3mm, post length=1mm}] (0.5, -1) -- (0.5, -0.1);
+    \draw[->, red, decorate, decoration={snake, amplitude=1mm, segment length=3mm, post length=1mm}] (1.5, -1) -- (1.5, -0.1);
+    \draw[->, red, decorate, decoration={snake, amplitude=1mm, segment length=3mm, post length=1mm}] (2.5, -1) -- (2.5, -0.1);
+    \node[red, right] at (2.5, -0.5) {$\dot{Q}_{\text{net, in}}$};
+
+    % Fluid domain
+    \node at (1.5, 1) {Fluid (CV)};
+\end{tikzpicture}
+\end{center}
+
+Substituting $\dot{W}_{\text{net}} = \dot{W}_{\text{shaft}} - \int_{\text{CS}} p(\vec{v}\cdot\hat{n})dA$ into the RTT formulation and grouping the area integrals:
+
+\begin{equation}
+    \frac{\partial}{\partial t}\int_{\text{CV}} e\rho\,dV + \int_{\text{CS}} \underbrace{\left( \tilde{u} + \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)}_{h = \text{enthalpy} + \text{mechanical energy}} \rho(\vec{v}\cdot\hat{n})\,dA = \dot{Q}_{\text{net, in}} + \dot{W}_{\text{shaft, in}}
+\end{equation}
+This is the general Energy Equation for a control volume.
+
+\begin{expertbox}[Derivation of Flow Work from the Cauchy Stress Tensor]
+The standard derivation groups pressure $p$ into the energy equation, but mathematically, this originates from the surface traction vector $\vec{t} = \boldsymbol{\sigma} \cdot \hat{n}$. The total Cauchy stress tensor is $\boldsymbol{\sigma} = -p\mathbf{I} + \boldsymbol{\tau}$ (where $\boldsymbol{\tau}$ is the viscous shear stress tensor).
+
+The mechanical power done by the fluid surroundings on the control surface is:
+\begin{equation}
+    \dot{W}_{\text{surface}} = \int_{\text{CS}} (\vec{t} \cdot \vec{v}) \, dA = \int_{\text{CS}} ((-p\mathbf{I} + \boldsymbol{\tau}) \cdot \hat{n}) \cdot \vec{v} \, dA = \int_{\text{CS}} -p(\vec{v} \cdot \hat{n}) \, dA + \int_{\text{CS}} (\boldsymbol{\tau} \cdot \hat{n}) \cdot \vec{v} \, dA
+\end{equation}
+
+In most pipe flows, the control surfaces are perpendicular to the velocity ($\vec{v} \parallel \hat{n}$). Because fluid adheres to stationary pipe walls (no-slip condition, $\vec{v}=0$), viscous work at solid boundaries is identically zero. Viscous work at the inlets/outlets is typically negligible because velocity gradients in the flow direction ($\partial u / \partial x$) are incredibly small compared to radial gradients. Thus, $\int_{\text{CS}} (\boldsymbol{\tau} \cdot \hat{n}) \cdot \vec{v} \, dA \approx 0$, leaving only the $-p(\vec{v} \cdot \hat{n})$ term.
+\end{expertbox}
+
+\subsubsection{Simplified Steady Flow Energy Equation}
+
+Assuming steady flow ($\partial / \partial t = 0$), a single inlet (in) and single outlet (out), and uniform properties over the cross-subsections:
+\begin{equation}
+    \left( \tilde{u} + \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{out}} \dot{m} - \left( \tilde{u} + \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{in}} \dot{m} = \dot{Q}_{\text{net}} + \dot{W}_{\text{shaft}}
+\end{equation}
+
+\subsubsection{Extension to Bernoulli Equation (Mechanical Energy)}
+
+Divide the equation by the mass flow rate $\dot{m}$ to express everything per unit mass:
+\begin{equation}
+    \left( \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{out}} - \left( \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{in}} = q_{\text{net}} + w_{\text{shaft}} - (\tilde{u}_{\text{out}} - \tilde{u}_{\text{in}})
+\end{equation}
+where $q_{\text{net}} = \dot{Q}_{\text{net}}/\dot{m}$ and $w_{\text{shaft}} = \dot{W}_{\text{shaft}}/\dot{m}$.
+
+We define the thermodynamic \textbf{loss} term (due to internal friction and viscosity) as:
+\begin{equation}
+    \text{loss} = (\tilde{u}_{\text{out}} - \tilde{u}_{\text{in}}) - q_{\text{net}}
+\end{equation}
+Thus, we obtain the \textbf{Extended Bernoulli Equation}:
+\begin{conceptbox}[Extended Bernoulli with Head Losses]
+\begin{equation}
+    \left( \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{out}} - \left( \frac{1}{2}v^2 + gz + \frac{p}{\rho} \right)_{\text{in}} = w_{\text{shaft}} - \text{loss}
+\end{equation}
+This differs from the classical Bernoulli equation ($w_{\text{shaft}} - \text{loss} = 0$) by strictly accounting for mechanical work added (e.g., pumps) and mechanical energy dissipated into heat via viscosity (losses).
+\end{conceptbox}
+
+\subsubsection{Example Application}
+
+\textbf{Given:} A reservoir feeding a pipeline through a pump. The elevation change is $H$. The mass flow rate is $\dot{m}$, and the pump power is $\dot{W}_{\text{pump}}$. \\
+\textbf{Find:} The internal loss of the system.
+
+\textbf{Assumptions:}
+\begin{itemize}
+    \item Velocity at the top of the reservoir ($1$) and the discharge ($2$) is negligible ($v_1 \approx v_2 \approx 0$).
+    \item Pressures are atmospheric ($p_1 = p_2 = p_0$).
+    \item Fluid is incompressible ($\rho = \text{const}$).
+\end{itemize}
+
+Applying the Extended Bernoulli equation:
+\begin{equation}
+    \left( \frac{1}{2}(0)^2 + gH + \frac{p_0}{\rho} \right) - \left( \frac{1}{2}(0)^2 + g(0) + \frac{p_0}{\rho} \right) = w_{\text{shaft}} - \text{loss}
+\end{equation}
+\begin{equation}
+    gH = w_{\text{shaft}} - \text{loss} \quad \implies \quad \text{loss} = \frac{\dot{W}_{\text{pump}}}{\dot{m}} - gH
+\end{equation}
+
+\textbf{Dimensional consistency check:}
+The units of $w_{\text{shaft}} = \frac{\text{Power}}{\text{Mass Flow}}$ are:
+\begin{equation}
+    \frac{\si{W}}{\si{kg/s}} = \frac{\si{J/s}}{\si{kg/s}} = \si{J/kg} = \frac{\si{N.m}}{\si{kg}} = \frac{(\si{kg.m/s^2})\si{m}}{\si{kg}} = \si{m^2/s^2}
+\end{equation}
+The term $gH$ has units of $(\si{m/s^2}) \cdot \si{m} = \si{m^2/s^2}$. The units are perfectly consistent.
+
+\begin{expertbox}[The 2nd Law constraint on 'Loss']
+The equation defines $\text{loss} = \Delta \tilde{u} - q_{\text{net}}$. The 2nd Law of Thermodynamics in differential form is $T ds = d\tilde{u} + p d\upsilon$, or in terms of entropy generation: $ds = \frac{\delta q}{T} + \delta s_{\text{gen}}$. 
+
+Combining the 1st and 2nd laws for an incompressible fluid ($d\upsilon = 0$), $d\tilde{u} = c dT = \delta q + T \delta s_{\text{gen}}$. Therefore, the macroscopic loss term is exactly the integral of entropy generated by viscous dissipation:
+\begin{equation}
+    \text{loss} = \int_{1}^{2} T ds_{\text{gen}}
+\end{equation}
+Because entropy generation due to friction must be strictly positive ($ds_{\text{gen}} \geq 0$) according to the 2nd Law, we mathematically prove that $\text{loss} \geq 0$. This forces real fluids to always experience a drop in total mechanical pressure unless external work is applied.
+\end{expertbox}

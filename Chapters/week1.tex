@@ -1,125 +1,243 @@
-% ==========================================
-% CHAPTER 1: VISCOSITY & PROBLEM SOLVING
-% ==========================================
-\section{Viscosity and Shear Stress: Problem Solving}
+\section{Week 1 - Introduction to Fluid Mechanics}
+\subsection{Definition of a Fluid}
+\begin{defbox}{Fluid Definition}
+A \textbf{fluid} is a substance that deforms continuously under the application of any shear stress, no matter how small. Alternatively, it can be defined at the molecular scale as a collection of molecules that cannot statically resist a shear stress.
+\end{defbox}
 
-\subsection{Problem 1: Plate moving between two fluids}
-
-\subsubsection{Problem Statement}
-A thin flat plate is moving horizontally at a constant, unknown velocity $V$ between two other parallel plates. The bottom plate is stationary, while the top plate moves at a constant velocity $U$. 
-The space is filled with two different Newtonian fluids:
 \begin{itemize}
-    \item \textbf{Fluid 1 (Bottom):} Dynamic viscosity $\mu_1$, filling a gap of height $c \cdot t$.
-    \item \textbf{Fluid 2 (Top):} Dynamic viscosity $\mu_2 = 2\mu_1$, filling a gap of height $(1-c) \cdot t$.
+    \item \textbf{Tangential Stress:} A stress acting parallel to the surface interface.
+    \item \textbf{Threshold Behavior:} The magnitude of the shear stress does not matter in fluids. If a minimum non-zero threshold shear stress is required to initiate motion or deformation in an object, that object is categorized as a yield-stress material (e.g., Bingham plastic) and is \textbf{not} a true fluid.
+    \item \textbf{Shear Resistance:} The internal structural resistance of a fluid to continuous shear deformation is dynamically determined by its \textbf{viscosity}.
 \end{itemize}
-\textbf{Goal:} Determine the steady-state velocity vector $\vec{V}$ of the middle plate.
+
+\subsubsection{Axiomatic Laws of Continuum Fluid Dynamics}
+
+Every macro-scale fluid dynamics phenomenon must strictly satisfy the following fundamental physical conservation laws:
+\begin{enumerate}
+    \item \textbf{Newton's Second Law:} Conservation of linear momentum.
+    \item \textbf{Conservation of Mass:} The continuity principle.
+    \item \textbf{Conservation of Energy:} The First Law of Thermodynamics.
+    \item \textbf{The Second Law of Thermodynamics:} (Will probably not be dealt with in this course).
+    \item \textbf{Newton's Third Law:} Action-reaction balance across internal fluid interfaces.
+\end{enumerate}
+
+\subsection{Thermodynamic and Physical Properties of Fluids}
+
+\subsubsection{Primary Properties}
+\begin{itemize}
+    \item \textbf{Density ($\rho$):} Mass per unit volume:
+    \begin{equation}
+        \rho = \frac{m}{V}
+    \end{equation}
+    \item \textbf{Specific Volume ($v$):} Volume per unit mass:
+    \begin{equation}
+        v = \frac{1}{\rho}
+    \end{equation}
+    \item \textbf{Specific Weight ($\gamma$):} Gravitational force per unit volume:
+    \begin{equation}
+        \gamma = \rho g
+    \end{equation}
+    \item \textbf{Specific Gravity ($\text{SG}$):} Dimensionless ratio relative to water at standard reference conditions:
+    \begin{equation}
+        \text{SG} = \frac{\rho}{\rho_{\text{H}_2\text{O}}}
+    \end{equation}
+\end{itemize}
+
+\subsubsection{State Dependencies}
+From classical thermodynamics, density is a function of the local state variables: $\rho = f(T, P)$. This holds \textbf{only when temperature and pressure are independent variables}.
+
+Under standard baseline reference conditions ($P = \SI{1}{atm}$, $T = \SI{300}{K}$), typical pure fluid density values are:
+\begin{align}
+    \rho_{\text{H}_2\text{O}} &= \SI{1000}{\kilogram\per\cubic\meter} \\
+    \rho_{\text{Air}} &= \SI{1.22}{\kilogram\per\cubic\meter}
+\end{align}
+
+\subsubsection{Ideal Gas Equation of State}
+For compressible gas phases operating far from their critical point, the density field is governed by:
+\begin{equation}
+    \rho = \frac{P}{R T} \quad \left(\text{or } P = \rho R T\right)
+\end{equation}
+Where $P$ is absolute pressure, $T$ is absolute temperature ($\si{\kelvin}$), and $R$ (or $R_s$) is the specific gas constant.
+
+\subsection{Kinematic Foundations of Viscosity}
+
+\subsubsection{The No-Slip Condition}
+The fundamental kinematic boundary condition states that: At a solid physical boundary, a viscous fluid will exhibit zero velocity relative to that boundary. 
+
+\subsubsection{Derivation of Shear Strain Rate}
+Consider a fluid layer of height $h$ trapped between a stationary plate and a top plate translating at a velocity $U$. Over an infinitesimal time increment $dt$, the top surface translates by a distance $dx = U dt$:
 
 \begin{center}
-\begin{tikzpicture}[scale=1.2, >=Stealth]
-    % Total height t = 4 for visual purposes. Let's say c = 0.35. h = 1.4
-    \def\totH{4}
-    \def\midH{1.4}
-    
-    % Bottom Plate (Stationary)
-    \fill[pattern=north east lines, pattern color=gray] (0,-0.3) rectangle (7,0);
-    \draw[thick] (0,0) -- (7,0) node[right, font=\bfseries] {$v = 0$};
-    
-    % Top Plate (Moving at U)
-    \draw[thick, primary, ->] (2,\totH) -- (6,\totH) node[right, font=\bfseries] {$U$};
-    \draw[thick] (0,\totH) -- (7,\totH);
-    
-    % Middle Plate (Moving at V)
-    \draw[thick, accent, ->] (2,\midH) -- (5,\midH) node[right, font=\bfseries] {$V$};
-    \draw[thick, accent] (0,\midH) -- (7,\midH);
-    
-    % Fluids
-    \node at (3.5, 0.7) {Fluid 1: $\mu_1$};
-    \node at (3.5, 2.7) {Fluid 2: $\mu_2 = 2\mu_1$};
+\begin{tikzpicture}[scale=1.5, >=Stealth]
+    % Draw plates
+    \draw[line width=1.5pt] (0,0) -- (4,0);
+    \draw[line width=1.5pt] (0,1.2) -- (4,1.2);
+    \fill[pattern=north east lines] (0,-0.2) rectangle (4,0);
+    \fill[pattern=north east lines] (0,1.2) rectangle (4,1.4);
     
     % Dimensions
-    \draw[<->] (-0.5, 0) -- (-0.5, \midH) node[midway, left] {$c \cdot t$};
-    \draw[<->] (-0.5, \midH) -- (-0.5, \totH) node[midway, left] {$(1-c) \cdot t$};
-    \draw[<->] (-1.5, 0) -- (-1.5, \totH) node[midway, left] {$t$};
+    \draw[<->] (-0.3,0) -- (-0.3,1.2) node[midway, left] {$h$};
+    \draw[->, line width=1.2pt, primary] (4,1.3) -- (4.8,1.3) node[right] {$U$};
     
-    % Velocity Profiles (Linear)
-    \draw[dashed, gray] (0,0) -- (2,\midH); % Bottom profile
-    \draw[dashed, gray] (2,\midH) -- (4,\totH); % Top profile
+    % Deformed element markers
+    \coordinate (O) at (1,0);
+    \coordinate (A) at (1,1.2);
+    \coordinate (Aprime) at (2.2,1.2);
     
-    \foreach \y in {0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4} {
-        \draw[->, gray, very thin] (0,\y) -- ({\y*1.428},\y);
-    }
-    \foreach \y in {1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0} {
-        \draw[->, gray, very thin] (0,\y) -- ({2 + (\y-1.4)*0.769},\y);
-    }
+    % Draw fluid element boundaries
+    \draw[thick, gray, dashed] (O) -- (A);
+    \draw[thick, accent] (O) -- (Aprime);
+    \draw[->, thick, primary] (1,1.2) -- (2.2,1.2) node[above] {$dx = U dt$};
+    
+    % Deformation angle
+    \draw (1,0.4) arc (90:50:0.4);
+    \node at (1.2,0.5) {$d\beta$};
+    
+    % Velocity profile lines
+    \foreach \y in {0.2, 0.4, 0.6, 0.8, 1.0}
+        \draw[->, blue!70] (1, \y) -- (1 + \y*1.0, \y);
+    \draw[thick, blue] (1,0) -- (2.2, 1.2);
 \end{tikzpicture}
 \end{center}
 
-\begin{notebox}[Scientific Verification: Linear Velocity Profile]
-The assumption that the velocity profile $u(y)$ is strictly linear between the plates is not arbitrary. It is mathematically derived from the \textbf{Navier-Stokes equations} (formulated by Navier in 1822 and Stokes in 1845). For a steady, fully developed, one-dimensional laminar flow with zero pressure gradient ($\frac{\partial p}{\partial x} = 0$), the equation simplifies to $\frac{d^2u}{dy^2} = 0$, whose integration strictly yields a linear profile $u(y) = Ay + B$. This specific setup is historically known as \textbf{Couette Flow}, experimentally validated by \textbf{Maurice Couette in 1890}.
+Evaluating the angular deformation geometry for small angles ($d\beta \ll 1$):
+\begin{equation}
+    \tan(d\beta) = \frac{dx}{h} \approx d\beta
+\end{equation}
+Differentiating this angular deformation with respect to time yields the continuous strain rate:
+\begin{equation}
+    \frac{d\beta}{dt} = \frac{1}{h}\frac{dx}{dt} = \frac{U}{h} = \dot{\gamma}
+\end{equation}
+This kinematic property is defined as the \textbf{Shear Strain Rate}. For linear profiles, $\frac{U}{h} \approx \frac{du}{dy}$.
+
+\subsection{Rheological Classification \& Constitutional Equations}
+
+\subsubsection{Newtonian Fluids}
+A fluid is classified as \textbf{Newtonian} if the internal shear stress $\tau$ is directly proportional to the applied shear strain rate $\dot{\gamma} = \frac{du}{dy}$:
+\begin{equation}
+    \tau \propto \frac{du}{dy} \implies \tau = \mu \frac{du}{dy}
+    \label{eq:newtonian}
+\end{equation}
+Where $\mu$ is the \textbf{Dynamic Viscosity}, with SI dimensions $[\mu] = \si{\kilogram\per\meter\per\second} = \si{\pascal\second}$.
+
+The physical analogue of a Newtonian fluid is a Hookean solid, with the distinction that solid stress depends on absolute displacement strain ($\sigma \propto \epsilon$), whereas fluid stress depends strictly on the strain \textit{rate} ($\tau \propto \dot{\gamma}$).
+
+\subsubsection{Kinematic Viscosity}
+To decouple viscous diffusion from inertial fluid mass scales, the kinematic viscosity $\nu$ is defined as:
+\begin{equation}
+    \nu = \frac{\mu}{\rho} \quad \left([\nu] = \si{\square\meter\per\second}\right)
+\end{equation}
+
+\begin{notebox}[Alternative Viscosity Units]
+A common legacy CGS unit for dynamic viscosity is the poise ($\si{P}$), defined as $\SI{1}{\gram\per\centi\meter\per\second}$. The centipoise ($\si{cP} = \SI{1e-3}{\pascal\second}$) is frequently implemented since $\mu_{\text{H}_2\text{O}} \approx \SI{1}{cP}$ at room temperature.
 \end{notebox}
 
-\subsubsection{Governing Equations \& Force Balance}
+Standard approximate reference orders of magnitude for dynamic viscosity ($\mu$) to memorize:
+\begin{center}
+\begin{tabular}{lc}
+    \toprule
+    \textbf{Fluid Phase} & \textbf{Dynamic Viscosity $\mu$ [\si{\pascal\second}]} \\
+    \midrule
+    Air & $\num{1.8e-5}$ \\
+    Water & $\num{1.1e-3}$ \\
+    Engine Oil & $\num{0.4}$ \\
+    \bottomrule
+\end{tabular}
+\end{center}
 
-Consider a small piece of the middle plate of area $A$. The plate experiences a shear stress from Fluid 1 on its bottom surface ($\tau_1$) and a shear stress from Fluid 2 on its top surface ($\tau_2$). 
+\subsubsection{Non-Newtonian Rheology}
+In complex dimensional configurations or multi-phase fluid flows, the stress-strain relation becomes non-linear. These systems are governed by effective apparent viscosities that deviate from Equation~\ref{eq:newtonian}:
 
-Since the plate moves at a \textit{constant velocity} $V$, its acceleration is zero. According to Newton's First Law of Motion (1687):
-\begin{align*}
-    \Sigma F_x &= m \cdot a_x = 0 \\
-    F_{\text{shear, top}} - F_{\text{shear, bottom}} &= 0 \\
-    \tau_2 \cdot A - \tau_1 \cdot A &= 0 \implies \tau_1 = \tau_2
-\end{align*}
-\textit{(Note: Original handwritten notes contained a transcription error stating $\frac{\tau_2}{t} - \frac{\tau_1}{A} = 6$. This is mathematically and dimensionally incorrect. The derivation above represents the correct physical principle.)}
+\begin{center}
+\begin{tikzpicture}[scale=1.5, >=Stealth]
+    % Coordinates axes
+    \draw[->, thick] (0,0) -- (3,0) node[below] {Shear Strain Rate, $\dot{\gamma} = \frac{du}{dy}$};
+    \draw[->, thick] (0,0) -- (0,2.5) node[left, rotate=90, anchor=south] {Shear Stress, $\tau$};
+    
+    % Rheological Curves
+    \draw[thick, primary, domain=0:2.5] plot (\x, {0.8*\x}) node[right] {Newtonian};
+    \draw[thick, accent, domain=0:2.2] plot (\x, {0.4*\x^1.6}) node[right] {Shear-Thickening (Dilatant)};
+    \draw[thick, secondary, domain=0:2.5] plot (\x, {1.3*\x^0.6}) node[right] {Shear-Thinning (Pseudoplastic)};
+    
+    % Visual indicators matching user text profile lines
+    \draw[dashed, gray] (1.5, 0) -- (1.5, 2);
+    \node[circle, fill=black, inner sep=1pt, label=above left:{$\mu_{\text{high}}$}] at (1.5, 1.2) {};
+    \node[circle, fill=black, inner sep=1pt, label=below right:{$\mu_{\text{low}}$}] at (1.5, 0.7) {};
+\end{tikzpicture}
+\end{center}
 
-Using Newton's Law of Viscosity ($\tau = \mu \frac{du}{dy}$), we determine the shear stresses. Because the velocity profiles are linear, the velocity gradients $\frac{du}{dy}$ are constant in each layer:
+\begin{itemize}
+    \item \textbf{Shear-Thinning (Pseudoplastic):} Apparent viscosity decreases with increasing strain rate (represented by the lower fluid locus circle where the local slope $\frac{d\tau}{d\dot{\gamma}}$ flattens out).
+    \item \textbf{Shear-Thickening (Dilatant):} Apparent viscosity increases continuously with increasing strain rate (the curve exhibits exponential-like upward growth).
+\end{itemize}
 
-\begin{align}
-    \tau_1 &= \mu_1 \frac{\Delta u_1}{\Delta y_1} = \mu_1 \frac{V - 0}{c \cdot t} = \mu_1 \frac{V}{ct} \\
-    \tau_2 &= \mu_2 \frac{\Delta u_2}{\Delta y_2} = \mu_2 \frac{U - V}{(1-c) \cdot t} 
-\end{align}
+\subsection{Measure of Compressibility}
 
-\subsubsection{Algebraic Resolution}
-
-Substitute $\mu_2 = 2\mu_1$ and equate the two shear stresses ($\tau_1 = \tau_2$):
-\begin{equation*}
-    \mu_1 \frac{V}{ct} = 2\mu_1 \frac{U - V}{(1-c)t}
-\end{equation*}
-
-We can cancel out $\mu_1$ and $t$ from both sides:
-\begin{equation*}
-    \frac{V}{c} = \frac{2(U - V)}{1-c}
-\end{equation*}
-
-Cross-multiply to solve for $V$:
-\begin{align*}
-    V(1 - c) &= 2c(U - V) \\
-    V - Vc &= 2Uc - 2Vc \\
-    V - Vc + 2Vc &= 2Uc \\
-    V(1 + c) &= 2Uc
-\end{align*}
-
-\begin{eqbox}{Final Analytical Solution}
+To evaluate volume variations under uniform structural pressure changes ($V, P \to P(V)$), we define the \textbf{Bulk Modulus of Elasticity} ($E_V$):
 \begin{equation}
-    V = \frac{2Uc}{1+c}
+    E_V = -V \left(\frac{\partial P}{\partial V}\right)_T = \rho \left(\frac{\partial P}{\partial \rho}\right)_T
+\end{equation}
+
+\subsection{Introduction to Hydrostatics}
+
+\subsubsection{Pressure at a Point}
+While mechanical stress is a second-order tensor ($\boldsymbol{\sigma} = \frac{\vec{F}}{A}$ holding a directional orientation), hydrostatic pressure is treated strictly as a \textbf{scalar field}. 
+
+This scalar behavior is proven analytically by isolating a differential physical control mass element (real or imaginary fluid element), and matching Newton's second law with bounding surface force distributions in the zero-velocity limit.
+
+\newpage
+\subsection{Advanced Problem Set 1: Multi-Layer Viscous Couette Flow}
+
+\subsubsection{Problem Statement}
+Consider two immiscible, incompressible fluid layers bounded between a fixed bottom floor and a top plate translating at a constant horizontal velocity $U$. The lower layer has dynamic viscosity $\mu_2$ and thickness $(1-c)E$, while the upper layer has dynamic viscosity $\mu_1 = \frac{1}{2}\mu_2$ [cite: 66] and thickness $cE$[cite: 76, 77]. 
+
+Determine the exact multi-dimensional velocity vector $\vec{v}$ [cite: 69] and evaluate the velocity magnitude $v$ exactly at the internal fluid-fluid interface boundary[cite: 76].
+
+\subsubsection{Analytical Derivation}
+Isolating an infinitesimal interface element, Newton's third law dictates that the internal shear stresses across the fluid-fluid boundary must balance exactly to avoid an unphysical infinite acceleration of the boundary mass ($\Sigma F_x = 0$)[cite: 75]:
+\begin{equation}
+    \tau_1 = \tau_2 \implies \mu_1 \frac{du_1}{dy} = \mu_2 \frac{du_2}{dy} [cite: 75, 76]
+\end{equation}
+
+Assuming fully developed, linear Couette velocity profiles within each discrete fluid zone, the matching strain rates evaluated at the interface yield[cite: 76]:
+\begin{equation}
+    \tau_1 = \mu_1 \frac{v}{c E} \quad \text{and} \quad \tau_2 = \mu_2 \frac{U - v}{(1 - c) E} [cite: 76]
+\end{equation}
+
+Substituting the explicit viscosity ratio parameter $\mu_2 = 2\mu_1$ into the boundary stress balance equation[cite: 66, 77]:
+\begin{equation}
+    \mu_1 \frac{v}{c E} = 2\mu_1 \frac{U - v}{(1 - c) E} [cite: 76, 77]
+\end{equation}
+Canceling out the common dynamic scale factors $\mu_1$ and thickness base $E$ yields[cite: 77]:
+\begin{equation}
+    \frac{v}{c} = \frac{2(U - v)}{1 - c} [cite: 77]
+\end{equation}
+
+Expanding the linear algebraic cross-multiplication[cite: 78]:
+\begin{equation}
+    v(1 - c) = 2c(U - v) [cite: 78]
+\end{equation}
+\begin{equation}
+    v(1 - c) = 2Uc - 2vc [cite: 78, 79]
+\end{equation}
+Grouping all internal interface velocity components $v$ onto the left-hand side[cite: 79, 80]:
+\begin{equation}
+    v(1 - c) + 2vc = 2Uc [cite: 79]
+\end{equation}
+\begin{equation}
+    v(1 - c + 2c) = 2Uc \implies v(1 + c) = 2Uc [cite: 80, 83]
+\end{equation}
+
+\subsubsection{Asymptotic Evaluation}
+Solving explicitly for the interface velocity component $v$[cite: 83]:
+\begin{eqbox}{Interface Boundary Velocity Solution}
+\begin{equation}
+    v = \frac{2 U c}{1 + c} [cite: 83]
 \end{equation}
 \end{eqbox}
 
-\subsubsection{Verification of Physical Limits}
-
-To ensure our formula is robust, we must evaluate its behavior at the geometric boundaries ($c \to 0$ and $c \to 1$). 
-\textit{(Note: The original notes contained calculation errors regarding these limits, stating $V=3$ and $V=0$. The scientifically verified limits are detailed below).}
-
+Evaluating the mathematical correctness of the derived continuous constitutional equation under physical boundary limits:
 \begin{itemize}
-    \item \textbf{Limit 1: $c \to 0$} \\
-    If $c$ approaches $0$, the middle plate is effectively pressed against the bottom stationary wall. 
-    \begin{equation*}
-        \lim_{c \to 0} V = \frac{2U(0)}{1+0} = 0
-    \end{equation*}
-    This strictly satisfies the \textbf{No-Slip boundary condition} (Stokes, 1851): the velocity of the plate must match the velocity of the bottom wall ($0$).
-
-    \item \textbf{Limit 2: $c \to 1$} \\
-    If $c$ approaches $1$, the middle plate is effectively pressed against the top wall which is moving at velocity $U$.
-    \begin{equation*}
-        \lim_{c \to 1} V = \frac{2U(1)}{1+1} = \frac{2U}{2} = U
-    \end{equation*}
-    Again, this perfectly satisfies the No-Slip boundary condition relative to the top moving wall.
+    \item \textbf{Limit $c \to 0$:} The upper fluid domain layer vanishes completely. The interface velocity drops to zero ($v = 0$)[cite: 83], which satisfies the stationary lower wall boundary condition perfectly.
+    \item \textbf{Limit $c \to 1$:} The lower fluid domain layer vanishes completely. The interface matches the upper translation plate limits ($v = U$)[cite: 83], satisfying the no-slip constraint at the moving ceiling.
 \end{itemize}

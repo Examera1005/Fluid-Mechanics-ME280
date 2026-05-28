@@ -18,76 +18,16 @@ where:
 \end{itemize}
 \end{conceptbox}
 
-To evaluate the kinematics at the cylinder boundary ($r=a$), we calculate the radial and tangential velocity components:
-\begin{equation}
-v_r = \frac{1}{r}\frac{\partial \Psi}{\partial \theta}, \quad v_\theta = -\frac{\partial \Psi}{\partial r}
-\end{equation}
-
-Evaluating these at the cylinder surface $r=a$ yields:
-\begin{align}
-v_r\big|_{r=a} &= \left. U_0 \left( 1 - \frac{a^2}{r^2} \right) \cos\theta \right|_{r=a} = 0 \\[1em]
-v_\theta\big|_{r=a} &= -\left[ U_0 \left( 1 + \frac{a^2}{r^2} \right) \sin\theta - \frac{\Gamma}{2\pi r} \right]_{r=a} = -2U_0 \sin\theta + \frac{\Gamma}{2\pi a}
-\end{align}
-
-The stagnation points on the surface of the cylinder are found by setting $v_\theta\big|_{r=a} = 0$:
-\begin{equation}
--2U_0 \sin\theta_{\text{sp}} + \frac{\Gamma}{2\pi a} = 0 \implies \sin\theta_{\text{sp}} = \frac{\Gamma}{4\pi U_0 a}
-\end{equation}
-
-\begin{expertbox}[Stagnation Point Behavior]
-Depending on the strength of the circulation $\Gamma$, three regimes exist for the stagnation points:
-\begin{enumerate}
-    \item \textbf{Weak Circulation ($|\Gamma| < 4\pi U_0 a$):} Two distinct stagnation points exist on the cylinder surface at angles $\theta_{\text{sp}}$ and $\pi - \theta_{\text{sp}}$. For a clockwise rotation ($\Gamma < 0$), both stagnation points are deflected into the lower half-plane ($\sin\theta_{\text{sp}} < 0$).
-    \item \textbf{Critical Circulation ($|\Gamma| = 4\pi U_0 a$):} The two stagnation points merge into a single stagnation point at the very bottom ($\theta_{\text{sp}} = -\pi/2$) or top ($\theta_{\text{sp}} = \pi/2$) of the cylinder.
-    \item \textbf{Strong Circulation ($|\Gamma| > 4\pi U_0 a$):} The stagnation point leaves the cylinder surface and moves into the fluid domain along the vertical axis of symmetry.
-\end{enumerate}
-\end{expertbox}
-
 \begin{center}
-\begin{tikzpicture}[
-    scale=1.2,
-    % Local style definition: Bypasses the need for any global preamble changes
-    threearrows/.style={
-        postaction={
-            decorate,
-            decoration={
-                markings,
-                mark=at position 0.2 with {\arrow{Stealth[scale=0.8]}},
-                mark=at position 0.5 with {\arrow{Stealth[scale=0.8]}},
-                mark=at position 0.8 with {\arrow{Stealth[scale=0.8]}}
-            }
-        }
-    }
-]
-    % Background grid
-    \draw[gray!15, thin, step=0.5] (-4,-3) grid (4,3);
-    
-    % Draw cylinder (radius a = 1.2)
-    \draw[fill=gray!5, draw=blue!70!black, line width=1.8pt] (0,0) circle (1.2);
-    
-    % Rotation arrow (Clockwise, \Gamma < 0)
-    \draw[red!70!black, line width=1.5pt, ->, >=Stealth] (0, 1.5) arc (90:-240:1.5);
-    \node[red!70!black, above right] at (0.8, 1.2) {\small $\Gamma < 0$ (Clockwise)};
-    
-    % Qualitatively correct potential streamlines with localized arrow decoration
-    \draw[blue!70!black!70, thick, threearrows] (-4, 2.5) .. controls (-1, 2.7) and (1, 2.3) .. (4, 2.1);
-    \draw[blue!70!black!70, thick, threearrows] (-4, 1.5) .. controls (-1, 2.1) and (1, 1.5) .. (4, 1.0);
-    \draw[blue!70!black!70, thick, threearrows] (-4, 0.5) .. controls (-1.5, 1.7) and (1.5, 0.9) .. (4, -0.15);
-    \draw[blue!70!black!70, thick, threearrows] (-4, -0.5) .. controls (-1.5, -0.8) and (0, -1.8) .. (1.5, -1.8) .. controls (2.5, -1.8) and (3.5, -1.5) .. (4, -1.35);
-    \draw[blue!70!black!70, thick, threearrows] (-4, -1.8) .. controls (-1, -2.1) and (1, -2.5) .. (4, -2.4);
 
-    % Lift Force Vector (pointing upwards for clockwise rotation)
-    \draw[red!70!black, line width=2.5pt, ->, >=Stealth] (0,0) -- (0, 2.3) node[above, font=\bfseries] {$\vec{F}_{\text{Lift}}$};
-    
-    % Free Stream Velocity Vector
-    \draw[green!60!black, line width=1.5pt, ->, >=Stealth] (-3.8, 0) -- (-2.5, 0) node[above] {$\vec{U}_0$};
-    
-    % Stagnation Points (SP) located on the lower surface due to clockwise rotation
-    \fill[red!70!black] (-0.6, -1.04) circle (0.08) node[below left] {\small SP$_1$};
-    \fill[red!70!black] (0.6, -1.04) circle (0.08) node[below right] {\small SP$_2$};
-\end{tikzpicture}
+\includegraphics[scale=0.1]{Stagnation_Points:A,B.png}
+
+\includegraphics[scale=0.1]{Stagnation_Points:C,D.png}
+
 \end{center}
-\small\textit{Figure 1: Streamlines and lift force for flow around a clockwise rotating cylinder (Magnus effect).}
+\centering 
+\includegraphics[scale=0.75]{Pressure_VS_Angle.png}
+
 
 \subsection{Pressure Distribution and Force Derivation}
 
