@@ -34,5 +34,7 @@ Le document est structuré de manière linéaire suivant le formalisme rigoureux
    * Théorème $\Pi$ de Buckingham, identification des nombres adimensionnels cardinaux : Nombre de Reynolds ($Re$), de Froude ($Fr$), de Mach ($Ma$), et d'Euler ($Eu$).
    * Conditions de similitude géométrique, cinématique et dynamique pour les essais sur modèles réduits.
 
+Ce document est une ressource d'étude indépendante compilée à partir des cours magistraux dispensés à l'EPFL. Il n'est ni affilié, ni validé, ni approuvé officiellement par le Prof. Tobias Schneider ou l'École Polytechnique Fédérale de Lausanne.
+
 6. **Théorie de la Couche Limite (Introduction) :**
    * Approximation de Prandtl, équations de la couche limite sur plaque plane, épaisseur de déplacement $\delta^*$ et de quantité de mouvement $\theta$.
