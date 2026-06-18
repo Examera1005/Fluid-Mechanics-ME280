@@ -45,3 +45,12 @@ The document mirrors the rigorous academic breakdown of the EPFL syllabus:
 ## 🛠️ Compilation & Repository Structure / Structure du Dépôt
 
 This document is an independent student study resource compiled from lectures delivered at EPFL. It is not officially endorsed, certified, or approved by Prof. Tobias Schneider or the École Polytechnique Fédérale de Lausanne.
+## Star History
+
+<a href="https://www.star-history.com/?repos=Examera1005%2FFluid-Mechanics-ME280">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&legend=top-left" />
+ </picture>
+</a>
