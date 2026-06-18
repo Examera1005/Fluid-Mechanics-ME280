@@ -39,3 +39,12 @@ Ce document est une ressource d'étude indépendante compilée à partir des cou
 
 6. **Théorie de la Couche Limite (Introduction) :**
    * Approximation de Prandtl, équations de la couche limite sur plaque plane, épaisseur de déplacement $\delta^*$ et de quantité de mouvement $\theta$.
+## Star History
+
+<a href="https://www.star-history.com/?repos=Examera1005%2FFluid-Mechanics-ME280">
+ <picture>
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&theme=dark&legend=top-left" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&legend=top-left" />
+   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Examera1005/Fluid-Mechanics-ME280&type=date&legend=top-left" />
+ </picture>
+</a>
